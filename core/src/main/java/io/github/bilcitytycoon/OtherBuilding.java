@@ -1,6 +1,19 @@
 package io.github.bilcitytycoon;
 
 public class OtherBuilding extends Building{
-    public OtherBuilding(String name, double buildCost, double bill) {}
+    private double income;
+
+    public OtherBuilding(String name, double cost, double income) {
+        super(name, cost);
+        this.income = income;
+    }
+
+    public double getIncome() {
+        return this.income;
+    }
+
+    public void getInfo(){
+        //TODO
+    }
 }
- 
+

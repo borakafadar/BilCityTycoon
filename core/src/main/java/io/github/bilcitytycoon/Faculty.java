@@ -11,14 +11,6 @@ public class Faculty extends Building {
         this.bill = bill;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public double getBuildCost() {
-        return this.buildCost;
-    }
-
     public double getBill() {
         return this.bill;
     }

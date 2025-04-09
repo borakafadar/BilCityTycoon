@@ -5,14 +5,14 @@ import java.util.ArrayList;
 public class Store {
     private ArrayList<Building> buildings;
     private ArrayList<Decorations> decorations;
-    private ArrayList<OtherBuildings> otherBuildings;
+    private ArrayList<OtherBuilding> otherBuildings;
 
 
 
     public Store(){
         buildings = new ArrayList<Building>();
         decorations = new ArrayList<Decorations>();
-        otherBuildings = new ArrayList<OtherBuildings>();
+        otherBuildings = new ArrayList<OtherBuilding>();
     }
 
 
