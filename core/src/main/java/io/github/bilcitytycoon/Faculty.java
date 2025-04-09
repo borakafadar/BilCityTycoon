@@ -1,4 +1,6 @@
 package io.github.bilcitytycoon;
 
-public class Faculty {
+public class Faculty implements Building {
+
+
 }
