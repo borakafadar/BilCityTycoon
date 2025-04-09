@@ -16,4 +16,8 @@ public class Store {
         decorations = new ArrayList<Decorations>();
         otherBuildings = new ArrayList<OtherBuildings>();
     }
+
+
+
+
 }
