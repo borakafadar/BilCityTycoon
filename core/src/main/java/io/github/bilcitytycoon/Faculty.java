@@ -1,6 +1,34 @@
 package io.github.bilcitytycoon;
 
-public class Faculty implements Building {
+public class Faculty extends Building {
 
+    private double income;
+    private double bill;
 
+    public Faculty(String name, double cost, double bill, double income) {
+        super(name, cost);
+        this.income = income;
+        this.bill = bill;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public double getBuildCost() {
+        return this.buildCost;
+    }
+
+    public double getBill() {
+        return this.bill;
+    }
+
+    public double getIncome() {
+        return this.income;
+    }
+
+    @Override
+    public void getInfo() {
+        //TODO
+    }
 }

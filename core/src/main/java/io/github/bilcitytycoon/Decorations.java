@@ -1,4 +1,9 @@
-package io.github.bilcitytycoon;
+public class Decorations extends Building{
 
-public class Decorations implements Building{
+    public Decoration(String name, double cost){
+        super(name,cost);
+    }
+    public void getInfo() {
+        //TODO
+    }
 }
