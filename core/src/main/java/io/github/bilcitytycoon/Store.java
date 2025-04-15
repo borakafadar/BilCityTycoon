@@ -15,6 +15,10 @@ public class Store {
         otherBuildings = new ArrayList<OtherBuildings>();
     }
 
+    public void sellBuilding(Building b){
+        //TODO
+    }
+
 
 
 
