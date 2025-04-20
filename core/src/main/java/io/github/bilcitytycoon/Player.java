@@ -57,5 +57,4 @@ public class Player implements Comparable<Player> {
         //TODO: comparable method to use for leaderboard ranking
         return 1;
     }
-
 }

@@ -1,5 +1,11 @@
 package io.github.bilcitytycoon;
 
 public class Map {
-    //TODO
+    private Building[] buildings;
+    public Map(){
+        buildings = new Building[27];
+    }
+    public void placeBuilding(Building b, int i){
+        this.buildings[i] = b;
+    }
 }

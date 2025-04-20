@@ -1,8 +1,8 @@
 package io.github.bilcitytycoon;
 
-public class Decorations extends Building{
+public class Decoration extends Building{
 
-    public Decorations(String name, double cost){
+    public Decoration(String name, double cost){
         super(name,cost);
     }
     public void getInfo() {
