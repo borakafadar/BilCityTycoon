@@ -1,0 +1,184 @@
+{
+"com.badlogic.gdx.graphics.Color": {
+	"Black": {
+		"r": 0,
+		"g": 0,
+		"b": 0,
+		"a": 1
+	},
+	"Blueish": {
+		"r": 0.56078434,
+		"g": 0.8,
+		"b": 0.9607843,
+		"a": 1
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
+	"sliderKnobHover": {
+		"name": "sliderKnob",
+		"color": {
+			"r": 0.6745098,
+			"g": 0.6745098,
+			"b": 0.6745098,
+			"a": 1
+		}
+	},
+	"sliderKnobDown": {
+		"name": "sliderKnob",
+		"color": {
+			"r": 0.45490196,
+			"g": 0.4392157,
+			"b": 0.4392157,
+			"a": 1
+		}
+	},
+	"ExitGameMain": {
+		"name": "Button 1 Main",
+		"color": {
+			"r": 1,
+			"g": 0,
+			"b": 0,
+			"a": 1
+		}
+	},
+	"ExitGamePressed": {
+		"name": "Button 1 Pressed",
+		"color": {
+			"r": 0.78932583,
+			"g": 0,
+			"b": 0,
+			"a": 1
+		}
+	},
+	"ExitGameHover": {
+		"name": "Button 1 Hover",
+		"color": {
+			"r": 0.8862745,
+			"g": 0,
+			"b": 0,
+			"a": 1
+		}
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
+	"default": {
+		"up": "Button 1 Main",
+		"down": "Button 1 Pressed",
+		"over": "Button 1 Hover",
+		"focused": "Button 1 Hover",
+		"disabled": "Button 1 Disabled"
+	},
+	"exit-game-button": {
+		"up": "ExitGameMain",
+		"down": "ExitGamePressed",
+		"over": "ExitGameHover",
+		"focused": "ExitGameHover",
+		"disabled": "Button 1 Disabled"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {
+	"default": {
+		"checkboxOn": "checkboxOn",
+		"checkboxOff": "checkboxOff",
+		"checkboxOnOver": "checkboxOnHover",
+		"checkboxOver": "checkboxOffHover",
+		"checkboxOnDisabled": "checkboxOnDisabled",
+		"checkboxOffDisabled": "checkboxOffDisabled",
+		"font": "PressStart2P",
+		"fontColor": "Black"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle": {
+	"default": {
+		"parent": "default"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {
+	"default": {
+		"parent": "default",
+		"font": "PressStart2P"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+	"default": {
+		"font": "PressStart2P",
+		"fontColor": "Black"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle": {
+	"default-horizontal": {
+		"background": "progressBarBackground",
+		"knobBefore": "progressBarKnobBefore"
+	},
+	"default-vertical": {
+		"background": "Button 1 Pressed",
+		"disabledBackground": "checkboxOff",
+		"knob": "checkboxOffDisabled"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle": {
+	"default": {
+		"hScroll": "scrollPaneHScroll",
+		"hScrollKnob": "scrollPaneScrollKnob",
+		"vScroll": "scrollPaneVScroll",
+		"vScrollKnob": "scrollPaneScrollKnob"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle": {
+	"default-horizontal": {
+		"knobOver": "sliderKnobHover",
+		"knobDown": "sliderKnobDown",
+		"background": "sliderBackground",
+		"knob": "sliderKnob",
+		"knobBefore": "sliderKnobBefore",
+		"knobAfter": "sliderKnobAfter"
+	},
+	"default-vertical": {
+		"background": "scrollPaneVScroll",
+		"knob": "sliderKnob"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+	"default": {
+		"font": "PressStart2P",
+		"fontColor": "Black",
+		"up": "Button 1 Main",
+		"down": "Button 1 Pressed",
+		"over": "Button 1 Hover",
+		"focused": "Button 1 Hover",
+		"disabled": "Button 1 Disabled",
+		"pressedOffsetX": -1,
+		"pressedOffsetY": 1
+	},
+	"exit-game-button": {
+		"parent": "default",
+		"font": "PressStart2P",
+		"up": "ExitGameMain",
+		"down": "ExitGamePressed",
+		"over": "ExitGameHover",
+		"pressedOffsetX": -1,
+		"pressedOffsetY": 1
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
+	"default": {
+		"font": "PressStart2P",
+		"fontColor": "Black"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {
+	"default": {
+		"label": "default",
+		"background": "textTooltipBackground"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
+	"default": {
+		"titleFont": "PressStart2P"
+	},
+	"dialogStyle": {
+		"background": "dialogBackground",
+		"titleFont": "PressStart2P"
+	}
+}
+}

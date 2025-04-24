@@ -1,0 +1,2 @@
+the font is not getting load from the .json file originally so you should add the font first in the code to the skin then load the skin into the file without the font file
+-bora
