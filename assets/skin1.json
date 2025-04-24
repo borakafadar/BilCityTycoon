@@ -31,6 +31,33 @@
 			"b": 0.4392157,
 			"a": 1
 		}
+	},
+	"ExitGameMain": {
+		"name": "Button 1 Main",
+		"color": {
+			"r": 1,
+			"g": 0,
+			"b": 0,
+			"a": 1
+		}
+	},
+	"ExitGamePressed": {
+		"name": "Button 1 Pressed",
+		"color": {
+			"r": 0.78932583,
+			"g": 0,
+			"b": 0,
+			"a": 1
+		}
+	},
+	"ExitGameHover": {
+		"name": "Button 1 Hover",
+		"color": {
+			"r": 0.8862745,
+			"g": 0,
+			"b": 0,
+			"a": 1
+		}
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
@@ -39,6 +66,13 @@
 		"down": "Button 1 Pressed",
 		"over": "Button 1 Hover",
 		"focused": "Button 1 Hover",
+		"disabled": "Button 1 Disabled"
+	},
+	"exit-game-button": {
+		"up": "ExitGameMain",
+		"down": "ExitGamePressed",
+		"over": "ExitGameHover",
+		"focused": "ExitGameHover",
 		"disabled": "Button 1 Disabled"
 	}
 },
@@ -50,7 +84,7 @@
 		"checkboxOver": "checkboxOffHover",
 		"checkboxOnDisabled": "checkboxOnDisabled",
 		"checkboxOffDisabled": "checkboxOffDisabled",
-		"font": "default-font",
+		"font": "PressStart2P",
 		"fontColor": "Black"
 	}
 },
@@ -62,12 +96,12 @@
 "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {
 	"default": {
 		"parent": "default",
-		"font": "default-font"
+		"font": "PressStart2P"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
 	"default": {
-		"font": "default-font",
+		"font": "PressStart2P",
 		"fontColor": "Black"
 	}
 },
@@ -106,7 +140,7 @@
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
 	"default": {
-		"font": "default-font",
+		"font": "PressStart2P",
 		"fontColor": "Black",
 		"up": "Button 1 Main",
 		"down": "Button 1 Pressed",
@@ -115,11 +149,20 @@
 		"disabled": "Button 1 Disabled",
 		"pressedOffsetX": -1,
 		"pressedOffsetY": 1
+	},
+	"exit-game-button": {
+		"parent": "default",
+		"font": "PressStart2P",
+		"up": "ExitGameMain",
+		"down": "ExitGamePressed",
+		"over": "ExitGameHover",
+		"pressedOffsetX": -1,
+		"pressedOffsetY": 1
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
 	"default": {
-		"font": "default-font",
+		"font": "PressStart2P",
 		"fontColor": "Black"
 	}
 },
@@ -131,7 +174,11 @@
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
 	"default": {
-		"titleFont": "default-font"
+		"titleFont": "PressStart2P"
+	},
+	"dialogStyle": {
+		"background": "dialogBackground",
+		"titleFont": "PressStart2P"
 	}
 }
 }

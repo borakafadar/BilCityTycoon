@@ -30,16 +30,14 @@ public class WelcomeScreen implements Screen {
     private TextButton quitButton;
 
     public WelcomeScreen(Main game){
-        this.main = game;
 
+        //TODO: make this into a method so that it can be more readable
+        this.main = game;
 
 
         screenViewport = new ScreenViewport();
 
         stage = new Stage(screenViewport);
-
-
-
 
         skin = new Skin();
 
@@ -51,8 +49,8 @@ public class WelcomeScreen implements Screen {
         fontParameter.color = Color.BLACK;
         fontParameter.spaceX = 2;
         fontParameter.spaceY = 5;
-        fontParameter.minFilter = Texture.TextureFilter.Linear;
-        fontParameter.magFilter = Texture.TextureFilter.Linear;
+        fontParameter.minFilter = Texture.TextureFilter.Nearest;
+        fontParameter.magFilter = Texture.TextureFilter.Nearest;
         fontParameter.shadowOffsetX = 0;
         fontParameter.shadowOffsetY = 0;
         fontParameter.shadowColor = Color.BLACK;
@@ -64,7 +62,7 @@ public class WelcomeScreen implements Screen {
         BitmapFont font = fontGenerator.generateFont(fontParameter);
 
 
-        skin.add("default-font", font);
+        skin.add("PressStart2P", font);
         skin.addRegions(new TextureAtlas(Gdx.files.internal("skin1.atlas")));
         fontGenerator.dispose();
 
@@ -78,7 +76,7 @@ public class WelcomeScreen implements Screen {
         newGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("clicked"); // Switch to main screen
+                System.out.println("clicked"); // Switch to the main screen
             }
         });
 
@@ -96,6 +94,33 @@ public class WelcomeScreen implements Screen {
                 System.out.println("clicked");
             }
         });
+        quitButton = new TextButton("Quit", skin,"exit-game-button");
+        quitButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //dialog box
+                Dialog dialog = new Dialog("Quit?", skin){
+                    //to quit when clicking yes
+                    @Override
+                    protected void result(Object object) {
+                        if((boolean)object){
+                            Gdx.app.exit();
+                        }
+                    }
+                };
+
+                dialog.button("Yes", true);
+                dialog.button("No", false);
+                Label.LabelStyle dialogLabelStyle = new Label.LabelStyle();
+                dialogLabelStyle.font = font;
+
+                dialogLabelStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textTooltipBackground.png")))); //todo: temp background
+                dialog.text("Are you sure you\n want to quit?", dialogLabelStyle);
+                dialog.show(stage);
+
+            }
+        });
+
 
         Table mainTable = new Table();
         mainTable.setFillParent(true);
@@ -114,7 +139,7 @@ public class WelcomeScreen implements Screen {
 
         welcomeLabel.getStyle().background = new TextureRegionDrawable(new TextureRegion(labelTexture));
         welcomeLabel.setAlignment(Align.center);
-        mainTable.add(welcomeLabel).width(400).height(100).pad(20);
+        mainTable.add(welcomeLabel).width(600).height(200).pad(20);
         mainTable.row();
 
 
@@ -125,20 +150,24 @@ public class WelcomeScreen implements Screen {
         buttonTable.setFillParent(false);
         buttonTable.center();
 
+        final int BUTTON_RATE=80;
+        final int BUTTON_WIDTH = BUTTON_RATE*5;
+        final int BUTTON_HEIGHT = BUTTON_RATE*2;
 
-
-        buttonTable.add(newGameButton).width(480).height(192);
+        buttonTable.add(newGameButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT);
         buttonTable.row();
-        buttonTable.add(loadGameButton).width(480).height(192);
+        buttonTable.add(loadGameButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT);
         buttonTable.row();
-        buttonTable.add(settingsButton).width(480).height(192);
+        buttonTable.add(settingsButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT);
+        buttonTable.row();
+        buttonTable.add(quitButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT);
 
-        mainTable.add(buttonTable).width(480).height(576);
+        mainTable.add(buttonTable).width(BUTTON_WIDTH).height(BUTTON_HEIGHT*4);
+        mainTable.row();
 
 
         mainTable.background(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("bilkentDrone.jpg")))));
         stage.addActor(mainTable);
-
 
 
     }

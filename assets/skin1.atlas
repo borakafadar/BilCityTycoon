@@ -6,154 +6,161 @@ filter: Linear, Linear
 repeat: none
 Button 1 Disabled
   rotate: false
-  xy: 1, 549
+  xy: 1, 358
   size: 267, 88
   orig: 267, 88
   offset: 0, 0
   index: -1
 Button 1 Hover
   rotate: false
-  xy: 1, 459
+  xy: 1, 268
   size: 267, 88
   orig: 267, 88
   offset: 0, 0
   index: -1
 Button 1 Main
   rotate: false
-  xy: 1, 369
+  xy: 1, 178
   size: 267, 88
   orig: 267, 88
   offset: 0, 0
   index: -1
 Button 1 Pressed
   rotate: false
-  xy: 1, 639
+  xy: 1, 448
   size: 268, 89
   orig: 268, 89
   offset: 0, 0
   index: -1
 checkboxOff
   rotate: false
-  xy: 913, 809
+  xy: 385, 541
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 checkboxOffDisabled
   rotate: false
-  xy: 510, 740
+  xy: 477, 577
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 checkboxOffHover
   rotate: false
-  xy: 821, 809
+  xy: 385, 633
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 checkboxOffPressed
   rotate: false
-  xy: 418, 707
+  xy: 293, 541
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 checkboxOn
   rotate: false
-  xy: 326, 707
+  xy: 293, 633
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 checkboxOnDisabled
   rotate: false
-  xy: 185, 11
+  xy: 477, 669
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 checkboxOnHover
   rotate: false
-  xy: 93, 11
+  xy: 326, 725
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 checkboxOnPressed
   rotate: false
-  xy: 1, 11
+  xy: 744, 758
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
+dialogBackground
+  rotate: false
+  xy: 1, 539
+  size: 290, 207
+  orig: 290, 207
+  offset: 0, 0
+  index: -1
 progressBarBackground
   rotate: false
-  xy: 496, 832
+  xy: 496, 850
   size: 323, 67
   orig: 323, 67
   offset: 0, 0
   index: -1
 progressBarKnobBefore
   rotate: false
-  xy: 1, 730
+  xy: 1, 748
   size: 323, 67
   orig: 323, 67
   offset: 0, 0
   index: -1
 scrollPaneHScroll
   rotate: false
-  xy: 1, 103
+  xy: 496, 761
   size: 246, 87
   orig: 246, 87
   offset: 0, 0
   index: -1
 scrollPaneScrollKnob
   rotate: false
-  xy: 602, 743
+  xy: 477, 488
   size: 87, 87
   orig: 87, 87
   offset: 0, 0
   index: -1
 scrollPaneVScroll
   rotate: false
-  xy: 270, 391
+  xy: 569, 513
   size: 87, 246
   orig: 87, 246
   offset: 0, 0
   index: -1
 sliderBackground
   rotate: false
-  xy: 1, 901
+  xy: 1, 919
   size: 493, 100
   orig: 493, 100
   offset: 0, 0
   index: -1
 sliderKnob
   rotate: false
-  xy: 691, 702
+  xy: 658, 631
   size: 54, 128
   orig: 54, 128
   offset: 0, 0
   index: -1
 sliderKnobAfter
   rotate: false
-  xy: 1, 799
+  xy: 1, 817
   size: 493, 100
   orig: 493, 100
   offset: 0, 0
   index: -1
 sliderKnobBefore
   rotate: false
-  xy: 496, 901
+  xy: 496, 919
   size: 493, 100
   orig: 493, 100
   offset: 0, 0
   index: -1
 textTooltipBackground
   rotate: false
-  xy: 1, 192
+  xy: 1, 1
   size: 265, 175
   orig: 265, 175
   offset: 0, 0
