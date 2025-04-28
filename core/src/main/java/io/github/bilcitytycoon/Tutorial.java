@@ -1,3 +1,5 @@
+package io.github.bilcitytycoon;
+
 public class Tutorial {
     private final int WELCOME = 0;
     private final int BUILD_RECTORATE = 1;
@@ -49,7 +51,7 @@ public class Tutorial {
 
     private void displayMessage(String message)
     {
-        map.displayPopUp(message); // might be changed
+        //map.displayPopUp(message); // might be changed
     }
 
     private void highlightBuilding(String buildingType)
@@ -61,5 +63,5 @@ public class Tutorial {
     {
         return isActive;
     }
-    
+
 }
