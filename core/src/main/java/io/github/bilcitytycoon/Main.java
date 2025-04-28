@@ -2,6 +2,7 @@ package io.github.bilcitytycoon;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import io.github.bilcitytycoon.Save.SaveManager;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
@@ -24,6 +26,17 @@ public class Main extends ApplicationAdapter {
         image = new Texture("bilkentDrone.jpg");
         viewport = new ScreenViewport();
         viewport.apply();
+
+
+        //for save files
+        FileHandle folder = Gdx.files.local("saves/");
+
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+
+        System.out.println(folder.path());
+        SaveManager.connect(SaveManager.generateSaveFileName());
 
     }
 

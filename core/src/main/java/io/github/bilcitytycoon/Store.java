@@ -22,11 +22,11 @@ public class Store {
     }
 
     public void buyOtherBuilding(OtherBuilding b){
-    //TODO
+        //TODO
     }
 
     public void upgrade(){
-//TODO
+        //TODO
     }
 
 
