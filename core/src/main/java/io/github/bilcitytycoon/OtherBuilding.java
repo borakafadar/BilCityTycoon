@@ -1,9 +1,9 @@
 package io.github.bilcitytycoon;
 
-public class OtherBuildings extends Building{
+public class OtherBuilding extends Building{
     private double income;
 
-    public OtherBuildings(String name, double cost, double income) {
+    public OtherBuilding(String name, double cost, double income) {
         super(name, cost);
         this.income = income;
     }
