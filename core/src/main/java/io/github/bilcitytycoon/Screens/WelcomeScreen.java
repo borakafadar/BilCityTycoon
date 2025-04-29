@@ -1,4 +1,4 @@
-package io.github.bilcitytycoon;
+package io.github.bilcitytycoon.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import io.github.bilcitytycoon.Main;
 
 public class WelcomeScreen implements Screen {
     private ScreenViewport screenViewport;
@@ -29,16 +30,19 @@ public class WelcomeScreen implements Screen {
     private TextButton settingsButton;
     private TextButton quitButton;
 
+    private SettingsScreen settingsScreen;
+    private WelcomeScreen thisWelcomeScreen;
+
     public WelcomeScreen(Main game){
 
         //TODO: make this into a method so that it can be more readable
         this.main = game;
-
+        thisWelcomeScreen = this;
 
         screenViewport = new ScreenViewport();
 
         stage = new Stage(screenViewport);
-
+        settingsScreen = new SettingsScreen(thisWelcomeScreen,main);
         skin = new Skin();
 
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
@@ -91,7 +95,8 @@ public class WelcomeScreen implements Screen {
         settingsButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("clicked");
+
+                game.setScreen(settingsScreen);
             }
         });
         quitButton = new TextButton("Quit", skin,"exit-game-button");
@@ -142,7 +147,7 @@ public class WelcomeScreen implements Screen {
         mainTable.add(welcomeLabel).width(600).height(200).pad(20);
         mainTable.row();
 
-
+        
 
 
 

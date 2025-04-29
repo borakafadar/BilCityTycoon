@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Leaderboard {
     private ArrayList<Player> allUniversities;
-    private Game game;
+    private BilCityTycoonGame bilCityTycoonGame;
 
 
     public Leaderboard() {
