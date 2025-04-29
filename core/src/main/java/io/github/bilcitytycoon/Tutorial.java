@@ -23,22 +23,28 @@ public class Tutorial {
 
     public void startTutorial()
     {
-        //TODO
     }
 
     public void nextStep()
     {
         switch(currentStep){
             case WELCOME:
+                System.out.println("Welcome to Bilcity Tycoon game");
+                System.out.println("This is a game that unravel your creativity");
                 //TODO
                 break;
             case BUILD_FACULTY:
+                System.out.println("To build a faculty building you should have adequate amount of bilcoins");
+                System.out.println("Also there should be available grids to put a faculty building");
                 //TODO
                 break;
             case HANDLE_BUDGET:
+                System.out.println("Handling budget is essential aspect of the game that player should consider");
+                System.out.println("There are income sources and some outcomes");
                 //TODO
                 break;
             case CHECK_SATISFACTION:
+                System.out.println("Satisfaction is ");
                 //TODO
                 break;
             case END_TUTORIAL:
