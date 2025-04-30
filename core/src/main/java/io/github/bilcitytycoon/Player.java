@@ -57,4 +57,12 @@ public class Player implements Comparable<Player> {
         //TODO: comparable method to use for leaderboard ranking
         return 1;
     }
+
+    // public Player getReputationPoints() {
+    //     // TODO
+    // }
+
+    // public int getSatisfactionRate() {
+    //     // TODO
+    // }
 }
