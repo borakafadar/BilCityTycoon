@@ -11,12 +11,12 @@ public abstract class Building {
         this.buildCost = cost;
     }
 
-    public abstract void getInfo();
+    public abstract String getInfo();
 
     public String getName(){
         return this.name;
     }
-    
+
     public double getCost(){
         return this.buildCost;
     }

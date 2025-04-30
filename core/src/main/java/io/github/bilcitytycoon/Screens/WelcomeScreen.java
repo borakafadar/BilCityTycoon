@@ -23,7 +23,7 @@ public class WelcomeScreen implements Screen {
     private ScreenViewport screenViewport;
     private Main main;
     private Stage stage;
-    private Skin skin;
+    public static Skin skin;
 
     private TextButton newGameButton;
     private TextButton loadGameButton;
@@ -48,7 +48,7 @@ public class WelcomeScreen implements Screen {
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         fontParameter.size = 36;
-        fontParameter.borderWidth = 2;
+        fontParameter.borderWidth = 1;
         fontParameter.borderColor = Color.BLACK;
         fontParameter.color = Color.BLACK;
         fontParameter.spaceX = 2;
@@ -80,7 +80,7 @@ public class WelcomeScreen implements Screen {
         newGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("clicked"); // Switch to the main screen
+                game.setScreen(new StoreScreen(null,game));
             }
         });
 
@@ -122,7 +122,6 @@ public class WelcomeScreen implements Screen {
                 dialogLabelStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textTooltipBackground.png")))); //todo: temp background
                 dialog.text("Are you sure you\n want to quit?", dialogLabelStyle);
                 dialog.show(stage);
-
             }
         });
 
@@ -147,7 +146,7 @@ public class WelcomeScreen implements Screen {
         mainTable.add(welcomeLabel).width(600).height(200).pad(20);
         mainTable.row();
 
-        
+
 
 
 

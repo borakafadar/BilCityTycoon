@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -44,21 +45,7 @@ public class SettingsScreen implements Screen {
         skin = new Skin();
 
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        fontParameter.size = 36;
-        fontParameter.borderWidth = 2;
-        fontParameter.borderColor = Color.BLACK;
-        fontParameter.color = Color.BLACK;
-        fontParameter.spaceX = 2;
-        fontParameter.spaceY = 5;
-        fontParameter.minFilter = Texture.TextureFilter.Nearest;
-        fontParameter.magFilter = Texture.TextureFilter.Nearest;
-        fontParameter.shadowOffsetX = 0;
-        fontParameter.shadowOffsetY = 0;
-        fontParameter.shadowColor = Color.BLACK;
-        fontParameter.borderStraight = false;
-        fontParameter.borderColor = Color.WHITE;
-        fontParameter.gamma = 20f;
+        FreeTypeFontParameter fontParameter = generateFontParameter(36,1);
 
 
         BitmapFont font = fontGenerator.generateFont(fontParameter);
@@ -158,6 +145,26 @@ public class SettingsScreen implements Screen {
     public void dispose() {
         stage.dispose();
         skin.dispose();
+    }
+
+    private FreeTypeFontParameter generateFontParameter(int size,int borderWidth){
+        FreeTypeFontParameter fontParameter = new FreeTypeFontParameter();
+        fontParameter.size = size;
+        fontParameter.borderWidth = borderWidth;
+        fontParameter.borderColor = Color.BLACK;
+        fontParameter.color = Color.BLACK;
+        fontParameter.spaceX = 2;
+        fontParameter.spaceY = 5;
+        fontParameter.minFilter = Texture.TextureFilter.Nearest;
+        fontParameter.magFilter = Texture.TextureFilter.Nearest;
+        fontParameter.shadowOffsetX = 0;
+        fontParameter.shadowOffsetY = 0;
+        fontParameter.shadowColor = Color.BLACK;
+        fontParameter.borderStraight = false;
+        fontParameter.borderColor = Color.WHITE;
+        fontParameter.gamma = 20f;
+
+        return fontParameter;
     }
 
 }

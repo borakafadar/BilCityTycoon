@@ -74,6 +74,12 @@
 		"over": "ExitGameHover",
 		"focused": "ExitGameHover",
 		"disabled": "Button 1 Disabled"
+	},
+	"store-button": {
+		"up": "storeButtonDown",
+		"down": "storeButtonDown",
+		"over": "storeButtonHover",
+		"focused": "storeButtonHover"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {
@@ -102,6 +108,14 @@
 "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
 	"default": {
 		"font": "PressStart2P",
+		"fontColor": "Black"
+	},
+	"small-label": {
+		"font": "PressStart2P-small",
+		"fontColor": "Black"
+	},
+	"smallest-label": {
+		"font": "PressStart2P-smallest",
 		"fontColor": "Black"
 	}
 },
@@ -152,7 +166,6 @@
 	},
 	"exit-game-button": {
 		"parent": "default",
-		"font": "PressStart2P",
 		"up": "ExitGameMain",
 		"down": "ExitGamePressed",
 		"over": "ExitGameHover",
@@ -170,15 +183,6 @@
 	"default": {
 		"label": "default",
 		"background": "textTooltipBackground"
-	}
-},
-"com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
-	"default": {
-		"titleFont": "PressStart2P"
-	},
-	"dialogStyle": {
-		"background": "dialogBackground",
-		"titleFont": "PressStart2P"
 	}
 }
 }

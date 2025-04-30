@@ -8,7 +8,7 @@ public class Upgrade {
     private String info;
     private boolean isMade;
 
-    public String
+    //public String
 
     public void updateBudget(){
         //TODO

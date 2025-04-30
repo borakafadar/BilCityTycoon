@@ -3,6 +3,7 @@ package io.github.bilcitytycoon;
 import com.badlogic.gdx.Game;
 import io.github.bilcitytycoon.Screens.GameScreen;
 import io.github.bilcitytycoon.Screens.SettingsScreen;
+import io.github.bilcitytycoon.Screens.StoreScreen;
 import io.github.bilcitytycoon.Screens.WelcomeScreen;
 
 
@@ -12,7 +13,8 @@ public class Main extends Game {
 
    @Override
    public void create() {
-       setScreen(new WelcomeScreen(this));
+       setScreen(new StoreScreen(null,this));
+//       setScreen(new WelcomeScreen(this));
    }
 
     @Override

@@ -12,8 +12,9 @@ public class OtherBuilding extends Building{
         return this.income;
     }
 
-    public void getInfo(){
+    public String getInfo(){
         //TODO
+        return null; //temp
     }
 }
 

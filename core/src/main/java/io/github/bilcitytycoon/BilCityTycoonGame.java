@@ -2,9 +2,6 @@ package io.github.bilcitytycoon;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-
 public class BilCityTycoonGame {
     private ArrayList<Building> allBuildings;
     private ArrayList<Player> allUniversities;
@@ -23,14 +20,4 @@ public class BilCityTycoonGame {
         //leaderboard initilaize
         //TODO
     }
-
-
-    // public Skin getSkin() {
-    //     // TODO 
-    // }
-
-
-    // public Stage getStage() {
-    //     // TODO 
-    // }
 }
