@@ -1,4 +1,4 @@
-package io.github.bilcitytycoon.Screens;
+package io.github.bilcitytycoon.Screens.Store;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -7,37 +7,43 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import io.github.bilcitytycoon.BilCityTycoonGame;
-import io.github.bilcitytycoon.Building;
 import io.github.bilcitytycoon.Faculty;
 import io.github.bilcitytycoon.Main;
 
-public class StoreScreen implements Screen {
+public class FacultyStoreScreen implements Screen {
     private FitViewport fitViewport;
     private Stage stage;
     private Skin skin;
     private BilCityTycoonGame game;
     private Main mainGame;
+    private StoreScreen storeScreen;
 
-    public StoreScreen(BilCityTycoonGame game, Main mainGame){
+    public FacultyStoreScreen(BilCityTycoonGame game, Main mainGame,StoreScreen storeScreen){
         this.game = game;
         this.mainGame = mainGame;
         this.stage = new Stage();
-        this.fitViewport = new FitViewport(1366,768);
+        this.fitViewport = new FitViewport(1920,1080);
+        this.storeScreen = storeScreen;
         stage.setViewport(fitViewport);
 
         FreeTypeFontGenerator bigFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(36,1);
+        FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(34,1);
 
-        FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(20,1);
+        FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(16,1);
 
-        FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(12,0);
+        FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(13,0);
 
+
+
+        //TODO: please clean this code up, it works but it is really garbage
 
         BitmapFont bigFont = bigFontGenerator.generateFont(bigFontParameter);
         BitmapFont smallFont = bigFontGenerator.generateFont(smallFontParameter);
@@ -47,20 +53,87 @@ public class StoreScreen implements Screen {
         skin.add("PressStart2P", bigFont);
         skin.add("PressStart2P-small", smallFont);
         skin.add("PressStart2P-smallest", smallestFont);
+        skin.add("PressStart2P-big", bigFont);
         skin.addRegions(new TextureAtlas(Gdx.files.internal("skin1.atlas")));
         skin.load(Gdx.files.internal("skin1.json"));
 
-        //TODO: temp
+        //TODO: temp, to test the table feature
         Table buttonTable = new Table();
         buttonTable.setFillParent(true);
-        buttonTable.center();
 
         //test
-        Faculty test = new Faculty("Math",100,100,100,"libgdx.png","test test test test test test test",10);
+        Faculty test = new Faculty("Mathematics Building",100,100,100,"libgdx.png","test test test test test test test",10);
 
-        buttonTable.add(createFacultyButton(test));
+        buttonTable.add(createFacultyButton(test)).width(1700).height(200).pad(10);
+        buttonTable.row();
 
-        stage.addActor(buttonTable);
+        Faculty test1 = new Faculty("Mathematics Building", 100, 100, 100, "libgdx.png", "A place for solving complex equations and theoretical puzzles.", 8);
+
+        Faculty test2 = new Faculty("Computer Science Department", 120, 90, 110, "libgdx.png", "Where students turn caffeine into code and build the future.", 10);
+
+        Faculty test3 = new Faculty("Physics Faculty", 95, 130, 105, "libgdx.png", "Exploring gravity, quantum particles, and everything in between.", 12);
+
+        Faculty test4 = new Faculty("Biology & Life Sciences", 110, 85, 90, "libgdx.png", "Dive into the wonders of DNA, evolution, and living organisms.", 9);
+
+        Faculty test5 = new Faculty("Architecture Studio", 130, 110, 115, "libgdx.png", "Designing spaces with precision, creativity, and a lack of sleep.", 14);
+
+        Faculty test6 = new Faculty("Literature and Arts", 100, 75, 120, "libgdx.png", "A world of metaphors, stories, and endless interpretation.", 11);
+
+        Faculty test7 = new Faculty("Psychology Department", 105, 100, 100, "libgdx.png", "Understanding how the mind works, one experiment at a time.", 10);
+
+        Faculty test8 = new Faculty("Political Science", 90, 85, 95, "libgdx.png", "Analyzing power, governments, and global systems of influence.", 10);
+
+        Faculty test9 = new Faculty("Engineering Faculty", 140, 120, 110, "libgdx.png", "Building bridges, machines, and extremely long equations.", 13);
+
+        Faculty test10 = new Faculty("Environmental Sciences", 100, 95, 105, "libgdx.png", "Studying ecosystems, climate change, and sustainable solutions.", 9);
+
+
+        Button testButton = createFacultyButton(test1);
+        buttonTable.add(testButton).width(1700).height(200).pad(10);
+        buttonTable.row();
+
+        buttonTable.add(createFacultyButton(test2)).width(1700).height(200).pad(10);
+        buttonTable.row();
+
+        buttonTable.add(createFacultyButton(test3)).width(1700).height(200).pad(10);
+        buttonTable.row();
+
+        buttonTable.add(createFacultyButton(test4)).width(1700).height(200).pad(10);
+        buttonTable.row();
+
+        buttonTable.add(createFacultyButton(test5)).width(1700).height(200).pad(10);
+        buttonTable.row();
+
+        buttonTable.add(createFacultyButton(test6)).width(1700).height(200).pad(10);
+        buttonTable.row();
+
+        buttonTable.add(createFacultyButton(test7)).width(1700).height(200).pad(10);
+        buttonTable.row();
+
+        buttonTable.add(createFacultyButton(test8)).width(1700).height(200).pad(10);
+        buttonTable.row();
+
+        buttonTable.add(createFacultyButton(test9)).width(1700).height(200).pad(10);
+        buttonTable.row();
+
+        buttonTable.add(createFacultyButton(test10)).width(1700).height(200).pad(10);
+        buttonTable.row();
+
+
+        ScrollPane scrollPane = new ScrollPane(buttonTable,skin);
+        scrollPane.setHeight(100);
+        scrollPane.setScrollingDisabled(true,false);
+        scrollPane.setFadeScrollBars(false);
+        scrollPane.setClamp(true);
+        scrollPane.setOverscroll(false,true);
+
+        Table rootTable = new Table();
+        rootTable.setFillParent(true);
+        buttonTable.bottom();
+        rootTable.add(scrollPane).expand().fill();
+
+        buttonTable.pack();
+        stage.addActor(rootTable);
     }
 
     @Override
@@ -101,18 +174,20 @@ public class StoreScreen implements Screen {
         Table photoTable = new Table(skin);
         //instancing a new image because FOR SOME REASON
         //libGDX does not allow the usage of the same image in multiple buttons ???
-        photoTable.add(new Image(faculty.getImage().getDrawable())).center().width(40).height(40);
+        photoTable.add(new Image(faculty.getImage().getDrawable())).size(150,120).padRight(100);
 
         Table textTable = new Table(skin);
 
         //mid panel
 
         Label facultyLabel = new Label(faculty.getName(), skin,"default");
-        textTable.add(facultyLabel).width(200).height(50);
+        facultyLabel.setWrap(true);
+        facultyLabel.setAlignment(Align.center);
+        textTable.add(facultyLabel).width(facultyLabel.getText().length*35).height(50).padBottom(20);
         textTable.row();
         Label infoLabel = new Label(faculty.getInfo(),skin,"small-label");
         infoLabel.setWrap(true);
-        textTable.add(infoLabel).width(200).height(50);
+        textTable.add(infoLabel).width(facultyLabel.getText().length*25+75).height(50);
         textTable.row();
 
         //right info panel
@@ -141,18 +216,19 @@ public class StoreScreen implements Screen {
         infoTable.add(advantageLabel).colspan(2).center();
 
 
-
+        mainTable.defaults().pad(20);
         mainTable.top();
         mainTable.add(photoTable).expand().fill().align(Align.left);
-        mainTable.add(textTable).expand().fill();
+        mainTable.add(textTable).expand().fill().width(textTable.getWidth()).align(Align.center);
         mainTable.add(infoTable).expand().fill().align(Align.right);
 
 
         mainTable.setFillParent(true);
         mainTable.center();
-        mainTable.defaults().pad(40);
+        mainTable.defaults().pad(100);
 
         button.add(mainTable).expand().fill().align(Align.left).top();
+        button.pack();
         return button;
     }
 

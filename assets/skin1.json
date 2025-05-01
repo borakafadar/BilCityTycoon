@@ -76,7 +76,7 @@
 		"disabled": "Button 1 Disabled"
 	},
 	"store-button": {
-		"up": "storeButtonDown",
+		"up": "storeButtonUp",
 		"down": "storeButtonDown",
 		"over": "storeButtonHover",
 		"focused": "storeButtonHover"
@@ -95,8 +95,44 @@
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle": {
-	"default": {
-		"parent": "default"
+	"store-faculties-button": {
+		"imageUp": "Faculties (2)",
+		"imageDown": "facultyDown",
+		"imageOver": "facultyhover",
+		"focused": "facultyhover",
+		"pressedOffsetX": 1,
+		"pressedOffsetY": -1
+	},
+	"store-upgrades-button": {
+		"imageUp": "Upgrades (1)",
+		"imageDown": "upgradesDown",
+		"imageOver": "upgradesHover",
+		"focused": "upgradesHover",
+		"pressedOffsetX": 1,
+		"pressedOffsetY": -1
+	},
+	"store-other-button": {
+		"imageUp": "Other Buildings",
+		"imageDown": "otherBuildingsDown",
+		"imageOver": "otherBuildingsHover",
+		"focused": "otherBuildingsHover",
+		"pressedOffsetX": 1,
+		"pressedOffsetY": -1
+	},
+	"store-decorations-button": {
+		"imageUp": "Decorations",
+		"imageDown": "decorationsDown",
+		"imageOver": "decorationsHover",
+		"focused": "decorationsHover",
+		"pressedOffsetX": 1,
+		"pressedOffsetY": -1
+	},
+	"close-button": {
+		"imageUp": "closeIcon",
+		"imageDown": "closeIcon",
+		"imageOver": "closeIcon",
+		"pressedOffsetX": 1,
+		"pressedOffsetY": -1
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {
@@ -116,6 +152,10 @@
 	},
 	"smallest-label": {
 		"font": "PressStart2P-smallest",
+		"fontColor": "Black"
+	},
+	"title-label": {
+		"font": "PressStart2P-big",
 		"fontColor": "Black"
 	}
 },

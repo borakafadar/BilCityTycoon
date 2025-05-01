@@ -42,7 +42,7 @@ public class SettingsScreen implements Screen {
 
 
         //temp
-        skin = new Skin();
+        skin = WelcomeScreen.skin;
 
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
         FreeTypeFontParameter fontParameter = generateFontParameter(36,1);
