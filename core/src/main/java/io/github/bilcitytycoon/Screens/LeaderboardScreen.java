@@ -17,6 +17,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import io.github.bilcitytycoon.*;
 
+import java.util.ArrayList;
+
 
 public class LeaderboardScreen implements Screen {
     private FitViewport fitViewport;
@@ -46,11 +48,11 @@ public class LeaderboardScreen implements Screen {
 
         FreeTypeFontGenerator bigFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter  titleFontParameter = generateFontParameter(75,2);
-        FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(34,1);
+        FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(35,1);
 
         FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(16,0);
 
-        FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(13,1);
+        FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(14,1);
 
 
 
@@ -70,7 +72,24 @@ public class LeaderboardScreen implements Screen {
         skin.load(Gdx.files.internal("skin1.json"));
 
         //TODO: temp, to test the table feature
-        Table buttonTable = new Table();
+
+
+        //test code
+        OtherUniversity otherUniversity1 = new OtherUniversity("Bombardino University",3100,94,leaderboard);
+        OtherUniversity otherUniversity2 = new OtherUniversity("Crocodilo University",2500,83,leaderboard);
+        Player player = new Player("Zeynel Yildirim BilCity University",2300,69,leaderboard);
+        OtherUniversity otherUniversity3 = new OtherUniversity("Tralello University",2000,58,leaderboard);
+        OtherUniversity otherUniversity4 = new OtherUniversity("Musa Götten University",1500,47,leaderboard);
+
+        ArrayList<University> universities = new ArrayList<>();
+        universities.add(otherUniversity1);
+        universities.add(otherUniversity2);
+        universities.add(player);
+        universities.add(otherUniversity3);
+        universities.add(otherUniversity4);
+
+
+        Table buttonTable = createButtonTable(universities);
         buttonTable.setFillParent(true);
 
         Image panelBackground = new Image(new Texture(Gdx.files.internal("panelBackground.png")));
@@ -104,6 +123,8 @@ public class LeaderboardScreen implements Screen {
                 //mainGame.setScreen(gameScreen);
             }
         });
+
+
 
 
         mainStage.addActor(rootTable);
@@ -148,77 +169,143 @@ public class LeaderboardScreen implements Screen {
     }
 
 
-//    private Button createUniversityButton(University university){
-//        Button button = new Button(skin,"store-button");
-//        Table mainTable = new Table();
-//        mainTable.pad(10);
-//        mainTable.padBottom(20);
-//        //photo
-//        Table photoTable = new Table(skin);
-//        //instancing a new image because FOR SOME REASON
-//        //libGDX does not allow the usage of the same image in multiple buttons ???
-//        photoTable.add(new Image(upgrade.getImage().getDrawable())).size(150,120).padRight(100);
-//
-//        Table textTable = new Table(skin);
-//
-//        //mid panel
-//
-//        Label facultyLabel = new Label(upgrade.getName(), skin,"default");
-//        facultyLabel.setWrap(true);
-//        facultyLabel.setAlignment(Align.center);
-//        textTable.add(facultyLabel).width(facultyLabel.getText().length*35).height(50).padBottom(20);
-//        textTable.row();
-//        Label infoLabel = new Label(upgrade.getInfo(),skin,"small-label");
-//        infoLabel.setWrap(true);
-//        textTable.add(infoLabel).width(facultyLabel.getText().length*25+75).height(50);
-//        textTable.row();
-//
-//        //right info panel
-//        Table infoTable = new Table(skin);
-//        infoTable.defaults().pad(10);
-//
-//        Table timeTable = new Table(skin);
-//        timeTable.defaults().pad(10);
-//        timeTable.add(new Image(new Texture(Gdx.files.internal("icons/timeIcon.png")))).width(40).height(40);
-//        Label timeLabel = new Label(upgrade.getBuildTime()+" days",skin,"small-label");
-//        timeTable.add(timeLabel);
-//
-//        Table priceTable = new Table(skin);
-//        priceTable.defaults().pad(10);
-//        priceTable.add(new Image(new Texture(Gdx.files.internal("icons/bilcoin.png")))).width(40).height(40);
-//        Label priceLabel = new Label(Double.toString(upgrade.getUpgradeCost()),skin,"small-label");
-//        priceTable.add(priceLabel);
-//
-//
-//        infoTable.add(timeTable);
-//        infoTable.add(priceTable);
-//        infoTable.row();
-//
-//        //temp
-//        Label advantageLabel = new Label("+100 University Reputation Points\n+25 Student Satisfaction Point",skin,"smallest-label");
-//        infoTable.add(advantageLabel).colspan(2).center();
-//
-//
-//        mainTable.defaults().pad(20);
-//        mainTable.top();
-//        mainTable.add(photoTable).expand().fill().align(Align.left);
-//        mainTable.add(textTable).expand().fill().width(textTable.getWidth()).align(Align.center);
-//        mainTable.add(infoTable).expand().fill().align(Align.right);
-//
-//
-//        mainTable.setFillParent(true);
-//        mainTable.center();
-//        mainTable.defaults().pad(100);
-//
-//        button.add(mainTable).expand().fill().align(Align.left).top();
-//        button.pack();
-//        return button;
-//    }
+     private Button createUniversityButton(University university){
+        if(university instanceof OtherUniversity){
+            Button button = new Button(skin,"store-button");
+            Table mainTable = new Table();
+            mainTable.pad(10);
+            mainTable.padBottom(20);
+            //left panel
+            Table rankingTable = new Table(skin);
 
-    private Table createButtonTable(){
-        //TODO
+            Label rankingLabel = new Label(university.getRanking()+"#",skin,"title-label");
+            rankingTable.add(rankingLabel).expandX().fillX().padBottom(20);
+
+            //mid panel
+            Table textTable = new Table(skin);
+
+
+            Label facultyLabel = new Label(university.getName(), skin,"default");
+            facultyLabel.setWrap(true);
+            facultyLabel.setAlignment(Align.center);
+            textTable.add(facultyLabel).width(facultyLabel.getText().length*20).height(50).padBottom(20).expandX().fillX();
+            textTable.row();
+
+            //right info panel
+            Table infoTable = new Table(skin);
+            infoTable.defaults().pad(10);
+
+            Table reputationTable = new Table(skin);
+            reputationTable.defaults().pad(10);
+            reputationTable.add(new Image(new Texture(Gdx.files.internal("icons/reputationIcon.png")))).width(40).height(40);
+            Label reputationLabel = new Label("University Reputation Point: "+university.getUniversityReputationPoint(),skin,"small-label");
+            reputationLabel.setWrap(true);
+            reputationTable.add(reputationLabel).size(200,50);
+
+            Table satisfactionTable = new Table(skin);
+            satisfactionTable.defaults().pad(10);
+            satisfactionTable.add(new Image(new Texture(Gdx.files.internal("icons/satisfactionIcon.png")))).width(40).height(40);
+            Label satisfactionLabel = new Label("Student Satisfaction Rate: "+university.getStudentSatisfactionRate()+"%",skin,"small-label");
+            satisfactionLabel.setWrap(true);
+            satisfactionTable.add(satisfactionLabel).size(220,50);
+
+
+            infoTable.add(reputationTable);
+            infoTable.add(satisfactionTable);
+            infoTable.row();
+
+
+
+            mainTable.defaults().pad(40);
+            mainTable.top();
+            mainTable.add(rankingTable).expand().fill().align(Align.left).top();
+            mainTable.add(textTable).expand().fill().width(textTable.getWidth()).align(Align.center).expandX().fillX();
+            mainTable.add(infoTable).expand().fill().align(Align.right).size(700,50);
+
+
+
+            mainTable.center();
+            mainTable.defaults().pad(100);
+
+            button.add(mainTable).expand().fill().align(Align.left).top();
+
+            return button;
+        } else if(university instanceof Player){
+            Button button = new Button(skin,"player-button");
+            Table mainTable = new Table();
+            mainTable.pad(10);
+            mainTable.padBottom(20);
+            //left panel
+            Table rankingTable = new Table(skin);
+
+            Label rankingLabel = new Label(university.getRanking()+"#",skin,"title-label");
+            rankingTable.add(rankingLabel).expandX().fillX().padBottom(20);
+
+
+            //mid panel
+            Table textTable = new Table(skin);
+
+
+            Label facultyLabel = new Label(university.getName(), skin,"default");
+            facultyLabel.setWrap(true);
+            facultyLabel.setAlignment(Align.center);
+            textTable.add(facultyLabel).width(facultyLabel.getText().length*20).height(50).padBottom(20);
+            textTable.row();
+            textTable.row();
+
+            //right info panel
+            Table infoTable = new Table(skin);
+            infoTable.defaults().pad(10).fillX().expand();
+
+            Table reputationTable = new Table(skin);
+            reputationTable.defaults().pad(10);
+            reputationTable.add(new Image(new Texture(Gdx.files.internal("icons/reputationIcon.png")))).width(40).height(40);
+            Label reputationLabel = new Label("Your University Reputation Point: "+university.getUniversityReputationPoint(),skin,"small-label");
+            reputationLabel.setWrap(true);
+            reputationTable.add(reputationLabel).size(220,50);
+
+            Table satisfactionTable = new Table(skin);
+            satisfactionTable.defaults().pad(10);
+            satisfactionTable.add(new Image(new Texture(Gdx.files.internal("icons/satisfactionIcon.png")))).width(40).height(40);
+            Label satisfactionLabel = new Label("Your Student Satisfaction Rate: "+university.getStudentSatisfactionRate()+"%",skin,"small-label");
+            satisfactionLabel.setWrap(true);
+            satisfactionTable.add(satisfactionLabel).size(220,50);
+
+
+            infoTable.add(reputationTable);
+            infoTable.add(satisfactionTable);
+            infoTable.row();
+
+
+            mainTable.defaults().pad(40);
+            mainTable.top();
+            mainTable.add(rankingTable).expand().fill().align(Align.left);
+            mainTable.add(textTable).expand().fill().width(textTable.getWidth()).align(Align.center);
+            mainTable.add(infoTable).expand().fill().align(Align.right).size(700,50);
+
+
+
+            mainTable.center();
+            mainTable.defaults().pad(100);
+
+            button.add(mainTable).expand().fill().align(Align.left).top();
+            button.pack();
+            return button;
+        }
+        //to shut the compiler up
+        return null;
+    }
+
+    private Table createButtonTable(ArrayList<University> universities){
+        if(universities == null || universities.isEmpty()){
+            return new Table();
+        }
+
         Table buttonTable = new Table();
-
+        for(University university : universities){
+            buttonTable.add(createUniversityButton(university)).width(1700).height(200).pad(10);
+            buttonTable.row();
+        }
         return buttonTable;
     }
 

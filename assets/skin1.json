@@ -67,6 +67,33 @@
 			"b": 0,
 			"a": 1
 		}
+	},
+	"playerButtonUp": {
+		"name": "storeButtonUp",
+		"color": {
+			"r": 0.70980394,
+			"g": 0.99607843,
+			"b": 0.81960785,
+			"a": 1
+		}
+	},
+	"playerButtonDown": {
+		"name": "storeButtonDown",
+		"color": {
+			"r": 0.70980394,
+			"g": 0.99607843,
+			"b": 0.81960785,
+			"a": 1
+		}
+	},
+	"playerButtonHover": {
+		"name": "storeButtonHover",
+		"color": {
+			"r": 0.70980394,
+			"g": 0.99607843,
+			"b": 0.81960785,
+			"a": 1
+		}
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
@@ -97,6 +124,12 @@
 		"focused": "statusBarButtonHover",
 		"pressedOffsetX": 1,
 		"pressedOffsetY": -1
+	},
+	"player-button": {
+		"up": "playerButtonUp",
+		"down": "playerButtonDown",
+		"over": "playerButtonHover",
+		"focused": "playerButtonHover"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {

@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.bilcitytycoon.Main;
-import io.github.bilcitytycoon.Screens.Store.FacultyStoreScreen;
+import io.github.bilcitytycoon.Screens.Store.FacultiesStoreScreen;
 import io.github.bilcitytycoon.Screens.Store.StoreScreen;
 
 public class WelcomeScreen implements Screen {
@@ -83,7 +83,7 @@ public class WelcomeScreen implements Screen {
         newGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new FacultyStoreScreen(null,game,null)); //temp
+                game.setScreen(new FacultiesStoreScreen(null,game,null)); //temp
             }
         });
 
