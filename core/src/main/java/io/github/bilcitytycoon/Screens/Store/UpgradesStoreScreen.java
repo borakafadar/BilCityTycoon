@@ -1,4 +1,4 @@
-package io.github.bilcitytycoon.Screens;
+package io.github.bilcitytycoon.Screens.Store;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -15,10 +15,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import io.github.bilcitytycoon.*;
+import io.github.bilcitytycoon.BilCityTycoonGame;
+import io.github.bilcitytycoon.Main;
+import io.github.bilcitytycoon.Upgrade;
 
-
-public class LeaderboardScreen implements Screen {
+public class UpgradesStoreScreen implements Screen {
     private FitViewport fitViewport;
     private StretchViewport stretchViewport; //for background
     private Stage backgroundStage;
@@ -26,18 +27,14 @@ public class LeaderboardScreen implements Screen {
     private Skin skin;
     private BilCityTycoonGame game;
     private Main mainGame;
-    private Leaderboard leaderboard;
+    private StoreScreen storeScreen;
 
-    public LeaderboardScreen(BilCityTycoonGame game, Main mainGame, GameScreen gameScreen){
+    public UpgradesStoreScreen(BilCityTycoonGame game, Main mainGame,StoreScreen storeScreen){
         this.game = game;
         this.mainGame = mainGame;
         this.mainStage = new Stage();
         this.fitViewport = new FitViewport(1920,1080);
-        //this.leaderboard = game.getLeaderboard();
-
-        //for test
-        this.leaderboard = new Leaderboard(this.game,null);
-
+        this.storeScreen = storeScreen;
         this.stretchViewport = new StretchViewport(1366,768);
         this.backgroundStage = new Stage();
 
@@ -91,7 +88,7 @@ public class LeaderboardScreen implements Screen {
         buttonTable.bottom();
         buttonTable.pack();
 
-        Label titleLabel = new Label("Leaderboard",skin,"title-label");
+        Label titleLabel = new Label("Upgrades",skin,"title-label");
         titleLabel.setAlignment(Align.center);
         rootTable.add(titleLabel).expandX().fillX().padTop(90).padBottom(50);
         rootTable.row();
@@ -100,10 +97,10 @@ public class LeaderboardScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("clicked");
-                //mainGame.setScreen(gameScreen);
+                mainGame.setScreen(storeScreen);
             }
         });
+
 
 
         mainStage.addActor(rootTable);
@@ -148,72 +145,72 @@ public class LeaderboardScreen implements Screen {
     }
 
 
-//    private Button createUniversityButton(University university){
-//        Button button = new Button(skin,"store-button");
-//        Table mainTable = new Table();
-//        mainTable.pad(10);
-//        mainTable.padBottom(20);
-//        //photo
-//        Table photoTable = new Table(skin);
-//        //instancing a new image because FOR SOME REASON
-//        //libGDX does not allow the usage of the same image in multiple buttons ???
-//        photoTable.add(new Image(upgrade.getImage().getDrawable())).size(150,120).padRight(100);
-//
-//        Table textTable = new Table(skin);
-//
-//        //mid panel
-//
-//        Label facultyLabel = new Label(upgrade.getName(), skin,"default");
-//        facultyLabel.setWrap(true);
-//        facultyLabel.setAlignment(Align.center);
-//        textTable.add(facultyLabel).width(facultyLabel.getText().length*35).height(50).padBottom(20);
-//        textTable.row();
-//        Label infoLabel = new Label(upgrade.getInfo(),skin,"small-label");
-//        infoLabel.setWrap(true);
-//        textTable.add(infoLabel).width(facultyLabel.getText().length*25+75).height(50);
-//        textTable.row();
-//
-//        //right info panel
-//        Table infoTable = new Table(skin);
-//        infoTable.defaults().pad(10);
-//
-//        Table timeTable = new Table(skin);
-//        timeTable.defaults().pad(10);
-//        timeTable.add(new Image(new Texture(Gdx.files.internal("icons/timeIcon.png")))).width(40).height(40);
-//        Label timeLabel = new Label(upgrade.getBuildTime()+" days",skin,"small-label");
-//        timeTable.add(timeLabel);
-//
-//        Table priceTable = new Table(skin);
-//        priceTable.defaults().pad(10);
-//        priceTable.add(new Image(new Texture(Gdx.files.internal("icons/bilcoin.png")))).width(40).height(40);
-//        Label priceLabel = new Label(Double.toString(upgrade.getUpgradeCost()),skin,"small-label");
-//        priceTable.add(priceLabel);
-//
-//
-//        infoTable.add(timeTable);
-//        infoTable.add(priceTable);
-//        infoTable.row();
-//
-//        //temp
-//        Label advantageLabel = new Label("+100 University Reputation Points\n+25 Student Satisfaction Point",skin,"smallest-label");
-//        infoTable.add(advantageLabel).colspan(2).center();
-//
-//
-//        mainTable.defaults().pad(20);
-//        mainTable.top();
-//        mainTable.add(photoTable).expand().fill().align(Align.left);
-//        mainTable.add(textTable).expand().fill().width(textTable.getWidth()).align(Align.center);
-//        mainTable.add(infoTable).expand().fill().align(Align.right);
-//
-//
-//        mainTable.setFillParent(true);
-//        mainTable.center();
-//        mainTable.defaults().pad(100);
-//
-//        button.add(mainTable).expand().fill().align(Align.left).top();
-//        button.pack();
-//        return button;
-//    }
+    private Button createUpgradeButton(Upgrade upgrade){
+        Button button = new Button(skin,"store-button");
+        Table mainTable = new Table();
+        mainTable.pad(10);
+        mainTable.padBottom(20);
+        //photo
+        Table photoTable = new Table(skin);
+        //instancing a new image because FOR SOME REASON
+        //libGDX does not allow the usage of the same image in multiple buttons ???
+        photoTable.add(new Image(upgrade.getImage().getDrawable())).size(150,120).padRight(100);
+
+        Table textTable = new Table(skin);
+
+        //mid panel
+
+        Label facultyLabel = new Label(upgrade.getName(), skin,"default");
+        facultyLabel.setWrap(true);
+        facultyLabel.setAlignment(Align.center);
+        textTable.add(facultyLabel).width(facultyLabel.getText().length*35).height(50).padBottom(20);
+        textTable.row();
+        Label infoLabel = new Label(upgrade.getInfo(),skin,"small-label");
+        infoLabel.setWrap(true);
+        textTable.add(infoLabel).width(facultyLabel.getText().length*25+75).height(50);
+        textTable.row();
+
+        //right info panel
+        Table infoTable = new Table(skin);
+        infoTable.defaults().pad(10);
+
+        Table timeTable = new Table(skin);
+        timeTable.defaults().pad(10);
+        timeTable.add(new Image(new Texture(Gdx.files.internal("icons/timeIcon.png")))).width(40).height(40);
+        Label timeLabel = new Label(upgrade.getBuildTime()+" days",skin,"small-label");
+        timeTable.add(timeLabel);
+
+        Table priceTable = new Table(skin);
+        priceTable.defaults().pad(10);
+        priceTable.add(new Image(new Texture(Gdx.files.internal("icons/bilcoin.png")))).width(40).height(40);
+        Label priceLabel = new Label(Double.toString(upgrade.getUpgradeCost()),skin,"small-label");
+        priceTable.add(priceLabel);
+
+
+        infoTable.add(timeTable);
+        infoTable.add(priceTable);
+        infoTable.row();
+
+        //temp
+        Label advantageLabel = new Label("+100 University Reputation Points\n+25 Student Satisfaction Point",skin,"smallest-label");
+        infoTable.add(advantageLabel).colspan(2).center();
+
+
+        mainTable.defaults().pad(20);
+        mainTable.top();
+        mainTable.add(photoTable).expand().fill().align(Align.left);
+        mainTable.add(textTable).expand().fill().width(textTable.getWidth()).align(Align.center);
+        mainTable.add(infoTable).expand().fill().align(Align.right);
+
+
+        mainTable.setFillParent(true);
+        mainTable.center();
+        mainTable.defaults().pad(100);
+
+        button.add(mainTable).expand().fill().align(Align.left).top();
+        button.pack();
+        return button;
+    }
 
     private Table createButtonTable(){
         //TODO

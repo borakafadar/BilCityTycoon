@@ -58,11 +58,11 @@ public class Player implements Comparable<Player> {
         return 1;
     }
 
-    // public Player getReputationPoints() {
-    //     // TODO
-    // }
+     public int getReputationPoints() {
+         return this.universityReputationPoint;
+     }
 
-    // public int getSatisfactionRate() {
-    //     // TODO
-    // }
+    public int getSatisfactionRate() {
+         return this.studentSatisfactionRate;
+     }
 }

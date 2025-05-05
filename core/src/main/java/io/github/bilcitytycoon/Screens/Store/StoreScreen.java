@@ -7,15 +7,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import io.github.bilcitytycoon.BilCityTycoonGame;
@@ -33,6 +30,8 @@ public class StoreScreen implements Screen {
     private StoreScreen thisStoreScreen;
 
     public StoreScreen(BilCityTycoonGame game, Main mainGame, GameScreen gameScreen){
+        //TODO the buttons in the stores are not finished because the store things are not finished
+
         this.game = game;
         this.mainGame = mainGame;
         this.mainStage = new Stage();
@@ -75,17 +74,17 @@ public class StoreScreen implements Screen {
         Label storeLabel = new Label("Store",skin,"title-label");
 
 
-        ImageButton backButton = new ImageButton(skin,"close-button");
-        mainStage.addActor(backButton);
+        ImageButton closeButton = new ImageButton(skin,"close-button");
+        mainStage.addActor(closeButton);
 
-        backButton.setPosition(100,940);
-        backButton.getImage().setScale(2);
+        closeButton.setPosition(100,940);
+        closeButton.getImage().setScale(2);
 
-        backButton.addListener(new ClickListener() {
+        closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                mainGame.setScreen(gameScreen);
-                dispose();//does not work now, when the GameScreen is implemented it will work.
+//                mainGame.setScreen(gameScreen);
+//                dispose();//does not work now, when the GameScreen is implemented it will work.
             }
         });
         Table rootTable = new Table();
@@ -161,9 +160,30 @@ public class StoreScreen implements Screen {
         facultyButton.addListener(new ClickListener() {
            @Override
            public void clicked(InputEvent event, float x, float y) {
-               mainGame.setScreen(new FacultyStoreScreen(game,mainGame,thisStoreScreen));
+               mainGame.setScreen(new FacultiesStoreScreen(game,mainGame,thisStoreScreen));
 
            }
+        });
+
+        otherBuildingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mainGame.setScreen(new OtherBuildingsStoreScreen(game,mainGame,thisStoreScreen));
+            }
+        });
+
+        upgradesButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mainGame.setScreen(new UpgradesStoreScreen(game,mainGame,thisStoreScreen));
+            }
+        });
+
+        decorationsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mainGame.setScreen(new DecorationsStoreScreen(game,mainGame,thisStoreScreen));
+            }
         });
 
 

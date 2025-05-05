@@ -13,23 +13,23 @@ import java.util.Random;
 /**
  * Manages a dynamic leaderboard of 80 universities (the player + 79 AI bots),
  * sorted either by Reputation Points or by Student Satisfaction Rate.
- * 
+ *
  * Renders two small rank labels next to the BilCoins display on the HUD—
  * one for Reputation, one for Satisfaction.  Clicking either label
  * opens a scrollable pop-up showing the full ranking.
- * 
+ *
  * @author Yaşar Delibaş
  * @version 1.0
  * @since 2025-04-30
  */
 public class Leaderboard {
-    //All universities (player + AI bots). 
+    //All universities (player + AI bots).
     private final ArrayList<Player> allUniversities;
 
-    // Reference to the main game, for access to Stage & Skin. 
+    // Reference to the main game, for access to Stage & Skin.
     private final BilCityTycoonGame game;
 
-    // The human player’s own university entry. 
+    // The human player’s own university entry.
     private final Player player;
 
     /**
@@ -43,20 +43,20 @@ public class Leaderboard {
         this.player = player;
         this.allUniversities = new ArrayList<Player>();
         this.allUniversities.add(player);
-        createBots();
+        //createBots();
     }
-
     /**
      * Generates 79 “bot” universities with randomized Reputation and Satisfaction.
      * Uses a preset list of fantasy names.
+     *
      */
     private void createBots() {
         String[] universityNames = {
             "Kanzi", "Delibas", "Undem", "Simsir", "Kafadar", "Yildirim", "Zeyno", "Zurna",
-            "Ardent", "Velbridge", "Nexora", "Stonewall", "Ironspire", "Thalium", "Ravenfall", "Mintora",
-            "Elarin", "Bronwyn", "Kairoth", "Solbridge", "Zentris", "Halveth", "Terranova", "Grantham",
-            "Obsidian", "Luneth", "Ashbourne", "Cryden", "Novaris", "Thornevale", "Valcrest", "Redspire",
-            "Averin", "Falkmore", "Vireon", "Pendwyn", "Brimley", "Zephyra", "Calchester", "Ironwell",
+            "Sekman", "Unalan", "Yildiran", "Simsek", "Uranus", "Titanium", "Kayip Esyalar", "Bridgestone",
+            "Opel", "Ape", "Ne Gu", "Burnming", "Cevrimici", "Acim", "Improvements", "Nuray",
+            "Emale", "Sleep", "String", "Continue", "Codding", "Libbear", "Kutup", "Nurgul",
+            "Yanlislaf", "Vurmaver", "Orangutann", "CoDDesigning", "Brimley", "Vireon", "Calchester", "Ironwell",
             "Stormmere", "Crestmoor", "Marenth", "Eloria", "Westford", "Myndale", "Duskmoor", "Halbridge",
             "Venthor", "Silvermark", "Brighthelm", "Norwyn", "Galderan", "Eastmere", "Draymar", "Borewyn",
             "Trivent", "Runestone", "Wyrnfall", "Ashmor", "Cindergate", "Starwyn", "Frostmoor", "Veriton",
@@ -64,7 +64,7 @@ public class Leaderboard {
             "Glenhaven", "Thornford", "Solwyn", "Vandale", "Mistbrook", "Ismere", "Redwyn", "Goldbarrow",
             "Newwyn", "Maveth", "Stonewyn", "Westoria", "Rynmere", "Netherford", "Vortexa", "Hawkmere",
             "Graveth", "Skyreach", "Cypresson", "Kryden", "Lorewyn", "Zenmere", "Altmore", "Brighthall",
-            "Vistaryn", "Oakspire", "Stormreach"
+            "Vistaryn", "Oakspire", "Stormbreal"
         };
 
         Random rd = new Random();
@@ -121,7 +121,7 @@ public class Leaderboard {
 
     /**
      * Computes the player's 1-based rank by Satisfaction.
-   
+
     public int getPlayerSatisfactionRank() {
         ArrayList<Player> sorted = getBySatisfaction();
         return sorted.indexOf(player) + 1;

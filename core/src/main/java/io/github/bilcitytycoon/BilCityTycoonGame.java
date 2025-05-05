@@ -12,12 +12,16 @@ public class BilCityTycoonGame {
         this.allBuildings = new ArrayList<Building>();
         this.map = new Map();
         this.allUniversities=new ArrayList<>();
-        this.leaderboard = new Leaderboard();
+        this.leaderboard = new Leaderboard(this, this.player);
     }
 
 
     public void initializeGame(){
         //leaderboard initilaize
         //TODO
+    }
+
+    public Leaderboard getLeaderboard(){
+        return this.leaderboard;
     }
 }

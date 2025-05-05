@@ -13,33 +13,40 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import io.github.bilcitytycoon.BilCityTycoonGame;
-import io.github.bilcitytycoon.Faculty;
-import io.github.bilcitytycoon.Main;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import io.github.bilcitytycoon.*;
 
-public class FacultyStoreScreen implements Screen {
+public class OtherBuildingsStoreScreen implements Screen {
     private FitViewport fitViewport;
-    private Stage stage;
+    private StretchViewport stretchViewport; //for background
+    private Stage backgroundStage;
+    private Stage mainStage;
     private Skin skin;
     private BilCityTycoonGame game;
     private Main mainGame;
     private StoreScreen storeScreen;
 
-    public FacultyStoreScreen(BilCityTycoonGame game, Main mainGame,StoreScreen storeScreen){
+    public OtherBuildingsStoreScreen(BilCityTycoonGame game, Main mainGame,StoreScreen storeScreen){
         this.game = game;
         this.mainGame = mainGame;
-        this.stage = new Stage();
+        this.mainStage = new Stage();
         this.fitViewport = new FitViewport(1920,1080);
         this.storeScreen = storeScreen;
-        stage.setViewport(fitViewport);
+        this.stretchViewport = new StretchViewport(1366,768);
+        this.backgroundStage = new Stage();
+
+        backgroundStage.setViewport(stretchViewport);
+        mainStage.setViewport(fitViewport);
 
         FreeTypeFontGenerator bigFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter  titleFontParameter = generateFontParameter(75,2);
         FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(34,1);
 
-        FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(16,1);
+        FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(16,0);
 
-        FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(13,0);
+        FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(13,1);
 
 
 
@@ -48,12 +55,13 @@ public class FacultyStoreScreen implements Screen {
         BitmapFont bigFont = bigFontGenerator.generateFont(bigFontParameter);
         BitmapFont smallFont = bigFontGenerator.generateFont(smallFontParameter);
         BitmapFont smallestFont = bigFontGenerator.generateFont(smallestFontParameter);
+        BitmapFont titleFont = bigFontGenerator.generateFont(titleFontParameter);
 
         skin = new Skin();
         skin.add("PressStart2P", bigFont);
         skin.add("PressStart2P-small", smallFont);
         skin.add("PressStart2P-smallest", smallestFont);
-        skin.add("PressStart2P-big", bigFont);
+        skin.add("PressStart2P-big", titleFont);
         skin.addRegions(new TextureAtlas(Gdx.files.internal("skin1.atlas")));
         skin.load(Gdx.files.internal("skin1.json"));
 
@@ -61,63 +69,10 @@ public class FacultyStoreScreen implements Screen {
         Table buttonTable = new Table();
         buttonTable.setFillParent(true);
 
-        //test
-        Faculty test = new Faculty("Mathematics Building",100,100,100,"libgdx.png","test test test test test test test",10);
+        Image panelBackground = new Image(new Texture(Gdx.files.internal("panelBackground.png")));
+        backgroundStage.addActor(panelBackground);
+        panelBackground.setSize(1920,1080);
 
-        buttonTable.add(createFacultyButton(test)).width(1700).height(200).pad(10);
-        buttonTable.row();
-
-        Faculty test1 = new Faculty("Mathematics Building", 100, 100, 100, "libgdx.png", "A place for solving complex equations and theoretical puzzles.", 8);
-
-        Faculty test2 = new Faculty("Computer Science Department", 120, 90, 110, "libgdx.png", "Where students turn caffeine into code and build the future.", 10);
-
-        Faculty test3 = new Faculty("Physics Faculty", 95, 130, 105, "libgdx.png", "Exploring gravity, quantum particles, and everything in between.", 12);
-
-        Faculty test4 = new Faculty("Biology & Life Sciences", 110, 85, 90, "libgdx.png", "Dive into the wonders of DNA, evolution, and living organisms.", 9);
-
-        Faculty test5 = new Faculty("Architecture Studio", 130, 110, 115, "libgdx.png", "Designing spaces with precision, creativity, and a lack of sleep.", 14);
-
-        Faculty test6 = new Faculty("Literature and Arts", 100, 75, 120, "libgdx.png", "A world of metaphors, stories, and endless interpretation.", 11);
-
-        Faculty test7 = new Faculty("Psychology Department", 105, 100, 100, "libgdx.png", "Understanding how the mind works, one experiment at a time.", 10);
-
-        Faculty test8 = new Faculty("Political Science", 90, 85, 95, "libgdx.png", "Analyzing power, governments, and global systems of influence.", 10);
-
-        Faculty test9 = new Faculty("Engineering Faculty", 140, 120, 110, "libgdx.png", "Building bridges, machines, and extremely long equations.", 13);
-
-        Faculty test10 = new Faculty("Environmental Sciences", 100, 95, 105, "libgdx.png", "Studying ecosystems, climate change, and sustainable solutions.", 9);
-
-
-        Button testButton = createFacultyButton(test1);
-        buttonTable.add(testButton).width(1700).height(200).pad(10);
-        buttonTable.row();
-
-        buttonTable.add(createFacultyButton(test2)).width(1700).height(200).pad(10);
-        buttonTable.row();
-
-        buttonTable.add(createFacultyButton(test3)).width(1700).height(200).pad(10);
-        buttonTable.row();
-
-        buttonTable.add(createFacultyButton(test4)).width(1700).height(200).pad(10);
-        buttonTable.row();
-
-        buttonTable.add(createFacultyButton(test5)).width(1700).height(200).pad(10);
-        buttonTable.row();
-
-        buttonTable.add(createFacultyButton(test6)).width(1700).height(200).pad(10);
-        buttonTable.row();
-
-        buttonTable.add(createFacultyButton(test7)).width(1700).height(200).pad(10);
-        buttonTable.row();
-
-        buttonTable.add(createFacultyButton(test8)).width(1700).height(200).pad(10);
-        buttonTable.row();
-
-        buttonTable.add(createFacultyButton(test9)).width(1700).height(200).pad(10);
-        buttonTable.row();
-
-        buttonTable.add(createFacultyButton(test10)).width(1700).height(200).pad(10);
-        buttonTable.row();
 
 
         ScrollPane scrollPane = new ScrollPane(buttonTable,skin);
@@ -130,26 +85,49 @@ public class FacultyStoreScreen implements Screen {
         Table rootTable = new Table();
         rootTable.setFillParent(true);
         buttonTable.bottom();
-        rootTable.add(scrollPane).expand().fill();
-
         buttonTable.pack();
-        stage.addActor(rootTable);
+
+        Label titleLabel = new Label("Other Buildings",skin,"title-label");
+        titleLabel.setAlignment(Align.center);
+        rootTable.add(titleLabel).expandX().fillX().padTop(90).padBottom(50);
+        rootTable.row();
+        rootTable.add(scrollPane).expand().fill();
+        ImageButton backButton = new ImageButton(skin,"back-button");
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mainGame.setScreen(storeScreen);
+            }
+        });
+
+
+        mainStage.addActor(rootTable);
+
+        mainStage.addActor(backButton);
+        backButton.setPosition(100,920);
+        backButton.setSize(100,100);
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(mainStage);
     }
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.WHITE);
+        backgroundStage.act();
+        stretchViewport.apply();
+        backgroundStage.draw();
 
-        stage.act();
-        stage.draw();
+        mainStage.act();
+        fitViewport.apply();
+        mainStage.draw();
+
     }
     @Override
     public void resize(int width, int height) {
         fitViewport.update(width,height,true);
+        stretchViewport.update(width, height,true);
     }
     @Override
     public void pause() {}
@@ -160,12 +138,12 @@ public class FacultyStoreScreen implements Screen {
     @Override
     public void dispose() {
         skin.dispose();
-        stage.dispose();
+        mainStage.dispose();
 
     }
 
 
-    private Button createFacultyButton(Faculty faculty){
+    private Button createOtherBuildingButton(OtherBuilding otherBuilding){
         Button button = new Button(skin,"store-button");
         Table mainTable = new Table();
         mainTable.pad(10);
@@ -174,18 +152,18 @@ public class FacultyStoreScreen implements Screen {
         Table photoTable = new Table(skin);
         //instancing a new image because FOR SOME REASON
         //libGDX does not allow the usage of the same image in multiple buttons ???
-        photoTable.add(new Image(faculty.getImage().getDrawable())).size(150,120).padRight(100);
+        photoTable.add(new Image(otherBuilding.getImage().getDrawable())).size(150,120).padRight(100);
 
         Table textTable = new Table(skin);
 
         //mid panel
 
-        Label facultyLabel = new Label(faculty.getName(), skin,"default");
+        Label facultyLabel = new Label(otherBuilding.getName(), skin,"default");
         facultyLabel.setWrap(true);
         facultyLabel.setAlignment(Align.center);
         textTable.add(facultyLabel).width(facultyLabel.getText().length*35).height(50).padBottom(20);
         textTable.row();
-        Label infoLabel = new Label(faculty.getInfo(),skin,"small-label");
+        Label infoLabel = new Label(otherBuilding.getInfo(),skin,"small-label");
         infoLabel.setWrap(true);
         textTable.add(infoLabel).width(facultyLabel.getText().length*25+75).height(50);
         textTable.row();
@@ -196,14 +174,14 @@ public class FacultyStoreScreen implements Screen {
 
         Table timeTable = new Table(skin);
         timeTable.defaults().pad(10);
-        timeTable.add(new Image(new Texture(Gdx.files.internal("timeIcon.png")))).width(40).height(40);
-        Label timeLabel = new Label(faculty.getBuildTime()+" days",skin,"small-label");
+        timeTable.add(new Image(new Texture(Gdx.files.internal("icons/timeIcon.png")))).width(40).height(40);
+        Label timeLabel = new Label(otherBuilding.getBuildTime()+" days",skin,"small-label");
         timeTable.add(timeLabel);
 
         Table priceTable = new Table(skin);
         priceTable.defaults().pad(10);
-        priceTable.add(new Image(new Texture(Gdx.files.internal("bilcoin.png")))).width(40).height(40);
-        Label priceLabel = new Label(Double.toString(faculty.getCost()),skin,"small-label");
+        priceTable.add(new Image(new Texture(Gdx.files.internal("icons/bilcoin.png")))).width(40).height(40);
+        Label priceLabel = new Label(Double.toString(otherBuilding.getCost()),skin,"small-label");
         priceTable.add(priceLabel);
 
 
@@ -230,6 +208,13 @@ public class FacultyStoreScreen implements Screen {
         button.add(mainTable).expand().fill().align(Align.left).top();
         button.pack();
         return button;
+    }
+
+    private Table createButtonTable(){
+        //TODO
+        Table buttonTable = new Table();
+
+        return buttonTable;
     }
 
 
