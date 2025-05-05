@@ -58,6 +58,15 @@
 			"b": 0,
 			"a": 1
 		}
+	},
+	"backIconBlack": {
+		"name": "backIcon",
+		"color": {
+			"r": 0,
+			"g": 0,
+			"b": 0,
+			"a": 1
+		}
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
@@ -80,6 +89,14 @@
 		"down": "storeButtonDown",
 		"over": "storeButtonHover",
 		"focused": "storeButtonHover"
+	},
+	"status-bar-button": {
+		"up": "statusBarButtonUp",
+		"down": "statusBarButtonDown",
+		"over": "statusBarButtonHover",
+		"focused": "statusBarButtonHover",
+		"pressedOffsetX": 1,
+		"pressedOffsetY": -1
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {
@@ -131,6 +148,11 @@
 		"imageUp": "closeIcon",
 		"imageDown": "closeIcon",
 		"imageOver": "closeIcon",
+		"pressedOffsetX": 1,
+		"pressedOffsetY": -1
+	},
+	"back-button": {
+		"imageUp": "backIconBlack",
 		"pressedOffsetX": 1,
 		"pressedOffsetY": -1
 	}
