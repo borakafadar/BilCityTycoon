@@ -1,13 +1,21 @@
 package io.github.bilcitytycoon;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class OtherBuilding extends Building{
     private double income;
+    private int buildTime;
+    private Image image;
+    private String info;
 
-    public OtherBuilding(String name, double cost, double income) {
-        super(name, cost);
+    public OtherBuilding(String name, double cost, double income, double bill, int buildTime, String imagePath, String info) {
+        super(name, cost, bill);
         this.income = income;
+        this.buildTime = buildTime;
+        this.image = new Image(new Texture(Gdx.files.internal(imagePath)));
+        this.info = info;
     }
 
     public double getIncome() {
@@ -23,8 +31,7 @@ public class OtherBuilding extends Building{
         //TODO temp
     }
     public int getBuildTime(){
-        return 0;
-        //TODO temp
+        return this.buildTime;
     }
 
 

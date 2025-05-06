@@ -6,9 +6,10 @@ public abstract class Building {
     protected double bill;
 
 
-    public Building(String name, double cost){
+    public Building(String name, double cost, double bill){
         this.name = name;
         this.buildCost = cost;
+        this.bill = bill;
     }
 
     public abstract String getInfo();

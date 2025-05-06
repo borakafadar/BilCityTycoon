@@ -7,15 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 public class Faculty extends Building {
 
     private double income;
-    private double bill;
     private Image image;
     private String info;
     private int buildTime;
 
     public Faculty(String name, double cost, double bill, double income,String imagePath,String info, int buildTime) {
-        super(name, cost);
+        super(name, cost,bill);
         this.income = income;
-        this.bill = bill;
         this.image = new Image(new Texture(Gdx.files.internal(imagePath)));
         this.info = info;
         this.buildTime = buildTime;

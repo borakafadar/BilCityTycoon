@@ -4,7 +4,7 @@ import java.awt.font.TextHitInfo;
 import java.util.ArrayList;
 
 public class Player extends University {
-    private int coin;
+    private double coin;
     private String name;
     private int universityReputationPoint;
     private int studentSatisfactionRate;
@@ -20,10 +20,10 @@ public class Player extends University {
         this.leaderboard = leaderboard;
     }
 
-    public int getCoin() {
+    public double getCoin() {
         return coin;
     }
-    public void setCoin(int newCoin) {
+    public void setCoin(double newCoin) {
         this.coin = newCoin;
     }
     public String getName() {

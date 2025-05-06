@@ -24,4 +24,6 @@ public class BilCityTycoonGame {
     public Leaderboard getLeaderboard(){
         return this.leaderboard;
     }
+
+    public Player getPlayer(){return this.player;}
 }

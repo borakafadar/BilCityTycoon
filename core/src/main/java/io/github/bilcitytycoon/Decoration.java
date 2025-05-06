@@ -9,12 +9,14 @@ public class Decoration{
     private String info;
     private double cost;
     private Image image;
+    private int buildTime;
 
-    public Decoration(String name, double cost,String imagePath,String info){
+    public Decoration(String name, double cost,String imagePath,String info, int buildTime){
         this.name = name;
         this.cost = cost;
         this.image = new Image(new Texture(Gdx.files.internal(imagePath)));
         this.info = info;
+        this.buildTime = buildTime;
     }
     public String getInfo() {
         return this.info;
@@ -28,4 +30,5 @@ public class Decoration{
     public String getName(){
         return this.name;
     }
+    public int getBuildTime(){return this.buildTime;}
 }
