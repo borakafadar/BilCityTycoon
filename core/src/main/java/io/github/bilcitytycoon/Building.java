@@ -2,11 +2,11 @@ package io.github.bilcitytycoon;
 
 public abstract class Building {
     protected String name;
-    protected double buildCost;
+    protected int buildCost;
     protected double bill;
 
 
-    public Building(String name, double cost, double bill){
+    public Building(String name, int cost, double bill){
         this.name = name;
         this.buildCost = cost;
         this.bill = bill;

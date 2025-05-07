@@ -11,7 +11,7 @@ public class Decoration{
     private Image image;
     private int buildTime;
 
-    public Decoration(String name, double cost,String imagePath,String info, int buildTime){
+    public Decoration(String name, int cost,String imagePath,String info, int buildTime){
         this.name = name;
         this.cost = cost;
         this.image = new Image(new Texture(Gdx.files.internal(imagePath)));
