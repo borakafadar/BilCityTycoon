@@ -68,7 +68,7 @@ public class DecorationsStoreScreen implements Screen {
         Table buttonTable = new Table();
         //buttonTable.setFillParent(true);
 
-        Decoration test = new Decoration("test",100,"libgdx.png","test");
+        Decoration test = new Decoration("test",100,"libgdx.png","test",0);
         Button testButton = createDecorationButton(test);
         buttonTable.add(createDecorationButton(test)).width(1700).height(200).pad(10);
         buttonTable.row();

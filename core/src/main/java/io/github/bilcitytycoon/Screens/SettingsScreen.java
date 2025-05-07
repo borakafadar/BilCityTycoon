@@ -42,22 +42,7 @@ public class SettingsScreen implements Screen {
 
 
         //temp
-        skin = WelcomeScreen.skin;
-
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
-        FreeTypeFontParameter fontParameter = generateFontParameter(36,1);
-
-
-        BitmapFont font = fontGenerator.generateFont(fontParameter);
-
-
-        skin.add("PressStart2P", font);
-        skin.addRegions(new TextureAtlas(Gdx.files.internal("skin1.atlas")));
-        fontGenerator.dispose();
-
-
-        skin.load(Gdx.files.internal("skin1.json"));
-
+        skin = createSkin();
 
         Table mainTable = new Table();
         mainTable.setFillParent(true);
@@ -146,6 +131,34 @@ public class SettingsScreen implements Screen {
         stage.dispose();
         skin.dispose();
     }
+
+    public Skin createSkin(){
+        FreeTypeFontGenerator bigFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(72,1);
+        FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(16,1);
+        FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(13,0);
+        FreeTypeFontGenerator.FreeTypeFontParameter defaultFontParameter = generateFontParameter(36,1);
+
+
+
+        BitmapFont bigFont = bigFontGenerator.generateFont(bigFontParameter);
+        BitmapFont smallFont = bigFontGenerator.generateFont(smallFontParameter);
+        BitmapFont smallestFont = bigFontGenerator.generateFont(smallestFontParameter);
+        BitmapFont defaultFont = bigFontGenerator.generateFont(defaultFontParameter);
+
+        Skin skin1 = new Skin();
+        skin1.add("PressStart2P", defaultFont);
+        skin1.add("PressStart2P-small", smallFont);
+        skin1.add("PressStart2P-smallest", smallestFont);
+        skin1.add("PressStart2P-big", bigFont);
+
+        skin1.addRegions(new TextureAtlas(Gdx.files.internal("skin1.atlas")));
+
+        skin1.load(Gdx.files.internal("skin1.json"));
+
+        return skin1;
+    }
+
 
     private FreeTypeFontParameter generateFontParameter(int size,int borderWidth){
         FreeTypeFontParameter fontParameter = new FreeTypeFontParameter();

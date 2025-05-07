@@ -83,7 +83,7 @@ public class WelcomeScreen implements Screen {
         newGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new FacultiesStoreScreen(null,game,null)); //temp
+                game.setScreen(new NewGameScreen(game));
             }
         });
 
@@ -91,7 +91,7 @@ public class WelcomeScreen implements Screen {
         loadGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("clicked");
+                game.setScreen(new LoadGameScreen(game,new WelcomeScreen(game)));
             }
         });
         settingsButton = new TextButton("Settings", skin);
@@ -107,7 +107,7 @@ public class WelcomeScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //dialog box
-                Dialog dialog = new Dialog("Quit?", skin){
+                Dialog dialog = new Dialog("Quit?", skin,"dialogStyle"){
                     //to quit when clicking yes
                     @Override
                     protected void result(Object object) {
@@ -122,9 +122,11 @@ public class WelcomeScreen implements Screen {
                 Label.LabelStyle dialogLabelStyle = new Label.LabelStyle();
                 dialogLabelStyle.font = bigFont;
 
-                dialogLabelStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textTooltipBackground.png")))); //todo: temp background
+
+                //dialogLabelStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textTooltipBackground.png")))); //todo: temp background
                 dialog.text("Are you sure you\n want to quit?", dialogLabelStyle);
                 dialog.show(stage);
+
             }
         });
 
@@ -209,6 +211,8 @@ public class WelcomeScreen implements Screen {
         stage.dispose();
         skin.dispose();
     }
+
+
 
 
     private FreeTypeFontGenerator.FreeTypeFontParameter generateFontParameter(int size, int borderWidth){

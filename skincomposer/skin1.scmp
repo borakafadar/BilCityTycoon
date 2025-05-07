@@ -1112,6 +1112,16 @@ jsonData: {
 			}
 			name: Blueish
 		}
+		{
+			class: com.ray3k.skincomposer.data.ColorData
+			color: {
+				r: 0.7764706
+				g: 0.6431373
+				b: 0.6431373
+				a: 1
+			}
+			name: grey
+		}
 	]
 	fonts: []
 	freeTypeFonts: [
@@ -2043,13 +2053,13 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: background
 						optional: true
-						value: null
+						value: dialogBackground
 					}
 					titleFont: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: titleFont
 						optional: false
-						value: null
+						value: PressStart2P
 					}
 					titleFontColor: {
 						type: com.badlogic.gdx.graphics.Color
@@ -2076,13 +2086,13 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: background
 						optional: true
-						value: dialogBackground
+						value: textTooltipBackground
 					}
 					titleFont: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: titleFont
 						optional: false
-						value: null
+						value: PressStart2P
 					}
 					titleFontColor: {
 						type: com.badlogic.gdx.graphics.Color
@@ -2245,7 +2255,7 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: background
 						optional: true
-						value: null
+						value: playerButtonUp
 					}
 					focusedBackground: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
@@ -2269,19 +2279,19 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: selection
 						optional: true
-						value: null
+						value: Button 1 Disabled
 					}
 					messageFont: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: messageFont
 						optional: true
-						value: null
+						value: PressStart2P
 					}
 					messageFontColor: {
 						type: com.badlogic.gdx.graphics.Color
 						name: messageFontColor
 						optional: true
-						value: null
+						value: grey
 					}
 				}
 				deletable: false

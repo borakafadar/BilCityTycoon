@@ -11,6 +11,12 @@
 		"g": 0.8,
 		"b": 0.9607843,
 		"a": 1
+	},
+	"grey": {
+		"r": 0.7764706,
+		"g": 0.6431373,
+		"b": 0.6431373,
+		"a": 1
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
@@ -271,13 +277,27 @@
 "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
 	"default": {
 		"font": "PressStart2P",
-		"fontColor": "Black"
+		"fontColor": "Black",
+		"background": "playerButtonUp",
+		"selection": "Button 1 Disabled",
+		"messageFont": "PressStart2P",
+		"messageFontColor": "grey"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {
 	"default": {
 		"label": "default",
 		"background": "textTooltipBackground"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
+	"default": {
+		"background": "dialogBackground",
+		"titleFont": "PressStart2P"
+	},
+	"dialogStyle": {
+		"background": "textTooltipBackground",
+		"titleFont": "PressStart2P"
 	}
 }
 }
