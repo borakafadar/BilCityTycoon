@@ -3,13 +3,12 @@ package io.github.bilcitytycoon;
 import java.awt.font.TextHitInfo;
 import java.util.ArrayList;
 
-public class Player implements Comparable<Player> {
+public class Player extends University {
     private int coin;
     private String name;
     private int universityReputationPoint;
     private int studentSatisfactionRate;
     private ArrayList<Building> buildings;
-    private int leaderboardRanking;
     private Leaderboard leaderboard;
 
     public Player(String name, int universityReputationPoint, int studentSatisfactionRate, Leaderboard leaderboard)
@@ -52,9 +51,12 @@ public class Player implements Comparable<Player> {
         this.buildings.add(building);
     }
 
-    @Override
-    public int compareTo(Player p) {
-        //TODO: comparable method to use for leaderboard ranking
-        return 1;
-    }
+
+     public int getReputationPoints() {
+         return this.universityReputationPoint;
+     }
+
+    public int getSatisfactionRate() {
+         return this.studentSatisfactionRate;
+     }
 }

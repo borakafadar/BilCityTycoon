@@ -2,6 +2,7 @@ package io.github.bilcitytycoon.Save;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import io.github.bilcitytycoon.Player;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -12,6 +13,8 @@ import java.time.format.DateTimeFormatter;
 public class SaveManager {
     static String localSavesRoot = Gdx.files.local("saves").path();
     static Connection connection;
+    static Player player;
+
 
         public static Connection connect(String filename) {
             String url = "jdbc:sqlite:"+ localSavesRoot +"/"+ filename;
@@ -22,10 +25,12 @@ public class SaveManager {
                 System.out.println("Connection failed: " + e.getMessage());
                 return null;
             }
+
         }
 
         public static String generateSaveFileName(){
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH-mm-ss");
+
             return "zeynel-yıldırım_"+dateTimeFormatter.format(java.time.LocalDateTime.now())+".db";
             //TODO: get university name
         }

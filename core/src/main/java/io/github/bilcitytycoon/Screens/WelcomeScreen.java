@@ -1,4 +1,4 @@
-package io.github.bilcitytycoon;
+package io.github.bilcitytycoon.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -17,66 +17,73 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import io.github.bilcitytycoon.Main;
+import io.github.bilcitytycoon.Screens.Store.FacultiesStoreScreen;
+import io.github.bilcitytycoon.Screens.Store.StoreScreen;
 
 public class WelcomeScreen implements Screen {
     private ScreenViewport screenViewport;
     private Main main;
     private Stage stage;
-    private Skin skin;
+    public static Skin skin;
 
     private TextButton newGameButton;
     private TextButton loadGameButton;
     private TextButton settingsButton;
     private TextButton quitButton;
 
+    private SettingsScreen settingsScreen;
+    private WelcomeScreen thisWelcomeScreen;
+
     public WelcomeScreen(Main game){
 
         //TODO: make this into a method so that it can be more readable
         this.main = game;
-
+        thisWelcomeScreen = this;
 
         screenViewport = new ScreenViewport();
 
         stage = new Stage(screenViewport);
 
+
+
+        FreeTypeFontGenerator bigFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(36,1);
+
+        FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(16,1);
+
+        FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(13,0);
+
+
+
+        //TODO: please clean this code up, it works but it is really garbage
+
+        BitmapFont bigFont = bigFontGenerator.generateFont(bigFontParameter);
+        BitmapFont smallFont = bigFontGenerator.generateFont(smallFontParameter);
+        BitmapFont smallestFont = bigFontGenerator.generateFont(smallestFontParameter);
+
         skin = new Skin();
+        skin.add("PressStart2P", bigFont);
+        skin.add("PressStart2P-small", smallFont);
+        skin.add("PressStart2P-smallest", smallestFont);
+        skin.add("PressStart2P-big", bigFont);
 
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        fontParameter.size = 36;
-        fontParameter.borderWidth = 2;
-        fontParameter.borderColor = Color.BLACK;
-        fontParameter.color = Color.BLACK;
-        fontParameter.spaceX = 2;
-        fontParameter.spaceY = 5;
-        fontParameter.minFilter = Texture.TextureFilter.Nearest;
-        fontParameter.magFilter = Texture.TextureFilter.Nearest;
-        fontParameter.shadowOffsetX = 0;
-        fontParameter.shadowOffsetY = 0;
-        fontParameter.shadowColor = Color.BLACK;
-        fontParameter.borderStraight = false;
-        fontParameter.borderColor = Color.WHITE;
-        fontParameter.gamma = 20f;
-
-
-        BitmapFont font = fontGenerator.generateFont(fontParameter);
-
-
-        skin.add("PressStart2P", font);
         skin.addRegions(new TextureAtlas(Gdx.files.internal("skin1.atlas")));
-        fontGenerator.dispose();
+
 
 
         skin.load(Gdx.files.internal("skin1.json"));
 
+        settingsScreen = new SettingsScreen(thisWelcomeScreen,main);
+
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = font;
+        labelStyle.font = bigFont;
 
         newGameButton = new TextButton("New Game", skin);
         newGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("clicked"); // Switch to the main screen
+                game.setScreen(new NewGameScreen(game));
             }
         });
 
@@ -84,14 +91,15 @@ public class WelcomeScreen implements Screen {
         loadGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("clicked");
+                game.setScreen(new LoadGameScreen(game,new WelcomeScreen(game)));
             }
         });
         settingsButton = new TextButton("Settings", skin);
         settingsButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("clicked");
+
+                game.setScreen(settingsScreen);
             }
         });
         quitButton = new TextButton("Quit", skin,"exit-game-button");
@@ -99,7 +107,7 @@ public class WelcomeScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //dialog box
-                Dialog dialog = new Dialog("Quit?", skin){
+                Dialog dialog = new Dialog("Quit?", skin,"dialogStyle"){
                     //to quit when clicking yes
                     @Override
                     protected void result(Object object) {
@@ -112,9 +120,10 @@ public class WelcomeScreen implements Screen {
                 dialog.button("Yes", true);
                 dialog.button("No", false);
                 Label.LabelStyle dialogLabelStyle = new Label.LabelStyle();
-                dialogLabelStyle.font = font;
+                dialogLabelStyle.font = bigFont;
 
-                dialogLabelStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textTooltipBackground.png")))); //todo: temp background
+
+                //dialogLabelStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textTooltipBackground.png")))); //todo: temp background
                 dialog.text("Are you sure you\n want to quit?", dialogLabelStyle);
                 dialog.show(stage);
 
@@ -201,5 +210,28 @@ public class WelcomeScreen implements Screen {
     public void dispose(){
         stage.dispose();
         skin.dispose();
+    }
+
+
+
+
+    private FreeTypeFontGenerator.FreeTypeFontParameter generateFontParameter(int size, int borderWidth){
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter.size = size;
+        fontParameter.borderWidth = borderWidth;
+        fontParameter.borderColor = Color.BLACK;
+        fontParameter.color = Color.BLACK;
+        fontParameter.spaceX = 2;
+        fontParameter.spaceY = 5;
+        fontParameter.minFilter = Texture.TextureFilter.Nearest;
+        fontParameter.magFilter = Texture.TextureFilter.Nearest;
+        fontParameter.shadowOffsetX = 0;
+        fontParameter.shadowOffsetY = 0;
+        fontParameter.shadowColor = Color.BLACK;
+        fontParameter.borderStraight = false;
+        fontParameter.borderColor = Color.WHITE;
+        fontParameter.gamma = 20f;
+
+        return fontParameter;
     }
 }

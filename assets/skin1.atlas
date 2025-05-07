@@ -1,166 +1,306 @@
 
 skin1.png
-size: 1024, 1024
+size: 2048, 2048
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
+Decorations
+  rotate: false
+  xy: 406, 1164
+  size: 403, 229
+  orig: 403, 229
+  offset: 0, 0
+  index: -1
+Faculties (2)
+  rotate: false
+  xy: 1, 1524
+  size: 403, 229
+  orig: 403, 229
+  offset: 0, 0
+  index: -1
+Other Buildings
+  rotate: false
+  xy: 991, 1731
+  size: 403, 229
+  orig: 403, 229
+  offset: 0, 0
+  index: -1
+Upgrades (1)
+  rotate: false
+  xy: 1, 831
+  size: 403, 229
+  orig: 403, 229
+  offset: 0, 0
+  index: -1
+backIcon
+  rotate: false
+  xy: 406, 762
+  size: 400, 400
+  orig: 400, 400
+  offset: 0, 0
+  index: -1
+closeIcon
+  rotate: false
+  xy: 406, 1715
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+decorationsDown
+  rotate: false
+  xy: 406, 1395
+  size: 403, 229
+  orig: 403, 229
+  offset: 0, 0
+  index: -1
+decorationsHover
+  rotate: false
+  xy: 496, 1626
+  size: 403, 229
+  orig: 403, 229
+  offset: 0, 0
+  index: -1
+facultyDown
+  rotate: false
+  xy: 1, 1062
+  size: 403, 229
+  orig: 403, 229
+  offset: 0, 0
+  index: -1
+facultyhover
+  rotate: false
+  xy: 1, 1293
+  size: 403, 229
+  orig: 403, 229
+  offset: 0, 0
+  index: -1
+otherBuildingsDown
+  rotate: false
+  xy: 1, 138
+  size: 403, 229
+  orig: 403, 229
+  offset: 0, 0
+  index: -1
+otherBuildingsHover
+  rotate: false
+  xy: 1470, 1805
+  size: 403, 229
+  orig: 403, 229
+  offset: 0, 0
+  index: -1
+statusBarButtonDown
+  rotate: false
+  xy: 1168, 1574
+  size: 175, 66
+  orig: 175, 66
+  offset: 0, 0
+  index: -1
+statusBarButtonHover
+  rotate: false
+  xy: 1, 1
+  size: 175, 66
+  orig: 175, 66
+  offset: 0, 0
+  index: -1
+statusBarButtonUp
+  rotate: false
+  xy: 178, 1
+  size: 175, 66
+  orig: 175, 66
+  offset: 0, 0
+  index: -1
+storeButtonDown
+  rotate: false
+  xy: 991, 1962
+  size: 477, 72
+  orig: 477, 72
+  offset: 0, 0
+  index: -1
+storeButtonHover
+  rotate: false
+  xy: 1, 1755
+  size: 480, 75
+  orig: 480, 75
+  offset: 0, 0
+  index: -1
+storeButtonUp
+  rotate: false
+  xy: 496, 1857
+  size: 480, 75
+  orig: 480, 75
+  offset: 0, 0
+  index: -1
+upgradesDown
+  rotate: false
+  xy: 1, 369
+  size: 403, 229
+  orig: 403, 229
+  offset: 0, 0
+  index: -1
+upgradesHover
+  rotate: false
+  xy: 1, 600
+  size: 403, 229
+  orig: 403, 229
+  offset: 0, 0
+  index: -1
 Button 1 Disabled
   rotate: false
-  xy: 1, 358
+  xy: 406, 303
   size: 267, 88
   orig: 267, 88
   offset: 0, 0
   index: -1
 Button 1 Hover
   rotate: false
-  xy: 1, 268
+  xy: 406, 213
   size: 267, 88
   orig: 267, 88
   offset: 0, 0
   index: -1
 Button 1 Main
   rotate: false
-  xy: 1, 178
+  xy: 406, 123
   size: 267, 88
   orig: 267, 88
   offset: 0, 0
   index: -1
 Button 1 Pressed
   rotate: false
-  xy: 1, 448
+  xy: 406, 393
   size: 268, 89
   orig: 268, 89
   offset: 0, 0
   index: -1
 checkboxOff
   rotate: false
-  xy: 385, 541
+  xy: 1875, 1944
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 checkboxOffDisabled
   rotate: false
-  xy: 477, 577
+  xy: 1875, 1852
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 checkboxOffHover
   rotate: false
-  xy: 385, 633
+  xy: 731, 670
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 checkboxOffPressed
   rotate: false
-  xy: 293, 541
+  xy: 698, 578
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 checkboxOn
   rotate: false
-  xy: 293, 633
+  xy: 698, 486
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 checkboxOnDisabled
   rotate: false
-  xy: 477, 669
+  xy: 1345, 1550
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 checkboxOnHover
   rotate: false
-  xy: 326, 725
+  xy: 1875, 1760
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 checkboxOnPressed
   rotate: false
-  xy: 744, 758
+  xy: 790, 578
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 dialogBackground
   rotate: false
-  xy: 1, 539
+  xy: 406, 484
   size: 290, 207
   orig: 290, 207
   offset: 0, 0
   index: -1
 progressBarBackground
   rotate: false
-  xy: 496, 850
+  xy: 1, 69
   size: 323, 67
   orig: 323, 67
   offset: 0, 0
   index: -1
 progressBarKnobBefore
   rotate: false
-  xy: 1, 748
+  xy: 406, 693
   size: 323, 67
   orig: 323, 67
   offset: 0, 0
   index: -1
 scrollPaneHScroll
   rotate: false
-  xy: 496, 761
+  xy: 1168, 1642
   size: 246, 87
   orig: 246, 87
   offset: 0, 0
   index: -1
 scrollPaneScrollKnob
   rotate: false
-  xy: 477, 488
+  xy: 811, 1537
   size: 87, 87
   orig: 87, 87
   offset: 0, 0
   index: -1
 scrollPaneVScroll
   rotate: false
-  xy: 569, 513
+  xy: 811, 1289
   size: 87, 246
   orig: 87, 246
   offset: 0, 0
   index: -1
 sliderBackground
   rotate: false
-  xy: 1, 919
+  xy: 1, 1934
   size: 493, 100
   orig: 493, 100
   offset: 0, 0
   index: -1
 sliderKnob
   rotate: false
-  xy: 658, 631
+  xy: 1396, 1832
   size: 54, 128
   orig: 54, 128
   offset: 0, 0
   index: -1
 sliderKnobAfter
   rotate: false
-  xy: 1, 817
+  xy: 1, 1832
   size: 493, 100
   orig: 493, 100
   offset: 0, 0
   index: -1
 sliderKnobBefore
   rotate: false
-  xy: 496, 919
+  xy: 496, 1934
   size: 493, 100
   orig: 493, 100
   offset: 0, 0
   index: -1
 textTooltipBackground
   rotate: false
-  xy: 1, 1
+  xy: 901, 1554
   size: 265, 175
   orig: 265, 175
   offset: 0, 0

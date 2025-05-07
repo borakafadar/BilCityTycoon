@@ -11,6 +11,12 @@
 		"g": 0.8,
 		"b": 0.9607843,
 		"a": 1
+	},
+	"grey": {
+		"r": 0.7764706,
+		"g": 0.6431373,
+		"b": 0.6431373,
+		"a": 1
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
@@ -58,6 +64,42 @@
 			"b": 0,
 			"a": 1
 		}
+	},
+	"backIconBlack": {
+		"name": "backIcon",
+		"color": {
+			"r": 0,
+			"g": 0,
+			"b": 0,
+			"a": 1
+		}
+	},
+	"playerButtonUp": {
+		"name": "storeButtonUp",
+		"color": {
+			"r": 0.70980394,
+			"g": 0.99607843,
+			"b": 0.81960785,
+			"a": 1
+		}
+	},
+	"playerButtonDown": {
+		"name": "storeButtonDown",
+		"color": {
+			"r": 0.70980394,
+			"g": 0.99607843,
+			"b": 0.81960785,
+			"a": 1
+		}
+	},
+	"playerButtonHover": {
+		"name": "storeButtonHover",
+		"color": {
+			"r": 0.70980394,
+			"g": 0.99607843,
+			"b": 0.81960785,
+			"a": 1
+		}
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
@@ -74,6 +116,26 @@
 		"over": "ExitGameHover",
 		"focused": "ExitGameHover",
 		"disabled": "Button 1 Disabled"
+	},
+	"store-button": {
+		"up": "storeButtonUp",
+		"down": "storeButtonDown",
+		"over": "storeButtonHover",
+		"focused": "storeButtonHover"
+	},
+	"status-bar-button": {
+		"up": "statusBarButtonUp",
+		"down": "statusBarButtonDown",
+		"over": "statusBarButtonHover",
+		"focused": "statusBarButtonHover",
+		"pressedOffsetX": 1,
+		"pressedOffsetY": -1
+	},
+	"player-button": {
+		"up": "playerButtonUp",
+		"down": "playerButtonDown",
+		"over": "playerButtonHover",
+		"focused": "playerButtonHover"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {
@@ -89,8 +151,49 @@
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle": {
-	"default": {
-		"parent": "default"
+	"store-faculties-button": {
+		"imageUp": "Faculties (2)",
+		"imageDown": "facultyDown",
+		"imageOver": "facultyhover",
+		"focused": "facultyhover",
+		"pressedOffsetX": 1,
+		"pressedOffsetY": -1
+	},
+	"store-upgrades-button": {
+		"imageUp": "Upgrades (1)",
+		"imageDown": "upgradesDown",
+		"imageOver": "upgradesHover",
+		"focused": "upgradesHover",
+		"pressedOffsetX": 1,
+		"pressedOffsetY": -1
+	},
+	"store-other-button": {
+		"imageUp": "Other Buildings",
+		"imageDown": "otherBuildingsDown",
+		"imageOver": "otherBuildingsHover",
+		"focused": "otherBuildingsHover",
+		"pressedOffsetX": 1,
+		"pressedOffsetY": -1
+	},
+	"store-decorations-button": {
+		"imageUp": "Decorations",
+		"imageDown": "decorationsDown",
+		"imageOver": "decorationsHover",
+		"focused": "decorationsHover",
+		"pressedOffsetX": 1,
+		"pressedOffsetY": -1
+	},
+	"close-button": {
+		"imageUp": "closeIcon",
+		"imageDown": "closeIcon",
+		"imageOver": "closeIcon",
+		"pressedOffsetX": 1,
+		"pressedOffsetY": -1
+	},
+	"back-button": {
+		"imageUp": "backIconBlack",
+		"pressedOffsetX": 1,
+		"pressedOffsetY": -1
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {
@@ -102,6 +205,18 @@
 "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
 	"default": {
 		"font": "PressStart2P",
+		"fontColor": "Black"
+	},
+	"small-label": {
+		"font": "PressStart2P-small",
+		"fontColor": "Black"
+	},
+	"smallest-label": {
+		"font": "PressStart2P-smallest",
+		"fontColor": "Black"
+	},
+	"title-label": {
+		"font": "PressStart2P-big",
 		"fontColor": "Black"
 	}
 },
@@ -152,7 +267,6 @@
 	},
 	"exit-game-button": {
 		"parent": "default",
-		"font": "PressStart2P",
 		"up": "ExitGameMain",
 		"down": "ExitGamePressed",
 		"over": "ExitGameHover",
@@ -163,7 +277,11 @@
 "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
 	"default": {
 		"font": "PressStart2P",
-		"fontColor": "Black"
+		"fontColor": "Black",
+		"background": "playerButtonUp",
+		"selection": "Button 1 Disabled",
+		"messageFont": "PressStart2P",
+		"messageFontColor": "grey"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {
@@ -174,10 +292,11 @@
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
 	"default": {
+		"background": "dialogBackground",
 		"titleFont": "PressStart2P"
 	},
 	"dialogStyle": {
-		"background": "dialogBackground",
+		"background": "textTooltipBackground",
 		"titleFont": "PressStart2P"
 	}
 }
