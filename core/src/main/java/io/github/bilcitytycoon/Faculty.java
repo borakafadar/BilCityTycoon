@@ -11,8 +11,8 @@ public class Faculty extends Building {
     private String info;
     private int buildTime;
 
-    public Faculty(String name, int cost, double bill, double income,String imagePath,String info, int buildTime) {
-        super(name, cost,bill);
+    public Faculty(String name, int cost, int bill, int income,String imagePath,String info, int buildTime) {
+        super(name, cost, bill);
         this.income = income;
         this.image = new Image(new Texture(Gdx.files.internal(imagePath)));
         this.info = info;

@@ -3,10 +3,10 @@ package io.github.bilcitytycoon;
 public abstract class Building {
     protected String name;
     protected int buildCost;
-    protected double bill;
+    protected int bill;
 
 
-    public Building(String name, int cost, double bill){
+    public Building(String name, int cost, int bill){
         this.name = name;
         this.buildCost = cost;
         this.bill = bill;
@@ -18,7 +18,7 @@ public abstract class Building {
         return this.name;
     }
 
-    public double getCost(){
+    public int getCost(){
         return this.buildCost;
     }
 

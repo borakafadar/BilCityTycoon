@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 public class Decoration{
     private String name;
     private String info;
-    private double cost;
+    private int cost;
     private Image image;
     private int buildTime;
 
@@ -24,7 +24,7 @@ public class Decoration{
     public Image getImage(){
         return this.image;
     }
-    public double getCost(){
+    public int getCost(){
         return this.cost;
     }
     public String getName(){

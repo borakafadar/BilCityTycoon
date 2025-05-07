@@ -5,12 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class OtherBuilding extends Building{
-    private double income;
+    private int income;
     private int buildTime;
     private Image image;
     private String info;
 
-    public OtherBuilding(String name, double cost, double income, double bill, int buildTime, String imagePath, String info) {
+    public OtherBuilding(String name, int cost, int income, int bill, int buildTime, String imagePath, String info) {
         super(name, cost, bill);
         this.income = income;
         this.buildTime = buildTime;
