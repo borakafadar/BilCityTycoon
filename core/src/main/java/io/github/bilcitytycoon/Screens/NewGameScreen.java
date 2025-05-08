@@ -24,6 +24,7 @@ public class NewGameScreen implements Screen {
     private Stage mainStage;
     private Skin skin;
     private Main mainGame;
+    private String playerName;
 
 
     public NewGameScreen(Main mainGame){
@@ -62,8 +63,9 @@ public class NewGameScreen implements Screen {
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //TODO
-                System.out.println("clicked");
+                playerName = playerNameField.getText().trim();
+                System.out.println("Player name: " + playerName); // test için
+                mainGame.setScreen(new GameScreen(mainGame,NewGameScreen.this));
             }
         });
 
@@ -159,5 +161,8 @@ public class NewGameScreen implements Screen {
         fontParameter.gamma = 20f;
 
         return fontParameter;
+    }
+    public String getPlayerName(){
+        return playerName;
     }
 }

@@ -83,8 +83,8 @@ public class StoreScreen implements Screen {
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-//                mainGame.setScreen(gameScreen);
-//                dispose();//does not work now, when the GameScreen is implemented it will work.
+                  mainGame.setScreen(gameScreen);
+                  dispose();
             }
         });
         Table rootTable = new Table();

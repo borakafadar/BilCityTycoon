@@ -68,15 +68,15 @@ public class Leaderboard {
         };
 
         Random rd = new Random();
-        for (String name : universityNames) {
+        /*for (String name : universityNames) {
             // Reputation: 200–5000 (in steps of 10)
             int reputation = (rd.nextInt(481) + 20) * 10;
             // Satisfaction: 20–100%
             int satisfaction = rd.nextInt(81) + 20;
             allUniversities.add(
-                new OtherUniversity(name, reputation, satisfaction, this)
+                //new OtherUniversity(name, reputation, satisfaction, this)
             );
-        }
+        }*/
     }
 
     /**
@@ -131,9 +131,9 @@ public class Leaderboard {
      * Attaches two small rank Labels to the given HUD Table (next to BilCoins).
      * Clicking them opens the corresponding full leaderboard pop-up.
      *
-     * @param hudTable the libGDX Table containing your BilCoins display
+     //* @param hudTable the libGDX Table containing your BilCoins display
      */
-    public void attachToHUD(Table hudTable) {
+    /*public void attachToHUD(Table hudTable) {
         Skin skin = game.getSkin();
         Stage stage = game.getStage();
 
@@ -156,7 +156,7 @@ public class Leaderboard {
             }
         });
         hudTable.add(satLabel).padLeft(5);
-    }
+    }*/
 
    //Builds and displays the reputation leaderboard pop-up.
     private void showReputationPopup(Stage stage, Skin skin) {

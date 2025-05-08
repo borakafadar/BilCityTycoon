@@ -22,26 +22,26 @@ public class Tutorial {
     private final int CHECK_SATISFACTION = 4;
     private final int END_TUTORIAL = 5;
 
-    private final Stage stage;
+    /*private final Stage stage;
     private final Skin skin;
-    private final Map map;
+    private final Map map;*/
 
     private Table popupTable;
     private Image avatarImage;
     private Label messageLabel;
     private Texture[] avatars;
     private TextButton nextButton;
-    
+
     private int currentStep;
 
    /**
      * Creates and starts the tutorial sequence.
      *
-     * @param stage the Scene2D Stage on which to display tutorial UI
-     * @param skin  the UI Skin (json + atlas) for styling widgets
-     * @param map   the game Map, used for highlighting and resuming play
+     //* @param stage the Scene2D Stage on which to display tutorial UI
+     //* @param skin  the UI Skin (json + atlas) for styling widgets
+     //* @param map   the game Map, used for highlighting and resuming play
      */
-
+/*
     public Tutorial(Stage stage, Skin skin, Map map)
     {
         this.stage = stage;
@@ -50,7 +50,7 @@ public class Tutorial {
         loadAvatars();
         buildUi();
         startTutorial();
-    }
+    }*/
 
    //Loads all avatar textures used in the tutorial pop-ups.
     private void loadAvatars()
@@ -65,7 +65,7 @@ public class Tutorial {
     }
 
     //Builds the pop-up Table, avatar Image, message Label, and Next button,then adds them to the stage.
-    private void buildUi()
+    /*private void buildUi()
     {
         popupTable = new Table(skin);
         popupTable.setFillParent(true);
@@ -89,9 +89,9 @@ public class Tutorial {
         popupTable.row().padTop(10);
         popupTable.add(nextButton).colspan(2).center();
         stage.addActor(popupTable);
-    }
+    }*/
     //Initializes the tutorial at the first step.
-    public void startTutorial()
+    /*public void startTutorial()
     {
         currentStep = WELCOME;
         showStep();
@@ -101,16 +101,16 @@ public class Tutorial {
     public void nextStep() {
         currentStep++;
         showStep();
-    }
+    }*/
 
     /**
      * Displays the UI and map/UI highlights for the current step.
      * Clears any previous highlights before applying the new ones.
      */
-    public void showStep()
+   /* public void showStep()
     {
         //Clear previous highlights
-        map.clearHighlights();
+        //map.clearHighlights();
 
         switch(currentStep){
             case WELCOME:
@@ -157,15 +157,15 @@ public class Tutorial {
                 finishTutorial();
                 return;
         }
-    }
+    }*/
 
-     // Removes the tutorial overlay and resumes normal gameplay.    
-    private void finishTutorial() {
+     // Removes the tutorial overlay and resumes normal gameplay.
+    /*private void finishTutorial() {
         popupTable.remove();
         map.clearHighlights();
         // Signal the game that tutorial is over, e.g.:
         map.getGame().resumePlay();
-    }
+    }*/
 
   // Checks whether the tutorial is still active.
     public boolean isActive() {
