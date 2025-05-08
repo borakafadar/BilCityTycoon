@@ -3,12 +3,20 @@ package io.github.bilcitytycoon;
 public abstract class University implements Comparable<University>{
     protected int leaderboardRanking;
     protected String name;
+    //this is the current reputation points
     protected int universityReputationPoint;
     protected int studentSatisfactionRate;
     protected Leaderboard leaderboard;
-
-    public String getRanking(){
-        return Integer.toString(this.leaderboardRanking);
+    //The constructor
+    protected University(String name, int initialRep,int satisfaction, Leaderboard leaderboard) {
+        this.name = name;
+        this.universityReputationPoint = initialRep;
+        this.studentSatisfactionRate = satisfaction;
+        this.leaderboard = leaderboard;
+    }
+    //Getter methods
+    public int getRanking(){
+        return leaderboardRanking;
     }
 
     public String getName(){
@@ -26,10 +34,22 @@ public abstract class University implements Comparable<University>{
     public void setRankings(int rank){
         this.leaderboardRanking = rank;
     }
+   
 
     @Override
-    public int compareTo(University o) {
-        //TODO
-        return 0;
+    public int compareTo(University u) {
+        return Integer.compare(u.universityReputationPoint, this.universityReputationPoint);
+    }
+
+    //used by leaderboard.updateRanking()
+    public void setUniversityReputationPoints(int point) {
+       this.universityReputationPoint = point;
+    }
+
+    //This might be changed
+    @Override
+    public String toString(){
+        return String.format("#%d %s  (Rep=%d, Sat=%d%%)",
+        leaderboardRanking, name, universityReputationPoint, studentSatisfactionRate);
     }
 }
