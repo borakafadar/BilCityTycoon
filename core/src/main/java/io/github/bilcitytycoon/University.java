@@ -4,13 +4,16 @@ public abstract class University implements Comparable<University>{
     protected int leaderboardRanking;
     protected String name;
     //this is the current reputation points
+    protected final int baseReputationPoints; //from facilities, events
     protected int universityReputationPoint;
     protected int studentSatisfactionRate;
-    protected Leaderboard leaderboard;
+    protected final Leaderboard leaderboard;
+    
     //The constructor
-    protected University(String name, int initialRep,int satisfaction, Leaderboard leaderboard) {
+    protected University(String name, int baseRep,int satisfaction, Leaderboard leaderboard) {
         this.name = name;
-        this.universityReputationPoint = initialRep;
+        this.baseReputationPoints = baseRep;
+        this.universityReputationPoint = baseRep;
         this.studentSatisfactionRate = satisfaction;
         this.leaderboard = leaderboard;
     }
@@ -19,6 +22,9 @@ public abstract class University implements Comparable<University>{
         return leaderboardRanking;
     }
 
+    public int getBaseReputation() { 
+        return baseReputationPoints;
+    }
     public String getName(){
         return this.name;
     }
