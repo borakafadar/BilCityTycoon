@@ -12,17 +12,17 @@ public class Upgrade {
     private String info; //Additional information about the upgrade
     private boolean isMade; //A flag to check whether the upgrade is made
     private Image image; //Visual representation of the upgrade
-
-    //public String
+    private String upgradeType; //Type of the upgrade (e.g., Ventilation, Energy Efficiency, Capacity)
 
     //Constructor
-    public Upgrade(String name, int cost, int constructionTime, String imagePath, String info, Building building) {
+    public Upgrade(String name, int cost, int constructionTime, String imagePath, String info, Building building, String upgradeType) {
         this.name = name;
         this.upgradeCost = cost;
         this.constructionTime = constructionTime;
         this.info = info;
         this.building = building;
         this.isMade = false; // Initially set to false
+        this.upgradeType = upgradeType;
 
         // Load the image for the upgrade, with validation
         if (imagePath != null && !imagePath.isEmpty() && Gdx.files.internal(imagePath).exists()) {
@@ -31,6 +31,7 @@ public class Upgrade {
             throw new IllegalArgumentException("Invalid image path: " + imagePath);
         }
     }
+
     //Method to apply the upgrade
     public void applyUpgrade() {
         // Apply the upgrade to the building
@@ -81,6 +82,10 @@ public class Upgrade {
 
     public int getConstructionTime() {
         return constructionTime;
+    }
+
+    public String getType() {
+        return upgradeType;
     }
 
     @Override

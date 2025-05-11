@@ -9,12 +9,14 @@ public class OtherBuilding extends Building{
     private int buildTime;
     private Image image;
     private String info;
+    private int dormitoryCapacity;
 
     public OtherBuilding(String name, int cost, int income, int bill, int buildTime, String imagePath, String info) {
         super(name, cost, bill);
         this.income = income;
         this.buildTime = buildTime;
         this.info = info;
+        this.dormitoryCapacity = 0; // Default capacity
 
         // Load the image for the building, with validation
         if (imagePath == null || imagePath.isEmpty()) {
@@ -45,6 +47,14 @@ public class OtherBuilding extends Building{
     }
     public int getBuildTime(){
         return this.buildTime;
+    }
+    
+    public void setDormitoryCapacity(int capacity) {
+        this.dormitoryCapacity = capacity;
+    }
+    
+    public int getDormitoryCapacity() {
+        return this.dormitoryCapacity;
     }
 
     // Override toString for a detailed representation

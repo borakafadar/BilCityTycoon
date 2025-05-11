@@ -13,6 +13,8 @@ public class Player extends University {
 
     public Player(String name, int universityReputationPoint, int studentSatisfactionRate, Leaderboard leaderboard)
     {
+        super(name, universityReputationPoint, studentSatisfactionRate, leaderboard);
+        this.coin = 0;
         this.name = name;
         this.universityReputationPoint = universityReputationPoint;
         this.studentSatisfactionRate = studentSatisfactionRate;

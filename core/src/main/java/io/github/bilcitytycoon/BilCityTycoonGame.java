@@ -39,4 +39,8 @@ public class BilCityTycoonGame {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemenzted method 'getStage'");
     }
+
+    public Player getPlayer() {
+        return player;
+    }
 }

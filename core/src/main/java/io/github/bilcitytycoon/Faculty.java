@@ -56,10 +56,11 @@ public class Faculty extends Building {
                "Info: " + this.info;
 
     }
-     // Override toString for a detailed representation
-     @Override
-     public String toString() {
-         return "Faculty{name='" + name + "', cost=" + buildCost + ", bill=" + bill +
+     
+    // Override toString for a detailed representation
+    @Override
+    public String toString() {
+        return "Faculty{name='" + name + "', cost=" + buildCost + ", bill=" + bill +
                 ", income=" + income + ", buildTime=" + buildTime + "}";
      }
      
