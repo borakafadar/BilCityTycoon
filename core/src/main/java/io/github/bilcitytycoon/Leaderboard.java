@@ -15,7 +15,7 @@ public class Leaderboard {
 
     private static final int SATISFACTION_MULTIPLIER = 70; // THIS CAN BE ALTERED
 
-    // Preset names for AI bots. 
+    // Preset names for AI bots.
     private static final String[] BOT_NAMES = {
         "Kanzi", "Delibas", "Undem", "Simsir", "Kafadar", "Yildirim", "Zeyno", "Zurna",
         "Sekman", "Unalan", "Yildiran", "Simsek", "Uranus", "Titanium", "Kayip Esyalar", "Bridgestone",
@@ -43,7 +43,7 @@ public class Leaderboard {
         updateRanking();
     }
 
-    // generate N AI universities. 
+    // generate N AI universities.
     private void generateBots(int count) {
         ArrayList<String> names = new ArrayList<>(Arrays.asList(BOT_NAMES));
         Collections.shuffle(names, random);
@@ -56,8 +56,8 @@ public class Leaderboard {
     }
 
   /**
-     * 1) Overwrite each uni’s repPoints = satRate × SAT_MULTIPLIER  
-     * 2) Sort in-place by natural order (uni.compareTo → rep descending)  
+     * 1) Overwrite each uni’s repPoints = satRate × SAT_MULTIPLIER
+     * 2) Sort in-place by natural order (uni.compareTo → rep descending)
      * 3) Reassign 1-based ranks
      */
     public void updateRanking() {
@@ -74,7 +74,7 @@ public class Leaderboard {
         }
     }
 
-    // @return a new list sorted by Reputation (highest first). 
+    // @return a new list sorted by Reputation (highest first).
     public ArrayList<University> getByReputation() {
         updateRanking();
         return new ArrayList<>(rankings);
