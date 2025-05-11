@@ -11,6 +11,7 @@ public abstract class Building {
     protected int buildCost;
     protected int bill;
     protected int constructionTime;
+    private Upgrade currentUpgrade;
 
     // Constructor for the Building class
     // Initializes the building's name, cost, and bill.
@@ -20,6 +21,7 @@ public abstract class Building {
         this.name = name;
         this.buildCost = cost;
         this.bill = bill;
+        this.currentUpgrade = null; // Initially set to null
     }
 
     //An abstract method to get the building's information.
@@ -48,4 +50,24 @@ public abstract class Building {
         this.info = info;
     }
 
+    public void setUpgrade(Upgrade upgrade) {
+        this.currentUpgrade = upgrade;
+         if (upgrade != null) {
+            upgrade.applyUpgrade(); // Mark the upgrade as applied
+            applyUpgradeEffects(upgrade); // Apply the effects of the upgrade
+        }
+    }
+
+    public Upgrade getUpgrade() {
+        return currentUpgrade;
+    }
+    
+    // Apply the effects of the upgrade to the building this can be changed
+    private void applyUpgradeEffects(Upgrade upgrade) {
+        if (upgrade != null) {
+            // Example: Reduce maintenance cost or increase capacity there should be more upgrades
+            this.bill -= 50; // Example: Reduce monthly bill by 50 BilCoins
+            this.info += "\nUpgrade Applied: " + upgrade.getName();
+        }
+    }
 }
