@@ -8,7 +8,7 @@ public abstract class University implements Comparable<University>{
     protected int universityReputationPoint;
     protected int studentSatisfactionRate;
     protected final Leaderboard leaderboard;
-    
+
     //The constructor
     protected University(String name, int baseRep,int satisfaction, Leaderboard leaderboard) {
         this.name = name;
@@ -22,7 +22,7 @@ public abstract class University implements Comparable<University>{
         return leaderboardRanking;
     }
 
-    public int getBaseReputation() { 
+    public int getBaseReputation() {
         return baseReputationPoints;
     }
     public String getName(){
@@ -40,7 +40,7 @@ public abstract class University implements Comparable<University>{
     public void setRankings(int rank){
         this.leaderboardRanking = rank;
     }
-   
+
 
     @Override
     public int compareTo(University u) {

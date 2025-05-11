@@ -31,6 +31,9 @@ public class GameScreen implements Screen {
     public static Skin skin;
     private Main game;
     private NewGameScreen newGameScreen;
+    private SettingsScreen settingsScreen;
+    private LoadGameScreen loadGameScreen;
+    private BilCityTycoonGame bilCityTycoonGame;
 
     private TextButton newGameButton;
     private TextButton loadGameButton;
@@ -38,8 +41,13 @@ public class GameScreen implements Screen {
     private TextButton quitButton;
 
     public GameScreen(Main game,NewGameScreen newGameScreen) {
-        BilCityTycoonGame bilCityTycoonGame = new BilCityTycoonGame();
+
+        bilCityTycoonGame = new BilCityTycoonGame();
+
         this.newGameScreen = newGameScreen;
+        this.settingsScreen = new SettingsScreen(GameScreen.this, game);
+        this.loadGameScreen = new LoadGameScreen(game, GameScreen.this);
+
         this.skin = WelcomeScreen.skin;
         this.game=game;
         screenViewport = new com.badlogic.gdx.utils.viewport.StretchViewport(1280, 720);
@@ -87,9 +95,86 @@ public class GameScreen implements Screen {
 
         //making of hamburger button
 
-        TextButton hmbrgrBtn = new TextButton("-\n-\n-",skin);
-        hmbrgrBtn.getLabel().setFontScale(0.3f);
+        Texture hmbrgrtexture = new Texture(Gdx.files.internal("icons/hamburgerIcon.png"));
+        Drawable hmbrgrdrawable = new TextureRegionDrawable(new TextureRegion(hmbrgrtexture));
+        Table hmbrgrPanel = new Table();
+        hmbrgrPanel.setBackground(new TextureRegionDrawable(new Texture(Gdx.files.internal("panelBackground.png"))));
+        hmbrgrPanel.setVisible(false);
+
+        hmbrgrPanel.setSize(400, 500);
+        hmbrgrPanel.setPosition(10, 215);
+
+        ImageButton backButton = new ImageButton(skin, "back-button");
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                hmbrgrPanel.setVisible(false);
+            }
+        });
+        TextButton settingsBtn = new TextButton("Settings", skin);
+        settingsBtn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(settingsScreen);
+            }
+        });
+        TextButton saveBtn = new TextButton("Save Game", skin);
+        saveBtn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //Save game with this button
+            }
+        });
+        TextButton loadBtn = new TextButton("Load Game", skin);
+        loadBtn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(loadGameScreen);
+            }
+        });
+        TextButton exitBtn = new TextButton("Exit Game", skin);
+        exitBtn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //dialog box
+                Dialog dialog = new Dialog("Quit?", skin,"dialogStyle"){
+                    //to quit when clicking yes
+                    @Override
+                    protected void result(Object object) {
+                        if((boolean)object){
+                            Gdx.app.exit();
+                        }
+                    }
+                };
+
+                dialog.button("Yes", true);
+                dialog.button("No", false);
+                Label.LabelStyle dialogLabelStyle = new Label.LabelStyle();
+                dialogLabelStyle.font = bigFont;
+                dialog.text("Are you sure you\n want to quit?", dialogLabelStyle);
+                dialog.show(stage);
+            }
+        });
+
+        hmbrgrPanel.defaults().pad(5).width(360).height(80);
+        hmbrgrPanel.align(Align.left);
+        hmbrgrPanel.add(backButton).padLeft(10).width(60).height(60).left().row();
+
+        hmbrgrPanel.add(settingsBtn).row();
+        hmbrgrPanel.add(saveBtn).row();
+        hmbrgrPanel.add(loadBtn).row();
+        hmbrgrPanel.add(exitBtn).row();
+
+        ImageButton hmbrgrBtn = new ImageButton(hmbrgrdrawable);
+        hmbrgrBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                hmbrgrPanel.setVisible(!hmbrgrPanel.isVisible());
+            }
+        });
+        stage.addActor(hmbrgrPanel);
         topTable.add(hmbrgrBtn).pad(3).expandX().fillX().height(50).width(100).left();
+
 
         //making of store button
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
@@ -133,10 +218,17 @@ public class GameScreen implements Screen {
 
         //making of show of student satisfaction rate
 
-        TextButton ssrButon = new TextButton("Student\nSatisfaction Rate %80", skin);
-        ssrButon.setDisabled(false);
-        ssrButon.getLabel().setFontScale(0.3f);
-        topTable.add(ssrButon).pad(3).expandX().fillX().height(50).width(300).center().right();
+        Drawable backgroundDrawable = skin.getDrawable("statusBarButtonUp");
+
+
+        Table ssrTable = new Table();
+        ssrTable.setBackground(backgroundDrawable);
+
+        Label ssrLabel = new Label("Student\nSatisfaction Rate %80", skin, "labelStyle");
+        ssrLabel.setFontScale(0.65f);
+        ssrTable.add(ssrLabel);
+        topTable.add(ssrTable).pad(3).expandX().fillX().height(50).width(300).center().right();
+
 
 
         //making of button of ranking universities
@@ -171,10 +263,9 @@ public class GameScreen implements Screen {
         coinStyle.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("icons/bilCoin.png")));
 
         ImageTextButton coinBtn = new ImageTextButton("9836\nBilcoins", coinStyle);
-        storeBtn.addListener(new ClickListener(){
+        coinBtn.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new StoreScreen(bilCityTycoonGame,game,GameScreen.this));
             }
         });
         coinBtn.getLabel().setFontScale(0.7f);
@@ -186,25 +277,29 @@ public class GameScreen implements Screen {
         //making of show of date
         Table bottomTable = new Table();
         bottomTable.setBackground(new TextureRegionDrawable(new TextureRegion(otherBack)));
+        bottomTable.align(Align.left);
 
         Table datetable = new Table();
+        datetable.setBackground(backgroundDrawable);
         Image dateIcon = new Image(new Texture(Gdx.files.internal("icons/semesterIcon.png")));
         Label dateLabel = new Label("   Fall\n 2024/2025", skin, "labelStyle");
         dateLabel.setFontScale(0.8f);
         datetable.add(dateIcon).size(50, 50).padRight(10);
         datetable.add(dateLabel);
-        bottomTable.add(datetable).pad(3).width(200).height(50);
+        bottomTable.add(datetable).pad(3).width(200).height(50).left();
 
         //making of show of day
 
         Table dayTable = new Table();
         dayTable.align(Align.left);
+        dayTable.setBackground(backgroundDrawable); // bu satırı ekle
+
         Image dayIcon = new Image(new Texture(Gdx.files.internal("icons/sunIcon.png")));
         Label dayLabel = new Label("Day 33", skin, "labelStyle");
         dayLabel.setFontScale(0.8f);
         dayTable.add(dayIcon).size(40, 40).padRight(10);
         dayTable.add(dayLabel);
-        bottomTable.add(dayTable).pad(3).expandX().fillX().height(50).left();
+        bottomTable.add(dayTable).pad(3).height(50).left();
 
         //making of a button for speeding up time
 
@@ -223,14 +318,13 @@ public class GameScreen implements Screen {
             }
         });
         timerBtn.getImageCell().height(35).width(35).padRight(10);
-        bottomTable.add(timerBtn).height(50).width(180);
+        bottomTable.add(timerBtn).height(50).width(180).expandX().right();
 
 
         Table midTable = new Table();
         midTable.add(background).expand().fill();
 
-
-
+        //merging all items
         rootTable.add(topTable).height(75).expandX().fillX();
         rootTable.row();
         rootTable.add(midTable).expand().fill();
@@ -265,6 +359,7 @@ public class GameScreen implements Screen {
     public void dispose() {
         stage.dispose();
         skin.dispose();
+
     }
     private FreeTypeFontGenerator.FreeTypeFontParameter generateFontParameter(int size, int borderWidth){
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();

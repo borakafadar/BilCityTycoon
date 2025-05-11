@@ -7,9 +7,9 @@ public class OtherUniversity extends University {
     private int leaderboardRanking;
 
     public OtherUniversity(String name, int universityReputationPoint, int studentSatisfactionRate, Leaderboard leaderboard){
+        super(name, universityReputationPoint, studentSatisfactionRate, leaderboard);
         this.name = name;
         this.universityReputationPoint = universityReputationPoint;
         this.studentSatisfactionRate = studentSatisfactionRate;
-        this.leaderboard = leaderboard;
     }
 }

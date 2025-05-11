@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import io.github.bilcitytycoon.Leaderboard;
 import io.github.bilcitytycoon.Main;
 import io.github.bilcitytycoon.Screens.Store.FacultiesStoreScreen;
 import io.github.bilcitytycoon.Screens.Store.StoreScreen;
@@ -32,8 +33,10 @@ public class WelcomeScreen implements Screen {
     private TextButton settingsButton;
     private TextButton quitButton;
 
+
     private SettingsScreen settingsScreen;
     private WelcomeScreen thisWelcomeScreen;
+    private LeaderboardScreen leaderboardScreen;
 
     public WelcomeScreen(Main game){
 
@@ -83,7 +86,7 @@ public class WelcomeScreen implements Screen {
         newGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new NewGameScreen(game));
+                game.setScreen(new NewGameScreen(game,WelcomeScreen.this));
             }
         });
 
@@ -233,5 +236,8 @@ public class WelcomeScreen implements Screen {
         fontParameter.gamma = 20f;
 
         return fontParameter;
+    }
+    SettingsScreen getSettingsScreen(){
+        return settingsScreen;
     }
 }

@@ -102,6 +102,13 @@ public class FacultiesStoreScreen implements Screen {
 
 
         Button testButton = createFacultyButton(test1);
+
+        testButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
         buttonTable.add(testButton).width(1700).height(200).pad(10);
         buttonTable.row();
 
