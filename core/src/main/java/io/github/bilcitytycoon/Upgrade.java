@@ -36,10 +36,10 @@ public class Upgrade {
         // Apply the upgrade to the building
         //May be a building capaciy increase or maintainance cost decrease
         if (!isMade) {
-            
-            building.setUpgrade(this);
             isMade = true; 
-        } else {
+            System.out.println("Upgrade applied: " + name);
+        } 
+        else {
             System.out.println("Upgrade already applied.");
         }
     }
