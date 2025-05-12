@@ -4,10 +4,15 @@ import java.util.ArrayList;
 
 //TODO: implement bot class for other universities
 public class OtherUniversity extends University {
-    private int leaderboardRanking;
+    public int leaderboardRanking;
 
-    public OtherUniversity(String name, int universityReputationPoint, int studentSatisfactionRate, Leaderboard leaderboard){
-        super(name, universityReputationPoint, studentSatisfactionRate, leaderboard);
-        this.leaderboardRanking = 0; // Default ranking
+    public OtherUniversity(String name, int universityReputationPoint, int studentSatisfactionRate){
+        super(name, universityReputationPoint, studentSatisfactionRate);
+        this.name = name;
+        this.universityReputationPoint = universityReputationPoint;
+        this.studentSatisfactionRate = studentSatisfactionRate;
+    }
+    public OtherUniversity(){
+        super("other university",0,0);
     }
 }

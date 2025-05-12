@@ -3,50 +3,50 @@ package io.github.bilcitytycoon;
 import java.util.ArrayList;
 
 public class Store {
-    private BilCityTycoonGame game;
-    private ArrayList<Faculty> unbuiltFaculties;
-    private ArrayList<Faculty> builtFaculties;
-    private ArrayList<Decoration> builtDecorations;
-    private ArrayList<Decoration> unbuiltDecorations;
-    private ArrayList<OtherBuilding> unbuiltOtherBuildings;
-    private ArrayList<OtherBuilding> builtOtherBuildings;
+    public BilCityTycoonGame game;
+    public ArrayList<Faculty> unbuiltFaculties;
+    public ArrayList<Faculty> builtFaculties;
+    public ArrayList<Decoration> builtDecorations;
+    public ArrayList<Decoration> unbuiltDecorations;
+    public ArrayList<OtherBuilding> unbuiltOtherBuildings;
+    public ArrayList<OtherBuilding> builtOtherBuildings;
 
-    private Faculty computerScienceFaculty;
-    private Faculty eeeBuilding;
-    private Faculty biologyBuilding;
-    private Faculty psychologyBuilding;
-    private Faculty lawFaculty;
-    private Faculty managementFaculty;
-    private Faculty economicsBuilding;
-    private Faculty physicsBuilding;
-    private Faculty industrialEngineeringBuilding;
-    private Faculty interiorArchitectureBuilding;
-    private Faculty mechanicalEngineeringBuilding;
-    private Faculty graphicDesignBuilding;
-    private Faculty chemistryBuilding;
-    private Faculty urbanDesignAndLandscapeBuilding;
-    private Faculty politicalScienceBuilding;
-    private Faculty amphitheatreBuilding;
-    private Faculty mathematicsBuilding;
-    private Faculty communicationAndDesignBuilding;
-    private Faculty architectureBuilding;
+    public Faculty computerScienceFaculty;
+    public Faculty eeeBuilding;
+    public Faculty biologyBuilding;
+    public Faculty psychologyBuilding;
+    public Faculty lawFaculty;
+    public Faculty managementFaculty;
+    public Faculty economicsBuilding;
+    public Faculty physicsBuilding;
+    public Faculty industrialEngineeringBuilding;
+    public Faculty interiorArchitectureBuilding;
+    public Faculty mechanicalEngineeringBuilding;
+    public Faculty graphicDesignBuilding;
+    public Faculty chemistryBuilding;
+    public Faculty urbanDesignAndLandscapeBuilding;
+    public Faculty politicalScienceBuilding;
+    public Faculty amphitheatreBuilding;
+    public Faculty mathematicsBuilding;
+    public Faculty communicationAndDesignBuilding;
+    public Faculty architectureBuilding;
 
-    private OtherBuilding undemCafe;
-    private OtherBuilding library;
-    private OtherBuilding sportsHall;
-    private OtherBuilding researchLab;
-    private OtherBuilding healthCenter;
-    private OtherBuilding stadium;
-    private OtherBuilding commonDormitory;
-    private OtherBuilding middlingDormitory;
-    private OtherBuilding cafeteria;
-    private OtherBuilding luxuryDormitory;
-    private OtherBuilding crazyBuddyCafe;
-    private OtherBuilding carPark;
+    public OtherBuilding undemCafe;
+    public OtherBuilding library;
+    public OtherBuilding sportsHall;
+    public OtherBuilding researchLab;
+    public OtherBuilding healthCenter;
+    public OtherBuilding stadium;
+    public OtherBuilding commonDormitory;
+    public OtherBuilding middlingDormitory;
+    public OtherBuilding cafeteria;
+    public OtherBuilding luxuryDormitory;
+    public OtherBuilding crazyBuddyCafe;
+    public OtherBuilding carPark;
 
-    private Decoration ornamentalPool;
-    private Decoration treesBushes;
-    private Decoration scienceFacultyPool;
+    public Decoration ornamentalPool;
+    public Decoration treesBushes;
+    public Decoration scienceFacultyPool;
 
     public Store(){
         unbuiltFaculties = new ArrayList<Faculty>();
@@ -118,7 +118,7 @@ public class Store {
     }
 
     public void initializeOtherBuildings(){
-        undemCafe = new OtherBuilding("Ündem Cafe", 100, 20, 30, 3, "sprites/Undem Cafe.png", "A cozy cafe where students can relax and recharge with a cup of coffee.");
+        //undemCafe = new OtherBuilding("Ündem Cafe", 100, 20, 30, 3, "sprites/Undem Cafe.png", "A cozy cafe where students can relax and recharge with a cup of coffee.");
         library = new OtherBuilding("Library", 200, 200,170, 10, "sprites/Library.png", "A quiet place filled with tons of books and researches to enlighten the minds of the students.");
         sportsHall = new OtherBuilding("Sports Hall", 120, 90,100, 8, "sprites/Sports Hall.png", "A place where students can engage in various sports and activities.");
         researchLab = new OtherBuilding("Research Lab", 140, 100, 120, 9, "sprites/Research Lab.png", "A facility equipped for scientific research and experiments.");
@@ -131,7 +131,7 @@ public class Store {
         crazyBuddyCafe = new OtherBuilding("CrazyBuddy Cafe", 120, 60, 70, 4, "sprites/CrazyBuddy Cafe.png", "A trendy cafe where students can socialize and enjoy delicious treats.");
         carPark = new OtherBuilding("Car Park", 50, 0, 0, 2, "sprites/Car Park.png", "A parking facility for students and staff to park their vehicles.");
 
-        unbuiltOtherBuildings.add(undemCafe);
+        //unbuiltOtherBuildings.add(undemCafe);
         unbuiltOtherBuildings.add(library);
         unbuiltOtherBuildings.add(sportsHall);
         unbuiltOtherBuildings.add(researchLab);

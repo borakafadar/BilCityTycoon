@@ -12,6 +12,8 @@ public class Main extends Game {
 
    @Override
    public void create() {
+       //setScreen(new StoreScreen(null,this,null));
+       //setScreen(new StoreScreen(null,this,null));
        setScreen(new WelcomeScreen(this));
    }
 
@@ -24,5 +26,4 @@ public class Main extends Game {
     public void dispose() {
 
     }
-
 }

@@ -1,9 +1,9 @@
 package io.github.bilcitytycoon;
 
 public class MoneyHandler {
-    private int income;
-    private int expense;
-    private int netIncome;
+    public int income;
+    public int expense;
+    public int netIncome;
 
     public MoneyHandler() {
         this.income = 0;

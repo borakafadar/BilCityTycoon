@@ -6,17 +6,19 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class BilCityTycoonGame {
-    private ArrayList<Building> allBuildings;
-    private ArrayList<Player> allUniversities;
-    private Player player;
-    private Map map;
-    private Leaderboard leaderboard;
+    public ArrayList<Building> allBuildings;
+    public ArrayList<Player> allUniversities;
+    public Player player;
+    public Map map;
+    public Leaderboard leaderboard;
+    public Store store;
     public BilCityTycoonGame(){
-        this.player = new Player("Default", 100, 80, leaderboard);
+        this.player = new Player("Default", 100, 80);
         this.allBuildings = new ArrayList<Building>();
         this.map = new Map();
         this.allUniversities=new ArrayList<>();
         this.leaderboard = new Leaderboard(/*this,*/ this.player);
+        this.store = new Store();
     }
 
 

@@ -7,13 +7,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import java.util.Random;
 
 public class Event {
-    private String info;
-    private int cost;
-    private Image avatar;
+    public String info;
+    public int cost;
+    public transient Image avatar;
+    public String imagePath;
 
     public Event(String info, int cost, String imagePath) {
         this.info = info;
         this.cost = cost;
+        this.imagePath = imagePath;
         this.avatar = new Image(new Texture(Gdx.files.internal(imagePath)));
     }
 

@@ -255,13 +255,9 @@
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
 	"default": {
+		"parent": "default",
 		"font": "PressStart2P",
 		"fontColor": "Black",
-		"up": "Button 1 Main",
-		"down": "Button 1 Pressed",
-		"over": "Button 1 Hover",
-		"focused": "Button 1 Hover",
-		"disabled": "Button 1 Disabled",
 		"pressedOffsetX": -1,
 		"pressedOffsetY": 1
 	},
@@ -270,6 +266,12 @@
 		"up": "ExitGameMain",
 		"down": "ExitGamePressed",
 		"over": "ExitGameHover",
+		"pressedOffsetX": -1,
+		"pressedOffsetY": 1
+	},
+	"store-button": {
+		"parent": "store-button",
+		"font": "PressStart2P",
 		"pressedOffsetX": -1,
 		"pressedOffsetY": 1
 	}

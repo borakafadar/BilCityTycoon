@@ -1,21 +1,21 @@
 package io.github.bilcitytycoon;
 
 public abstract class University implements Comparable<University>{
-    protected int leaderboardRanking;
-    protected String name;
+    public int leaderboardRanking;
+    public String name;
     //this is the current reputation points
-    protected final int baseReputationPoints; //from facilities, events
-    protected int universityReputationPoint;
-    protected int studentSatisfactionRate;
-    protected final Leaderboard leaderboard;
+    public final int baseReputationPoints; //from facilities, events
+    public int universityReputationPoint;
+    public int studentSatisfactionRate;
+
 
     //The constructor
-    protected University(String name, int baseRep,int satisfaction, Leaderboard leaderboard) {
+    public University(String name, int baseRep,int satisfaction) {
         this.name = name;
         this.baseReputationPoints = baseRep;
         this.universityReputationPoint = baseRep;
         this.studentSatisfactionRate = satisfaction;
-        this.leaderboard = leaderboard;
+
     }
     //Getter methods
     public int getRanking(){
@@ -34,9 +34,7 @@ public abstract class University implements Comparable<University>{
     public int getStudentSatisfactionRate(){
         return this.studentSatisfactionRate;
     }
-    public Leaderboard getLeaderboard(){
-        return this.leaderboard;
-    }
+
     public void setRankings(int rank){
         this.leaderboardRanking = rank;
     }

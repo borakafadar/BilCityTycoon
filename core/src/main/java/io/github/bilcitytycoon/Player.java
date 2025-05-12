@@ -1,26 +1,27 @@
 package io.github.bilcitytycoon;
 
-import java.awt.font.TextHitInfo;
+
 import java.util.ArrayList;
 
 public class Player extends University {
-    private int coin;
-    private String name;
-    private int universityReputationPoint;
-    private int studentSatisfactionRate;
-    private ArrayList<Building> buildings;
-    private Leaderboard leaderboard;
+    public int coin;
+    public String name;
+    public int universityReputationPoint;
+    public int studentSatisfactionRate;
+    public ArrayList<Building> buildings;
 
-    public Player(String name, int universityReputationPoint, int studentSatisfactionRate, Leaderboard leaderboard)
+    public Player(String name, int universityReputationPoint, int studentSatisfactionRate)
     {
-        super(name, universityReputationPoint, studentSatisfactionRate, leaderboard);
-        this.coin = 0;
+        super(name, universityReputationPoint, studentSatisfactionRate); // <-- bunu ekledik
         this.name = name;
         this.universityReputationPoint = universityReputationPoint;
         this.studentSatisfactionRate = studentSatisfactionRate;
         this.buildings = new ArrayList<>();
-        this.leaderboard = leaderboard;
     }
+    public Player(){
+        super("default",0,0);
+    }
+
 
     public int getCoin() {
         return coin;
@@ -34,10 +35,6 @@ public class Player extends University {
     public int getUniversityReputationPoint()
     {
         return universityReputationPoint;
-    }
-
-    public void addStudenSatisfactionPoint(int stuSatiFaction){
-        this.studentSatisfactionRate += stuSatiFaction;
     }
     public void setUniversityReputationPoint(int newUniversityReputationPoint){
         this.universityReputationPoint = newUniversityReputationPoint;
@@ -58,11 +55,20 @@ public class Player extends University {
     }
 
 
-    public int getReputationPoints() {
-        return this.universityReputationPoint;
+     public int getReputationPoints() {
+         return this.universityReputationPoint;
      }
 
     public int getSatisfactionRate() {
-        return this.studentSatisfactionRate;
+         return this.studentSatisfactionRate;
      }
+
+    public String getSaveFileName(){
+        String[] words = getName().split(" ");
+        StringBuilder saveFileName = new StringBuilder();
+        for (String str : words){
+            saveFileName.append(str.toLowerCase()).append("-");
+        }
+        return saveFileName.toString();
+    }
 }

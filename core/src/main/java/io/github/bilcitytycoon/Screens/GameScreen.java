@@ -1,8 +1,6 @@
 package io.github.bilcitytycoon.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -11,9 +9,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -26,19 +21,16 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.bilcitytycoon.BilCityTycoonGame;
-import io.github.bilcitytycoon.Building;
-import io.github.bilcitytycoon.Faculty;
 import io.github.bilcitytycoon.Main;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import io.github.bilcitytycoon.Save.SaveLoad;
 import io.github.bilcitytycoon.Screens.Store.StoreScreen;
 
 public class GameScreen implements Screen {
-    private Image previewImage;
     private Viewport screenViewport;
     private Stage stage;
     public static Skin skin;
     private Main game;
-    private NewGameScreen newGameScreen;
     private SettingsScreen settingsScreen;
     private LoadGameScreen loadGameScreen;
     private BilCityTycoonGame bilCityTycoonGame;
@@ -47,27 +39,15 @@ public class GameScreen implements Screen {
     private TextButton loadGameButton;
     private TextButton settingsButton;
     private TextButton quitButton;
-    private Faculty selectedFaculty;
-    private static final int GRID_WIDTH = 20;
-    private static final int GRID_HEIGHT = 15;
-    private boolean isPlacingBuilding = false;
-    private int hoveredGridX, hoveredGridY;
-    private Building[][] mapGrid = new Building[GRID_WIDTH][GRID_HEIGHT];
-    private ShapeRenderer shapeRenderer;
-    private Group buildingGroup = new Group();
-    private final int cellSize = 64;
-    private final int UI_TOP_BAR_HEIGHT = 75;
-    private final int UI_BOTTOM_BAR_HEIGHT = 75;
 
+    public GameScreen(Main game, BilCityTycoonGame bilCityTycoonGame) {
+        // Use the passed instance instead of creating a new one
+        this.bilCityTycoonGame = bilCityTycoonGame;
 
-    public GameScreen(Main game,NewGameScreen newGameScreen) {
-
-        bilCityTycoonGame = new BilCityTycoonGame();
-
-        this.newGameScreen = newGameScreen;
+        // Rest of constructor remains the same
         this.settingsScreen = new SettingsScreen(GameScreen.this, game);
         this.loadGameScreen = new LoadGameScreen(game, GameScreen.this);
-
+        this.skin = WelcomeScreen.skin;
         this.game=game;
         screenViewport = new com.badlogic.gdx.utils.viewport.StretchViewport(1280, 720);
 
@@ -141,7 +121,8 @@ public class GameScreen implements Screen {
         saveBtn.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //Save game with this button
+                SaveLoad save = new SaveLoad(bilCityTycoonGame,game);
+                save.saveGame();
             }
         });
         TextButton loadBtn = new TextButton("Load Game", skin);
@@ -223,7 +204,7 @@ public class GameScreen implements Screen {
         nameStyle.font = skin.getFont("PressStart2P-small");
         nameStyle.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("icons/bilkoamblemIcon.png")));
 
-        ImageTextButton nameBtn = new ImageTextButton(newGameScreen.getPlayerName()+"\nBilCity University", nameStyle);
+        ImageTextButton nameBtn = new ImageTextButton(bilCityTycoonGame.getPlayer().getName()+"\nBilCity University", nameStyle);
         nameBtn.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -311,7 +292,7 @@ public class GameScreen implements Screen {
 
         Table dayTable = new Table();
         dayTable.align(Align.left);
-        dayTable.setBackground(backgroundDrawable);
+        dayTable.setBackground(backgroundDrawable); // bu satırı ekle
 
         Image dayIcon = new Image(new Texture(Gdx.files.internal("icons/sunIcon.png")));
         Label dayLabel = new Label("Day 33", skin, "labelStyle");
@@ -354,77 +335,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        shapeRenderer = new ShapeRenderer();
-        stage.addActor(buildingGroup);
-
-        //for show of building store items
-        InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(stage);
-        multiplexer.addProcessor(new InputAdapter() {
-            @Override
-            public boolean mouseMoved(int screenX, int screenY) {
-                if (isPlacingBuilding && selectedFaculty != null) {
-                    Vector3 world = stage.getCamera().unproject(new Vector3(screenX, screenY, 0));
-                    float mouseY = world.y;
-
-                    boolean insideBuildableArea = mouseY >= UI_BOTTOM_BAR_HEIGHT && mouseY <= (stage.getHeight() - UI_TOP_BAR_HEIGHT);
-
-                    if (!insideBuildableArea) {
-                        previewImage.setVisible(false);
-                        return false;
-                    }
-
-                    hoveredGridX = (int)(world.x / cellSize);
-                    hoveredGridY = (int)(world.y / cellSize);
-
-                    int width = 3, height = 2;
-                    boolean canPlace = canPlaceBuilding(hoveredGridX, hoveredGridY, width, height);
-
-                    previewImage.setVisible(canPlace);
-                    if (canPlace) {
-                        previewImage.setPosition(hoveredGridX * cellSize, hoveredGridY * cellSize);
-                    }
-                } else {
-                    previewImage.setVisible(false);
-                }
-                return false;
-            }
-
-
-            @Override
-            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                if (isPlacingBuilding && selectedFaculty != null) {
-                    Vector3 world = stage.getCamera().unproject(new Vector3(screenX, screenY, 0));
-                    float mouseY = world.y;
-
-                    if (mouseY < UI_BOTTOM_BAR_HEIGHT || mouseY > (stage.getHeight() - UI_TOP_BAR_HEIGHT)) {
-                        return false;
-                    }
-
-                    hoveredGridX = (int)(world.x / cellSize);
-                    hoveredGridY = (int)(world.y / cellSize);
-
-                    int w = 3, h = 2;
-                    if (canPlaceBuilding(hoveredGridX, hoveredGridY, w, h)) {
-                        placeBuilding(selectedFaculty, hoveredGridX, hoveredGridY, w, h);
-                        selectedFaculty = null;
-                        isPlacingBuilding = false;
-                        previewImage.setVisible(false);
-                    }
-                }
-                return false;
-            }
-
-
-        });
-        Gdx.input.setInputProcessor(multiplexer);
-        Texture previewTexture = new Texture(Gdx.files.internal("yellowImage.png"));
-        previewImage = new Image(previewTexture);
-        previewImage.setSize(cellSize * 3, cellSize * 2);
-        previewImage.setVisible(false);
-        stage.addActor(previewImage);
-
-
+        Gdx.input.setInputProcessor(stage);
     }
     @Override
     public void render(float delta) {
@@ -432,19 +343,6 @@ public class GameScreen implements Screen {
         screenViewport.apply();
         stage.act();
         stage.draw();
-
-        if (isPlacingBuilding && selectedFaculty != null) {
-            int width = 3;
-            int height = 2;
-
-            boolean canPlace = canPlaceBuilding(hoveredGridX, hoveredGridY, width, height);
-            previewImage.setVisible(canPlace);
-
-            if (canPlace) {
-                previewImage.setPosition(hoveredGridX * cellSize, hoveredGridY * cellSize);
-            }
-        }
-
     }
     @Override
     public void resize(int width, int height) {
@@ -461,6 +359,7 @@ public class GameScreen implements Screen {
     public void dispose() {
         stage.dispose();
         skin.dispose();
+
     }
     private FreeTypeFontGenerator.FreeTypeFontParameter generateFontParameter(int size, int borderWidth){
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -480,34 +379,6 @@ public class GameScreen implements Screen {
         fontParameter.gamma = 20f;
 
         return fontParameter;
-    }
-    private boolean canPlaceBuilding(int x, int y, int width, int height) {
-        if (x + width > mapGrid.length || y + height > mapGrid[0].length) return false;
-
-        for (int i = x; i < x + width; i++) {
-            for (int j = y; j < y + height; j++) {
-                if (mapGrid[i][j] != null) return false;
-            }
-        }
-        return true;
-    }
-    private void placeBuilding(Faculty faculty, int x, int y, int width, int height) {
-        for (int i = x; i < x + width; i++) {
-            for (int j = y; j < y + height; j++) {
-                mapGrid[i][j] = faculty;
-            }
-        }
-
-        Image buildingImage = new Image(faculty.getImage().getDrawable());
-        float scale = 2f;
-        buildingImage.setSize(width * cellSize * scale, height * cellSize * scale);
-        buildingImage.setPosition((x * cellSize) - (width * cellSize * (scale - 1) / 2f), (y * cellSize) - (height * cellSize * (scale - 1) / 2f));
-
-        buildingGroup.addActor(buildingImage);
-    }
-    public void startPlacing(Faculty faculty) {
-        this.selectedFaculty = faculty;
-        this.isPlacingBuilding = true;
     }
 
 }

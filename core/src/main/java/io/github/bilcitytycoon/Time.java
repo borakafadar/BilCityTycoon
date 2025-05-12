@@ -1,15 +1,15 @@
 package io.github.bilcitytycoon;
 
 public class Time {
-    private int monthIndex = 0; //starts the game with month index [0-3]
-    private int startYear = 2024; //sets the year to 2024
-    private boolean isFallSemester = true;
-    private long lastUpdatedTime; //saves the last update of time
-    private long definedMonthDurationMillis = 5* 60 * 1000; //default month duration
-    private long monthDurationMillis = definedMonthDurationMillis;//month duration to be altered in the future
-    private long definedDayDurationMillis = 10 * 1000;
-    private int totalDaysPlayed = 0;
-    private long inGameTimePlayed = 0;
+    public int monthIndex = 0; //starts the game with month index [0-3]
+    public int startYear = 2024; //sets the year to 2024
+    public boolean isFallSemester = true;
+    public long lastUpdatedTime; //saves the last update of time
+    public long definedMonthDurationMillis = 5* 60 * 1000; //default month duration
+    public long monthDurationMillis = definedMonthDurationMillis;//month duration to be altered in the future
+    public long definedDayDurationMillis = 10 * 1000;
+    public int totalDaysPlayed = 0;
+    public long inGameTimePlayed = 0;
 
     public Time(){
         this.lastUpdatedTime = System.currentTimeMillis();

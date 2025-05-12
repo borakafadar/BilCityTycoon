@@ -75,11 +75,11 @@ public class LeaderboardScreen implements Screen {
 
 
         //test code
-        OtherUniversity otherUniversity1 = new OtherUniversity("Bombardino University",3100,94,leaderboard);
-        OtherUniversity otherUniversity2 = new OtherUniversity("Crocodilo University",2500,83,leaderboard);
-        Player player = new Player("Zeynel Yildirim BilCity University",2300,69,leaderboard);
-        OtherUniversity otherUniversity3 = new OtherUniversity("Tralello University",2000,58,leaderboard);
-        OtherUniversity otherUniversity4 = new OtherUniversity("Musa Götten University",1500,47,leaderboard);
+        OtherUniversity otherUniversity1 = new OtherUniversity("Bombardino University",3100,94);
+        OtherUniversity otherUniversity2 = new OtherUniversity("Crocodilo University",2500,83);
+        Player player = new Player("Zeynel Yildirim BilCity University",2300,69);
+        OtherUniversity otherUniversity3 = new OtherUniversity("Tralello University",2000,58);
+        OtherUniversity otherUniversity4 = new OtherUniversity("Yasar University",1500,47);
 
         ArrayList<University> universities = new ArrayList<>();
         universities.add(otherUniversity1);

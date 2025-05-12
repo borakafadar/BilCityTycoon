@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import io.github.bilcitytycoon.BilCityTycoonGame;
 import io.github.bilcitytycoon.Main;
 
 public class NewGameScreen implements Screen {
@@ -65,7 +66,7 @@ public class NewGameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 playerName = playerNameField.getText().trim();
                 System.out.println("Player name: " + playerName); // test için
-                mainGame.setScreen(new GameScreen(mainGame,NewGameScreen.this));
+                mainGame.setScreen(new GameScreen(mainGame,new BilCityTycoonGame()));
             }
         });
 
