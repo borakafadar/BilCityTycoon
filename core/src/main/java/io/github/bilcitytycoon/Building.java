@@ -64,10 +64,28 @@ public abstract class Building{
         return currentUpgrade;
     }
 
-    // Apply the effects of the upgrade to the building this can be changed
-    private void applyUpgradeEffects(Upgrade upgrade) {
+    // Apply the effects of the upgrade to the building
+    private void applyUpgradeEffects(Upgrade upgrade, String info) {
+        Player pl = game.getPlayer();
         if (upgrade != null) {
-            // Example: Reduce maintenance cost or increase capacity there should be more upgrades
+            // Example: Reduce maintenance cost or increase capacity
+            if(UPGRADE_TYPE1.equals(upgrade.getType())) {
+                this.bill -= 20; // Example: Reduce monthly bill by 20 BilCoins
+            } else if (UPGRADE_TYPE2.equals(upgrade.getType())) {
+                this.bill -= 30; // Example: Reduce monthly bill by 30 BilCoins
+            } else if (UPGRADE_TYPE3.equals(upgrade.getType())) {
+               if(upgrade.getBuilding() instanceof OtherBuilding){
+                    pl.addStudenSatisfactionPoint(5); // Example: Increase student satisfaction by 5 points
+                    OtherBuilding otherBuilding = (OtherBuilding) upgrade.getBuilding();
+                    otherBuilding.setDormitoryCapacity(otherBuilding.getDormitoryCapacity() + 10); // Example: Increase capacity by 10
+                } 
+                else if(upgrade.getBuilding() instanceof Faculty){
+                    Faculty faculty = (Faculty) upgrade.getBuilding();
+                    faculty.setConstructionTime(faculty.getConstructionTime() + 5); // Example: Increase construction time by 5 days
+               }
+
+            }
+
             this.bill -= 50; // Example: Reduce monthly bill by 50 BilCoins
             this.info += "\nUpgrade Applied: " + upgrade.getName();
         }

@@ -1,12 +1,15 @@
 package io.github.bilcitytycoon;
 
+import java.security.PublicKey;
+
 public abstract class University implements Comparable<University>{
     public int leaderboardRanking;
     public String name;
     //this is the current reputation points
-    public final int baseReputationPoints; //from facilities, events
-    public int universityReputationPoint;
-    public int studentSatisfactionRate;
+    protected final int baseReputationPoints; //from facilities, events
+    protected int universityReputationPoint;
+    protected int studentSatisfactionRate;
+    protected MoneyHandler moneyHandler;
 
 
     //The constructor
@@ -15,6 +18,7 @@ public abstract class University implements Comparable<University>{
         this.baseReputationPoints = baseRep;
         this.universityReputationPoint = baseRep;
         this.studentSatisfactionRate = satisfaction;
+        this.moneyHandler = new MoneyHandler();
 
     }
     //Getter methods
@@ -39,6 +43,23 @@ public abstract class University implements Comparable<University>{
         this.leaderboardRanking = rank;
     }
 
+    public MoneyHandler getMoneyHandler(){
+        return this.moneyHandler;
+    }
+
+    //Add income to the university
+    public void addIncome(int amount){
+        this.moneyHandler.updateIncome(amount);
+    }
+    // Add an expense to the university
+    public void addExpense(int amount) {
+        moneyHandler.updateExpense(amount);
+    }
+
+    // Get the net income of the university
+    public int getNetIncome() {
+        return moneyHandler.getNetIncome();
+    }
 
     @Override
     public int compareTo(University u) {
@@ -48,6 +69,18 @@ public abstract class University implements Comparable<University>{
     //used by leaderboard.updateRanking()
     public void setUniversityReputationPoints(int point) {
        this.universityReputationPoint = point;
+    }
+
+    // Adjust student satisfaction rate
+    public void adjustStudentSatisfactionRate(int adjustment) {
+        this.studentSatisfactionRate += adjustment;
+        if (this.studentSatisfactionRate > 100) this.studentSatisfactionRate = 100;
+        if (this.studentSatisfactionRate < 0) this.studentSatisfactionRate = 0;
+    }
+
+    // Update reputation points based on satisfaction rate
+    public void updateReputationPoints() {
+        this.universityReputationPoint = this.studentSatisfactionRate * 70; // Example multiplier
     }
 
     //This might be changed

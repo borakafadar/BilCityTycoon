@@ -1,6 +1,7 @@
 package io.github.bilcitytycoon;
 
 import com.badlogic.gdx.Game;
+import io.github.bilcitytycoon.Screens.GameScreen;
 import io.github.bilcitytycoon.Screens.Store.FacultiesStoreScreen;
 import io.github.bilcitytycoon.Screens.Store.StoreScreen;
 import io.github.bilcitytycoon.Screens.WelcomeScreen;
