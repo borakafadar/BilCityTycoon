@@ -22,7 +22,7 @@ public class Leaderboard {
             "Kanzi", "Delibas", "Undem", "Simsir", "Kafadar", "Yildirim", "Zeyno", "Zurna",
             "Sekman", "Unalan", "Yildiran", "Simsek", "Uranus", "Titanium", "Kayip Esyalar", "Bridgestone",
             "Opel", "Ape", "Ne Gu", "Burnming", "Cevrimici", "Acim", "Improvements", "Nuray",
-            "Emale", "Sleep", "String", "Continue", "Codding", "Libbear", "Kutup", "Nurgul",
+            "Emale", "Sleep", "String", "Contiue", "Codding", "Libbear", "Kutup", "Nurgul",
             "Yanlislaf", "Vurmaver", "Orangutann", "CoDDesigning", "Brimley", "Vireon", "Calchester", "Ironwell",
             "Stormmere", "Crestmoor", "Marenth", "Eloria", "Westford", "Myndale", "Duskmoor", "Halbridge",
             "Venthor", "Silvermark", "Brighthelm", "Norwyn", "Galderan", "Eastmere", "Draymar", "Borewyn",

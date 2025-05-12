@@ -10,9 +10,10 @@ public class Faculty extends Building {
     private Image image; //Visual representation of the faculty
     private String info; //Additional information about the faculty
     private int buildTime; //Time required to build the faculty
+    private BilCityTycoonGame game; //Reference to the main game class
 
-    public Faculty(String name, int cost, int bill, int income, String imagePath, String info, int buildTime) {
-        super(name, cost, bill);
+    public Faculty(String name, int cost, int bill, int income, String imagePath, String info, int buildTime, BilCityTycoonGame game) {
+        super(name, cost, bill,game);
         this.income = income;
         this.info = info;
         this.buildTime = buildTime;
@@ -47,14 +48,12 @@ public class Faculty extends Building {
 
     @Override
     public String getInfo() {
-
         return "Faculty Name: " + this.name + "\n" +
                "Cost: " + this.buildCost + " BilCoins\n" +
                "Monthly Bill: " + this.bill + " BilCoins\n" +
                "Income: " + this.income + " BilCoins\n" +
                "Build Time: " + this.buildTime + " days\n" +
                "Info: " + this.info;
-
     }
      
     // Override toString for a detailed representation

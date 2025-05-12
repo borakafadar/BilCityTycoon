@@ -10,9 +10,10 @@ public class OtherBuilding extends Building{
     private Image image;
     private String info;
     private int dormitoryCapacity;
+    private BilCityTycoonGame game;
 
-    public OtherBuilding(String name, int cost, int income, int bill, int buildTime, String imagePath, String info) {
-        super(name, cost, bill);
+    public OtherBuilding(String name, int cost, int income, int bill, int buildTime, String imagePath, String info, BilCityTycoonGame game) {
+        super(name, cost, bill, game);
         this.income = income;
         this.buildTime = buildTime;
         this.info = info;
