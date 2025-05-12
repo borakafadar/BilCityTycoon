@@ -35,10 +35,10 @@ public class LeaderboardScreen implements Screen {
         this.mainGame = mainGame;
         this.mainStage = new Stage();
         this.fitViewport = new FitViewport(1920,1080);
-        //this.leaderboard = game.getLeaderboard();
+        this.leaderboard = game.getLeaderboard();
 
         //for test
-        this.leaderboard = new Leaderboard(this.game,null);
+        //this.leaderboard = new Leaderboard(/*this.game,*/null);
 
         this.stretchViewport = new StretchViewport(1366,768);
         this.backgroundStage = new Stage();

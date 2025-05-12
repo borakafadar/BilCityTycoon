@@ -25,16 +25,16 @@ public class NewGameScreen implements Screen {
     private Skin skin;
     private Main mainGame;
     private String playerName;
+    private WelcomeScreen thisWelcomeScreen;
 
-
-    public NewGameScreen(Main mainGame){
+    public NewGameScreen(Main mainGame,WelcomeScreen thisWelcomeScreen){
         this.skin = createSkin();
         this.mainStage = new Stage();
         this.fitViewport = new FitViewport(1920,1080);
         this.stretchViewport = new StretchViewport(1366,768);
         this.backgroundStage = new Stage();
         this.mainGame = mainGame;
-
+        this.thisWelcomeScreen = thisWelcomeScreen;
         mainStage.setViewport(fitViewport);
         backgroundStage.setViewport(stretchViewport);
         Image panelBackground = new Image(new Texture(Gdx.files.internal("panelBackground.png")));
@@ -164,5 +164,8 @@ public class NewGameScreen implements Screen {
     }
     public String getPlayerName(){
         return playerName;
+    }
+    public WelcomeScreen getWelcomeScreen(){
+        return thisWelcomeScreen;
     }
 }

@@ -11,7 +11,7 @@ public class Faculty extends Building {
     private String info; //Additional information about the faculty
     private int buildTime; //Time required to build the faculty
 
-    public Faculty(String name, int cost, int bill, int income, String info, int buildTime, String imagePath) {
+    public Faculty(String name, int cost, int bill, int income, String imagePath, String info, int buildTime) {
         super(name, cost, bill);
         this.income = income;
         this.info = info;
@@ -33,7 +33,7 @@ public class Faculty extends Building {
     public double getBuildCost() {
         return this.buildCost;
     }
-    
+
     public double getIncome() {
         return this.income;
     }
@@ -47,7 +47,7 @@ public class Faculty extends Building {
 
     @Override
     public String getInfo() {
-      
+
         return "Faculty Name: " + this.name + "\n" +
                "Cost: " + this.buildCost + " BilCoins\n" +
                "Monthly Bill: " + this.bill + " BilCoins\n" +
@@ -63,6 +63,6 @@ public class Faculty extends Building {
         return "Faculty{name='" + name + "', cost=" + buildCost + ", bill=" + bill +
                 ", income=" + income + ", buildTime=" + buildTime + "}";
      }
-     
-}   
+
+}
 
