@@ -28,6 +28,7 @@ public class StoreScreen implements Screen {
     private BilCityTycoonGame game;
     private Main mainGame;
     private StoreScreen thisStoreScreen;
+    private GameScreen gameScreen;
 
     public StoreScreen(BilCityTycoonGame game, Main mainGame, GameScreen gameScreen){
         //TODO the buttons in the stores are not finished because the store things are not finished
@@ -39,6 +40,7 @@ public class StoreScreen implements Screen {
         this.stretchViewport = new StretchViewport(1366,768);
         this.backgroundStage = new Stage();
         this.thisStoreScreen = this;
+        this.gameScreen = gameScreen;
         mainStage.setViewport(fitViewport);
         backgroundStage.setViewport(stretchViewport);
 
@@ -160,8 +162,7 @@ public class StoreScreen implements Screen {
         facultyButton.addListener(new ClickListener() {
            @Override
            public void clicked(InputEvent event, float x, float y) {
-               mainGame.setScreen(new FacultiesStoreScreen(game,mainGame,thisStoreScreen));
-
+               mainGame.setScreen(new FacultiesStoreScreen(game,mainGame,thisStoreScreen,gameScreen));
            }
         });
 

@@ -12,6 +12,7 @@ public class Event {
     public transient Image avatar;
     public String imagePath;
     private int studentSatisfactionPoint;
+    private BilCityTycoonGame game;
 
     public Event(String info, int cost, BilCityTycoonGame game, int studentSatisfactionRateAffection) {
         this.info = info;

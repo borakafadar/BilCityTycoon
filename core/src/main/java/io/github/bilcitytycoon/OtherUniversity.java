@@ -8,17 +8,17 @@ public class OtherUniversity extends University {
     private static final int MAX_MONTHLY_CHANGE = 5;
     private static final int INVESTMENT_CHANCE = 15; // Percentage chance to make investments
     private static final int MAX_INVESTMENT = 1000;
-    
+
     private int monthsSinceLastInvestment;
     private ArrayList<String> recentInvestments;
-    
-    public OtherUniversity(String name, int universityReputationPoint, 
-                          int studentSatisfactionRate, Leaderboard leaderboard) {
-        super(name, universityReputationPoint, studentSatisfactionRate, leaderboard);
+
+    public OtherUniversity(String name, int universityReputationPoint, int studentSatisfactionRate) {
+        super(name, universityReputationPoint, studentSatisfactionRate);
         this.leaderboardRanking = 0; // Default ranking
         this.monthsSinceLastInvestment = 0;
         this.recentInvestments = new ArrayList<>();
     }
+
 
     /**
      * Simulates monthly updates for AI university
@@ -46,14 +46,14 @@ public class OtherUniversity extends University {
     private void simulateMonthlyIncome() {
         // Base income calculation
         int baseIncome = universityReputationPoint * 100;
-        
+
         // Add random fluctuation (-10% to +10%)
         double fluctuation = 0.9 + (random.nextDouble() * 0.2);
         int actualIncome = (int)(baseIncome * fluctuation);
-        
+
         // Add income
         moneyHandler.updateIncome(actualIncome);
-        
+
         // Simulate expenses (60-80% of income)
         int expenses = (int)(actualIncome * (0.6 + random.nextDouble() * 0.2));
         moneyHandler.updateExpense(expenses);
@@ -66,10 +66,10 @@ public class OtherUniversity extends University {
         if (monthsSinceLastInvestment >= 3 && random.nextInt(100) < INVESTMENT_CHANCE) {
             int investmentAmount = random.nextInt(MAX_INVESTMENT);
             String investmentType = getRandomInvestmentType();
-            
+
             // Apply investment effects
             moneyHandler.updateExpense(investmentAmount);
-            
+
             // Investment benefits
             switch (investmentType) {
                 case "Research Facilities":
@@ -83,13 +83,13 @@ public class OtherUniversity extends University {
                     adjustStudentSatisfactionRate(5);
                     break;
             }
-            
+
             // Record investment
             recentInvestments.add(investmentType);
             if (recentInvestments.size() > 5) {
                 recentInvestments.remove(0);
             }
-            
+
             monthsSinceLastInvestment = 0;
         }
     }
@@ -100,16 +100,16 @@ public class OtherUniversity extends University {
     private void updateAIReputation() {
         // Base reputation from satisfaction
         int newReputation = (int)(studentSatisfactionRate * 0.7);
-        
+
         // Bonus from recent investments
         newReputation += recentInvestments.size() * 2;
-        
+
         // Random event impact (-5 to +5)
         newReputation += random.nextInt(11) - 5;
-        
+
         // Ensure reputation stays within bounds
         newReputation = Math.max(10, Math.min(100, newReputation));
-        
+
         setUniversityReputationPoints(newReputation);
     }
 
@@ -147,8 +147,8 @@ public class OtherUniversity extends University {
 
     @Override
     public String toString() {
-        return String.format("%s [AI] #%d (Rep=%d, Sat=%d%%, Income=%d)", 
-            name, leaderboardRanking, universityReputationPoint, 
+        return String.format("%s [AI] #%d (Rep=%d, Sat=%d%%, Income=%d)",
+            name, leaderboardRanking, universityReputationPoint,
             studentSatisfactionRate, moneyHandler.getNetIncome());
     }
     public OtherUniversity(){

@@ -36,6 +36,10 @@ public class Player extends University {
     {
         return universityReputationPoint;
     }
+
+    public void addStudenSatisfactionPoint(int stuSatiFaction){
+        this.studentSatisfactionRate += stuSatiFaction;
+    }
     public void setUniversityReputationPoint(int newUniversityReputationPoint){
         this.universityReputationPoint = newUniversityReputationPoint;
     }
@@ -55,13 +59,13 @@ public class Player extends University {
     }
 
 
-     public int getReputationPoints() {
-         return this.universityReputationPoint;
-     }
+    public int getReputationPoints() {
+        return this.universityReputationPoint;
+    }
 
     public int getSatisfactionRate() {
-         return this.studentSatisfactionRate;
-     }
+        return this.studentSatisfactionRate;
+    }
 
     public String getSaveFileName(){
         String[] words = getName().split(" ");

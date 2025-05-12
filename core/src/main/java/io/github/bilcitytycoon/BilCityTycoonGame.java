@@ -18,8 +18,9 @@ public class BilCityTycoonGame {
         this.map = new Map();
         this.allUniversities=new ArrayList<>();
         this.leaderboard = new Leaderboard(/*this,*/ this.player);
-        this.store = new Store();
+        this.store = new Store(this);
     }
+
 
 
     public void initializeGame(){
