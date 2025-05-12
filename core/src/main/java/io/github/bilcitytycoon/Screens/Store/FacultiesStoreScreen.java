@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import io.github.bilcitytycoon.BilCityTycoonGame;
 import io.github.bilcitytycoon.Faculty;
 import io.github.bilcitytycoon.Main;
+import io.github.bilcitytycoon.Screens.GameScreen;
 
 public class FacultiesStoreScreen implements Screen {
     private FitViewport fitViewport;
@@ -28,11 +29,13 @@ public class FacultiesStoreScreen implements Screen {
     private BilCityTycoonGame game;
     private Main mainGame;
     private StoreScreen storeScreen;
+    private GameScreen gameScreen;
 
-    public FacultiesStoreScreen(BilCityTycoonGame game, Main mainGame, StoreScreen storeScreen){
+    public FacultiesStoreScreen(BilCityTycoonGame game, Main mainGame, StoreScreen storeScreen, GameScreen gameScreen) {
         this.game = game;
         this.mainGame = mainGame;
         this.mainStage = new Stage();
+        this.gameScreen = gameScreen;
         this.fitViewport = new FitViewport(1920,1080);
         this.storeScreen = storeScreen;
         this.stretchViewport = new StretchViewport(1366,768);
@@ -77,66 +80,163 @@ public class FacultiesStoreScreen implements Screen {
         //test
         Faculty test = new Faculty("Mathematics Building",100,100,100,"sprites/Mathematics Building.png","test test test test test test test",10);
 
-        buttonTable.add(createFacultyButton(test)).width(1700).height(200).pad(10);
+        /*buttonTable.add(createFacultyButton(test)).width(1700).height(200).pad(10);
         buttonTable.row();
-
+*/
         Faculty test1 = new Faculty("Mathematics Building", 100, 100, 100, "sprites/Mathematics Building.png", "A place for solving complex equations and theoretical puzzles.", 8);
 
         Faculty test2 = new Faculty("Computer Science Department", 120, 90, 110, "sprites/Computer Science Faculty.png", "Where students turn caffeine into code and build the future.", 10);
 
-        Faculty test3 = new Faculty("Physics Faculty", 95, 130, 105, "libgdx.png", "Exploring gravity, quantum particles, and everything in between.", 12);
+        Faculty test3 = new Faculty("Physics Faculty", 95, 130, 105, "sprites/Physics Building.png", "Exploring gravity, quantum particles, and everything in between.", 12);
 
-        Faculty test4 = new Faculty("Biology & Life Sciences", 110, 85, 90, "libgdx.png", "Dive into the wonders of DNA, evolution, and living organisms.", 9);
+        Faculty test4 = new Faculty("Biology & Life Sciences", 110, 85, 90, "sprites/Biology Building.png", "Dive into the wonders of DNA, evolution, and living organisms.", 9);
 
-        Faculty test5 = new Faculty("Architecture Studio", 130, 110, 115, "libgdx.png", "Designing spaces with precision, creativity, and a lack of sleep.", 14);
+        Faculty test5 = new Faculty("Architecture Studio", 130, 110, 115, "sprites/Architecture Building.png", "Designing spaces with precision, creativity, and a lack of sleep.", 14);
 
-        Faculty test6 = new Faculty("Literature and Arts", 100, 75, 120, "libgdx.png", "A world of metaphors, stories, and endless interpretation.", 11);
+        Faculty test6 = new Faculty("Literature and Arts", 100, 75, 120, "sprites/Architecture Building.png", "A world of metaphors, stories, and endless interpretation.", 11);
 
-        Faculty test7 = new Faculty("Psychology Department", 105, 100, 100, "libgdx.png", "Understanding how the mind works, one experiment at a time.", 10);
+        Faculty test7 = new Faculty("Psychology Department", 105, 100, 100, "sprites/Psychology Building.png", "Understanding how the mind works, one experiment at a time.", 10);
 
-        Faculty test8 = new Faculty("Political Science", 90, 85, 95, "libgdx.png", "Analyzing power, governments, and global systems of influence.", 10);
+        Faculty test8 = new Faculty("Political Science", 90, 85, 95, "sprites/Political Science Building.png", "Analyzing power, governments, and global systems of influence.", 10);
 
-        Faculty test9 = new Faculty("Engineering Faculty", 140, 120, 110, "libgdx.png", "Building bridges, machines, and extremely long equations.", 13);
+        Faculty test9 = new Faculty("Engineering Faculty", 140, 120, 110, "sprites/EEE Building.png", "Building bridges, machines, and extremely long equations.", 13);
 
-        Faculty test10 = new Faculty("Environmental Sciences", 100, 95, 105, "libgdx.png", "Studying ecosystems, climate change, and sustainable solutions.", 9);
+        Faculty test10 = new Faculty("Environmental Sciences", 100, 95, 105, "sprites/Industrial Engineering Building.png", "Studying ecosystems, climate change, and sustainable solutions.", 9);
 
-
-        Button testButton = createFacultyButton(test1);
+        Button testButton = createFacultyButton(test);
+        Button testButton1 = createFacultyButton(test1);
+        Button testButton2 = createFacultyButton(test2);
+        Button testButton3 = createFacultyButton(test3);
+        Button testButton4 = createFacultyButton(test4);
+        Button testButton5 = createFacultyButton(test5);
+        Button testButton6 = createFacultyButton(test6);
+        Button testButton7 = createFacultyButton(test7);
+        Button testButton8 = createFacultyButton(test8);
+        Button testButton9 = createFacultyButton(test9);
+        Button testButton10 = createFacultyButton(test10);
 
         testButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                gameScreen.startPlacing(test);
+                mainGame.setScreen(gameScreen);
+
+            }
+        });
+        testButton1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gameScreen.startPlacing(test1);
+                mainGame.setScreen(gameScreen);
+
+            }
+        });
+
+
+        testButton2.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gameScreen.startPlacing(test2);
+                mainGame.setScreen(gameScreen);
+
+            }
+        });
+
+        testButton3.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gameScreen.startPlacing(test3);
+                mainGame.setScreen(gameScreen);
+
+            }
+        });
+        testButton4.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gameScreen.startPlacing(test4);
+                mainGame.setScreen(gameScreen);
+
+            }
+        });
+        testButton5.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gameScreen.startPlacing(test5);
+                mainGame.setScreen(gameScreen);
+
+            }
+        });
+        testButton6.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gameScreen.startPlacing(test6);
+                mainGame.setScreen(gameScreen);
+
+            }
+        });
+        testButton7.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gameScreen.startPlacing(test7);
+                mainGame.setScreen(gameScreen);
+
+            }
+        });
+        testButton8.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gameScreen.startPlacing(test8);
+                mainGame.setScreen(gameScreen);
+
+            }
+        });
+        testButton9.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gameScreen.startPlacing(test9);
+                mainGame.setScreen(gameScreen);
+
+            }
+        });
+        testButton10.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gameScreen.startPlacing(test10);
+                mainGame.setScreen(gameScreen);
 
             }
         });
         buttonTable.add(testButton).width(1700).height(200).pad(10);
         buttonTable.row();
 
-        buttonTable.add(createFacultyButton(test2)).width(1700).height(200).pad(10);
+        buttonTable.add(testButton1).width(1700).height(200).pad(10);
         buttonTable.row();
 
-        buttonTable.add(createFacultyButton(test3)).width(1700).height(200).pad(10);
+        buttonTable.add(testButton2).width(1700).height(200).pad(10);
         buttonTable.row();
 
-        buttonTable.add(createFacultyButton(test4)).width(1700).height(200).pad(10);
+        buttonTable.add(testButton3).width(1700).height(200).pad(10);
         buttonTable.row();
 
-        buttonTable.add(createFacultyButton(test5)).width(1700).height(200).pad(10);
+        buttonTable.add(testButton4).width(1700).height(200).pad(10);
         buttonTable.row();
 
-        buttonTable.add(createFacultyButton(test6)).width(1700).height(200).pad(10);
+        buttonTable.add(testButton5).width(1700).height(200).pad(10);
         buttonTable.row();
 
-        buttonTable.add(createFacultyButton(test7)).width(1700).height(200).pad(10);
+        buttonTable.add(testButton6).width(1700).height(200).pad(10);
         buttonTable.row();
 
-        buttonTable.add(createFacultyButton(test8)).width(1700).height(200).pad(10);
+        buttonTable.add(testButton7).width(1700).height(200).pad(10);
         buttonTable.row();
 
-        buttonTable.add(createFacultyButton(test9)).width(1700).height(200).pad(10);
+        buttonTable.add(testButton8).width(1700).height(200).pad(10);
         buttonTable.row();
 
-        buttonTable.add(createFacultyButton(test10)).width(1700).height(200).pad(10);
+        buttonTable.add(testButton9).width(1700).height(200).pad(10);
+        buttonTable.row();
+
+        buttonTable.add(testButton10).width(1700).height(200).pad(10);
         buttonTable.row();
 
 
