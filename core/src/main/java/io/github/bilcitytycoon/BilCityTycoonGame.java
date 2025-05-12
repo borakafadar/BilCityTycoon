@@ -11,6 +11,7 @@ public class BilCityTycoonGame {
     private Player player;
     private Map map;
     private Leaderboard leaderboard;
+
     public BilCityTycoonGame(){
         this.player = new Player("Default", 100, 80, leaderboard);
         this.allBuildings = new ArrayList<Building>();

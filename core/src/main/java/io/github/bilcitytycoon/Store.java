@@ -48,7 +48,8 @@ public class Store {
     private Decoration treesBushes;
     private Decoration scienceFacultyPool;
 
-    public Store(){
+    public Store(BilCityTycoonGame game){
+        this.game = game;
         unbuiltFaculties = new ArrayList<Faculty>();
         builtFaculties = new ArrayList<Faculty>();
         unbuiltDecorations = new ArrayList<Decoration>();
@@ -194,11 +195,4 @@ public class Store {
     public void upgrade(){
         //TODO
     }
-
-
-
-
-
-
-
 }

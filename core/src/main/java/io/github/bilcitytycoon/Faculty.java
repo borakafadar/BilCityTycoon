@@ -12,8 +12,8 @@ public class Faculty extends Building {
     private int buildTime; //Time required to build the faculty
     private BilCityTycoonGame game; //Reference to the main game class
 
-    public Faculty(String name, int cost, int bill, int income, String imagePath, String info, int buildTime, BilCityTycoonGame game) {
-        super(name, cost, bill,game);
+    public Faculty(String name, int cost, int bill, int income, String imagePath, int buildTime, String info) {
+        super(name, cost, bill);
         this.income = income;
         this.info = info;
         this.buildTime = buildTime;
