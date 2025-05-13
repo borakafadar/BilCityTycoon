@@ -44,6 +44,7 @@ public class GameScreen implements Screen {
     private Time time;
     private Label dateLabel;
     private Label dayLabel;
+    private Label ssrLabel;
 
     private TextButton newGameButton;
     private TextButton loadGameButton;
@@ -249,7 +250,7 @@ public class GameScreen implements Screen {
         Table ssrTable = new Table();
         ssrTable.setBackground(backgroundDrawable);
 
-        Label ssrLabel = new Label("Student\nSatisfaction Rate %80", skin, "labelStyle");
+        ssrLabel = new Label("Student\nSatisfaction Rate %"+bilCityTycoonGame.getPlayer().studentSatisfactionRate, skin, "labelStyle");
         ssrLabel.setFontScale(0.65f);
         ssrTable.add(ssrLabel);
         topTable.add(ssrTable).pad(3).expandX().fillX().height(50).width(300).center().right();
@@ -464,13 +465,17 @@ public class GameScreen implements Screen {
                 previewImage.setPosition(hoveredGridX * cellSize, hoveredGridY * cellSize);
             }
         }
-        dayTimer += delta;
-        if (dayTimer >= time.getDefinedDayDurationMillis()) {
+        if (time.totalDaysPlayed == dayTimer + 1) {
             dayTimer = 0;
             processDay();
             System.out.println("Processed new day! Balance: " + bilCityTycoonGame.getPlayer().getMoneyHandler().getBalance());
         }
+        dayTimer = time.totalDaysPlayed;
+
         coinBtn.getLabel().setText(bilCityTycoonGame.getPlayer().getMoneyHandler().getBalance() + "\nBilcoins");
+
+        ssrLabel.setText("Student\nSatisfaction Rate %" + bilCityTycoonGame.getPlayer().studentSatisfactionRate);
+
     }
     @Override
     public void resize(int width, int height) {
@@ -538,6 +543,8 @@ public class GameScreen implements Screen {
     }
     public void processDay() {
         bilCityTycoonGame.getPlayer().getMoneyHandler().processDay();
+        bilCityTycoonGame.getPlayer().studentSatisfactionPoint-=100;
+        bilCityTycoonGame.getPlayer().calculateStudentSatisfactionRate();
     }
     private void showEconomyPopup() {
         Dialog dialog = new Dialog("Economy", skin, "dialogStyle");

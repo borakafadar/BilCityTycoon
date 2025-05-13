@@ -13,10 +13,12 @@ public abstract class Building {
     protected int buildCost;
     protected int bill;
     protected int constructionTime;
+    protected int studentSatisfactionPoint;
+    protected int universityReputationPoint;
 
     // Constructor for the Building class
     // Initializes the building's name, cost, and bill.
-    public Building(String name, int cost, int bill) {
+    public Building(String name, int cost, int bill,int studentSatisfactionPoint,int universityReputationPoint) {
         this.info = "No additional information";
         this.constructionTime = 0;
         this.name = name;
@@ -48,5 +50,8 @@ public abstract class Building {
     }
     public void setInfo(String info){
         this.info = info;
+    }
+    public int getStudentSatisfactionPoint() {
+        return studentSatisfactionPoint;
     }
 }

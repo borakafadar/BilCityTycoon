@@ -8,6 +8,7 @@ public class Player extends University {
     public String name;
     public int universityReputationPoint;
     public int studentSatisfactionRate;
+    public int studentSatisfactionPoint; //10000
     public ArrayList<Building> buildings;
     public int studentCount;
     public int dormOccupancy;
@@ -19,6 +20,9 @@ public class Player extends University {
         this.name = name;
         this.universityReputationPoint = universityReputationPoint;
         this.studentSatisfactionRate = studentSatisfactionRate;
+        this.studentSatisfactionPoint = this.studentSatisfactionRate*100;
+        this.studentCount = studentCount;
+        this.dormOccupancy = dormOccupancy;
         this.buildings = new ArrayList<>();
     }
     public Player(){
@@ -40,10 +44,7 @@ public class Player extends University {
         return universityReputationPoint;
     }
 
-    public void addStudenSatisfactionPoint(int stuSatiFaction){
-        this.studentSatisfactionRate += stuSatiFaction;
-    }
-    public void setUniversityReputationPoint(int newUniversityReputationPoint){
+     void setUniversityReputationPoint(int newUniversityReputationPoint){
         this.universityReputationPoint = newUniversityReputationPoint;
     }
     public int getStudentSatisfactionRate(){
@@ -59,6 +60,19 @@ public class Player extends University {
     public void addBuilding(Building building){
         //TODO
         this.buildings.add(building);
+    }
+
+    public void calculateStudentSatisfactionRate(){
+        this.studentSatisfactionRate = (int) (this.studentSatisfactionPoint / 10000.0 * 100);
+    }
+    public void addStudentSatisfactionPoint(int amount){
+        this.studentSatisfactionPoint += amount;
+    }
+    public void addStudentCount(int amount){
+        this.studentCount += amount;
+    }
+    public void addDormOccupancy(int amount){
+        this.dormOccupancy += amount;
     }
 
 
@@ -90,5 +104,32 @@ public class Player extends University {
 
     public void setName(String playerName) {
         this.name = playerName;
+    }
+
+    public void decreaseStudentSatisfactionPointPerSecond(float deltaTime) {
+        // Calculate how many points to decrease based on elapsed time
+        // 1 point per second means we multiply deltaTime by 1
+        int pointsToDecrease = (int) (deltaTime * 100f);
+
+        // Ensure at least 1 point is decreased if any time has passed
+        if (deltaTime > 0 && pointsToDecrease == 0) {
+            pointsToDecrease = 1;
+        }
+
+        // Decrease the points
+        this.studentSatisfactionPoint -= pointsToDecrease;
+
+        // Ensure it doesn't go below 0
+        if (this.studentSatisfactionPoint < 0) {
+            this.studentSatisfactionPoint = 0;
+        }
+
+        // Update the studentSatisfactionRate based on the new point value
+        calculateStudentSatisfactionRate();
+    }
+
+    public void constructBuilding(Building building){
+        buildings.add(building);
+        building.triggerEffects();
     }
 }
