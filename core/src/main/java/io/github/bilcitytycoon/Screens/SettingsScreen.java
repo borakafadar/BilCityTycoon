@@ -3,6 +3,7 @@ package io.github.bilcitytycoon.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -48,7 +49,7 @@ public class SettingsScreen implements Screen {
         mainTable.setFillParent(true);
         mainTable.center();
         mainTable.defaults().pad(40);
-        //TODO: change background
+
         mainTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("TextTooltipBackground.png")))));
 
         stage.addActor(mainTable);
@@ -69,9 +70,16 @@ public class SettingsScreen implements Screen {
         //TODO: make the slider work
         Label musicSliderLabel = new Label("Music",skin);
         mainTable.add(musicSliderLabel).width(200).height(50).padRight(150);
-        musicSlider = new Slider(0,100,1,false,skin);
+        musicSlider = new Slider(0,1,0.01f,false,skin);
         mainTable.add(musicSlider).width(400).height(50);
+        musicSlider.setValue(mainUI.music.getVolume());
         mainTable.row();
+        musicSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                mainUI.music.setVolume(musicSlider.getValue());
+            }
+        });
 
 
         Label fullscreenLabel = new Label("Fullscreen",skin);
