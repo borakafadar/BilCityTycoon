@@ -153,6 +153,44 @@ public class Store {
         unbuiltOtherBuildings.add(carPark);
     }
 
+    public void initializeUpgrades(){
+        for(Faculty faculty: unbuiltFaculties) {
+            Upgrade ventilationUpgrade = new Upgrade(
+                "Advanced Ventilation System",
+                100,
+                4,
+                faculty.getImagePath(),
+                "Improves air quality and comfort in classrooms.",
+                faculty,
+                "Ventilation"
+            );
+
+            Upgrade energyUpgrade = new Upgrade(
+                "Energy Efficiency Retrofit",
+                200,
+                5,
+                faculty.getImagePath(),
+                "Reduces the building's energy consumption.",
+                faculty,
+                "Energy Efficiency"
+            );
+
+            Upgrade capacityUpgrade = new Upgrade(
+                "Capacity Expansion",
+                10000,
+                6,
+                faculty.getImagePath(),
+                "Adds more lecture halls, labs, and facilities.",
+                faculty,
+                "Capacity"
+            );
+
+            faculty.addUpgrade(ventilationUpgrade, 1);
+            faculty.addUpgrade(energyUpgrade, 2);
+            faculty.addUpgrade(capacityUpgrade, 3);
+        }
+    }
+
     public void buyFaculty(Faculty f){
         int index = unbuiltFaculties.indexOf(f);
         this.unbuiltFaculties.remove(index);
@@ -199,7 +237,5 @@ public class Store {
         return this.builtOtherBuildings;
     }
 
-    public void upgrade(){
-        //TODO
-    }
+
 }
