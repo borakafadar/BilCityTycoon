@@ -89,10 +89,10 @@ public class Faculty extends Building {
     }
 
     // Apply the next upgrade level
-    public void applyNextUpgrade(String info,BilCityTycoonGame game) {
+    public void applyNextUpgrade(String info,BilCityTycoonGame game, MoneyHandler moneyHandler, Player player) {
         if (currentUpgradeLevel < upgrades.length && upgrades[currentUpgradeLevel] != null) {
             Upgrade upgrade = upgrades[currentUpgradeLevel];
-            upgrade.applyUpgrade(); // Mark the upgrade as applied
+            upgrade.applyUpgrade(moneyHandler, player); // Mark the upgrade as applied
             applyUpgradeEffects(upgrade, info, game); // Apply the effects of the upgrade
             currentUpgradeLevel++; // Move to the next upgrade level
         } else {
