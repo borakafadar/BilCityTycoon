@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class Upgrade {
+    private static final String UPGRADE_TYPE1 ="Ventilation";
+    private static final String UPGRADE_TYPE2 ="Energy Efficiency";
+    private static final String UPGRADE_TYPE3 ="Capacity";
     private String name; //Name of the upgrade
     private int upgradeCost; //Cost of the upgrade
     private int constructionTime; //Time required to complete the upgrade
@@ -34,29 +37,47 @@ public class Upgrade {
         }
     }
 
-    //Method to apply the upgrade
-    public void applyUpgrade() {
-        // Apply the upgrade to the building
-        //May be a building capaciy increase or maintainance cost decrease
-        if (!isMade) {
-            isMade = true;
-            System.out.println("Upgrade applied: " + name);
-        }
-        else {
-            System.out.println("Upgrade already applied.");
+    public void updateBudget(MoneyHandler moneyHandler){
+        switch(upgradeType){
+            case UPGRADE_TYPE1:
+                moneyHandler.updateIncome(120);
+                moneyHandler.updateExpense(80);
+                break;
+            case UPGRADE_TYPE2:
+                moneyHandler.updateIncome(150);
+                moneyHandler.updateExpense(60);
+                break;
+            case UPGRADE_TYPE3:
+                moneyHandler.updateIncome(250);
+                moneyHandler.updateExpense(100);
+                break;
+            default:
         }
     }
 
-    //Method to update the player's budget
-    public int updateBudget(int currentBudget){
-        if (currentBudget >= upgradeCost) {
-            currentBudget -= upgradeCost;
-            System.out.println("Upgrade cost deducted: " + upgradeCost + " BilCoins");
-        } else {
-            System.out.println("Insufficient funds for upgrade: " + name);
+    //Method to apply the upgrade
+    public void applyUpgrade(MoneyHandler moneyHandler, Player player) {
+        if(isMade){
+            return;
         }
-        return currentBudget;
+        this.isMade = true;
+
+        updateBudget(moneyHandler);
+        updatePlayerReputation(player);
+        updateStudentSatisfactionPoint(player);
+        // Apply the upgrade to the building
+        //May be a building capaciy increase or maintainance cost decrease
     }
+
+    private void updatePlayerReputation(Player player) {
+        player.setUniversityReputationPoint(player.getUniversityReputationPoint() + 100);
+    }
+
+    private void updateStudentSatisfactionPoint(Player player) {
+        player.addStudentSatisfactionPoint(50);
+    }
+
+
 
     //Getters
     public Image getImage(){

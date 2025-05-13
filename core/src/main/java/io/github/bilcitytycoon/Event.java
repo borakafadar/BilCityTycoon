@@ -17,8 +17,8 @@ public class Event {
     public Event(String info, int cost, BilCityTycoonGame game, int studentSatisfactionRateAffection) {
         this.info = info;
         this.cost = cost;
-        this.imagePath = imagePath;
-        this.avatar = new Image(new Texture(Gdx.files.internal(imagePath)));
+//        this.imagePath = imagePath;
+//        this.avatar = new Image(new Texture(Gdx.files.internal(imagePath)));
         this.game = game;
     }
 
@@ -63,7 +63,11 @@ public class Event {
 
     public String getAvatar(){
         String[] avatars = {
-           "libgdx.png"
+           "character sprites/Bora_default.png",
+            "character sprites/Eylul_default.png",
+            "character sprites/Zeynel_default.png",
+            "character sprites/Vural_default.png",
+            "character sprites/Yasar_default.png"
         };
         Random rand = new Random();
         int randomIndex = rand.nextInt(avatars.length);
@@ -72,5 +76,10 @@ public class Event {
 
     public void updatePlayer(){
         this.game.getPlayer().setStudentSatisfactionRate(game.getPlayer().getStudentSatisfactionRate() + studentSatisfactionPoint);
+    }
+
+    public Building randomBuilding(){
+        Random random = new Random();
+        return game.getPlayer().getBuildings().get(random.nextInt(game.getPlayer().getBuildings().size()));
     }
 }

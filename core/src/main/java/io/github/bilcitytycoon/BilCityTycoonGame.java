@@ -48,4 +48,7 @@ public class BilCityTycoonGame {
     public Player getPlayer() {
         return this.player;
     }
+    public Map getMap() {
+        return this.map;
+    }
 }

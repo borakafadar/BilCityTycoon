@@ -68,4 +68,18 @@ public class Map implements Serializable {
             }
         }
     }
+
+//    public void clearHighlights() {
+//
+//
+//        // For example, if you're using a list to track highlighted areas:
+//        highlightedAreas.clear();
+//
+//        for (int i = 0; i < highlightedCells.length; i++) {
+//            for (int j = 0; j < highlightedCells[i].length; j++) {
+//                highlightedCells[i][j] = false;
+//            }
+//        }
+//    }
+
 }
