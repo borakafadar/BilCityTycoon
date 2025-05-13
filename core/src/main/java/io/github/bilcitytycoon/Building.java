@@ -18,11 +18,11 @@ public abstract class Building {
     protected int constructionTime;
     protected Upgrade[] upgrades; // Array to hold multiple upgrades
     protected int currentUpgradeLevel;//tracks the current upgrade
-    protected BilCityTycoonGame game;
+
 
     // Constructor for the Building class
     // Initializes the building's name, cost, and bill.
-    public Building(String name, int cost, int bill, BilCityTycoonGame game) {
+    public Building(String name, int cost, int bill) {
         this.upgrades = new Upgrade[3]; // Initialize the upgrades array with a size of 3
         this.info = "No additional information";
         this.constructionTime = 0;
@@ -30,7 +30,7 @@ public abstract class Building {
         this.buildCost = cost;
         this.bill = bill;
         this.currentUpgradeLevel = 0; // Tracks the current level of upgrade
-        this.game = game;
+
     }
 
     //An abstract method to get the building's information.
@@ -75,11 +75,11 @@ public abstract class Building {
     }
 
     // Apply the next upgrade level
-    public void applyNextUpgrade(String info) {
+    public void applyNextUpgrade(String info,BilCityTycoonGame game) {
         if (currentUpgradeLevel < upgrades.length && upgrades[currentUpgradeLevel] != null) {
             Upgrade upgrade = upgrades[currentUpgradeLevel];
             upgrade.applyUpgrade(); // Mark the upgrade as applied
-            applyUpgradeEffects(upgrade, info); // Apply the effects of the upgrade
+            applyUpgradeEffects(upgrade, info, game); // Apply the effects of the upgrade
             currentUpgradeLevel++; // Move to the next upgrade level
         } else {
             System.out.println("No more upgrades available or upgrade not defined for this level.");
@@ -87,7 +87,7 @@ public abstract class Building {
     }
 
     // Apply the effects of the upgrade to the building
-    private void applyUpgradeEffects(Upgrade upgrade, String info) {
+    private void applyUpgradeEffects(Upgrade upgrade, String info,BilCityTycoonGame game) {
         Player pl = game.getPlayer();
         if (upgrade != null) {
             // Example: Reduce maintenance cost or increase capacity

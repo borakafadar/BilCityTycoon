@@ -11,14 +11,14 @@ public class OtherBuilding extends Building{
     public String info;
     public String imagePath;
     private int dormitoryCapacity;
-    private BilCityTycoonGame game;
 
     public OtherBuilding(String name, int cost, int income, int bill, int buildTime, String imagePath, String info,BilCityTycoonGame game) {
-        super(name, cost, bill, game);
+        super(name, cost, bill);
         this.income = income;
         this.buildTime = buildTime;
         this.info = info;
         this.dormitoryCapacity = 0; // Default capacity
+        this.imagePath = imagePath;
 
         // Load the image for the building, with validation
         if (imagePath == null || imagePath.isEmpty()) {
@@ -26,13 +26,13 @@ public class OtherBuilding extends Building{
         }
 
         if (Gdx.files.internal(imagePath).exists()) {
-            this.image = new Image(new Texture(Gdx.files.internal(imagePath)));
+            this.image = new Image(new Texture(Gdx.files.internal(this.imagePath)));
         } else {
             throw new IllegalArgumentException("Image file not found: " + imagePath);
         }
     }
     public OtherBuilding(){
-        super("other building",0,0,null);
+        super("other building",0,0);
     }
     // Getter methods for the building's properties
     public double getIncome() {

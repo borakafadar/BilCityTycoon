@@ -75,4 +75,8 @@ public class Player extends University {
         }
         return saveFileName.toString();
     }
+
+    public void setName(String playerName) {
+        this.name = playerName;
+    }
 }

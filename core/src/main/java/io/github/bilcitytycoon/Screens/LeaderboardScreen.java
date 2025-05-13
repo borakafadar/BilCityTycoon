@@ -81,13 +81,7 @@ public class LeaderboardScreen implements Screen {
         OtherUniversity otherUniversity3 = new OtherUniversity("Tralello University",2000,58);
         OtherUniversity otherUniversity4 = new OtherUniversity("Yasar University",1500,47);
 
-        ArrayList<University> universities = new ArrayList<>();
-        universities.add(otherUniversity1);
-        universities.add(otherUniversity2);
-        universities.add(player);
-        universities.add(otherUniversity3);
-        universities.add(otherUniversity4);
-
+        ArrayList<University> universities = game.getLeaderboard().getAllUniversities();
 
         Table buttonTable = createButtonTable(universities);
         buttonTable.setFillParent(true);
@@ -187,7 +181,7 @@ public class LeaderboardScreen implements Screen {
             Label facultyLabel = new Label(university.getName(), skin,"default");
             facultyLabel.setWrap(true);
             facultyLabel.setAlignment(Align.center);
-            textTable.add(facultyLabel).width(facultyLabel.getText().length*20).height(50).padBottom(20).expandX().fillX();
+            textTable.add(facultyLabel).width(/*facultyLabel.getText().length*20*/660).height(50).padBottom(20).expandX().fillX();
             textTable.row();
 
             //right info panel
@@ -248,7 +242,7 @@ public class LeaderboardScreen implements Screen {
             Label facultyLabel = new Label(university.getName(), skin,"default");
             facultyLabel.setWrap(true);
             facultyLabel.setAlignment(Align.center);
-            textTable.add(facultyLabel).width(facultyLabel.getText().length*20).height(50).padBottom(20);
+            textTable.add(facultyLabel).width(facultyLabel.getText().length*200).height(50).padBottom(20);
             textTable.row();
             textTable.row();
 
@@ -261,7 +255,7 @@ public class LeaderboardScreen implements Screen {
             reputationTable.add(new Image(new Texture(Gdx.files.internal("icons/reputationIcon.png")))).width(40).height(40);
             Label reputationLabel = new Label("Your University Reputation Point: "+university.getUniversityReputationPoint(),skin,"small-label");
             reputationLabel.setWrap(true);
-            reputationTable.add(reputationLabel).size(220,50);
+            reputationTable.add(reputationLabel).size(250,50);
 
             Table satisfactionTable = new Table(skin);
             satisfactionTable.defaults().pad(10);

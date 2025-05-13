@@ -12,8 +12,8 @@ public class Faculty extends Building {
     public String info; //Additional information about the faculty
     public int buildTime; //Time required to build the faculty
 
-    public Faculty(String name, int cost, int bill, int income, String imagePath, int buildTime, String info, BilCityTycoonGame game) {
-        super(name, cost, bill,game);
+    public Faculty(String name, int cost, int bill, int income, String imagePath, int buildTime, String info) {
+        super(name, cost, bill);
         this.income = income;
         this.info = info;
         this.buildTime = buildTime;
@@ -33,7 +33,7 @@ public class Faculty extends Building {
     }
 
     public Faculty(){
-        super("Faculty", 100, 100,null);
+        super("Faculty", 100, 100);
     }
 
     //Getter methods for the faculty's properties

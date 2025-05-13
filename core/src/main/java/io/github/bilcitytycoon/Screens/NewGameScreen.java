@@ -16,6 +16,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import io.github.bilcitytycoon.BilCityTycoonGame;
 import io.github.bilcitytycoon.Main;
+import io.github.bilcitytycoon.Player;
+import io.github.bilcitytycoon.Save.SaveLoad;
 
 public class NewGameScreen implements Screen {
 
@@ -66,7 +68,11 @@ public class NewGameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 playerName = playerNameField.getText().trim();
                 System.out.println("Player name: " + playerName); // test için
-                mainGame.setScreen(new GameScreen(mainGame,new BilCityTycoonGame()));
+                BilCityTycoonGame newGame = new BilCityTycoonGame();
+                newGame.getPlayer().setName(playerName);
+                //SaveLoad newGameSave = new SaveLoad(newGame,mainGame);
+                //newGameSave.saveGame();
+                mainGame.setScreen(new GameScreen(mainGame,newGame));
             }
         });
 

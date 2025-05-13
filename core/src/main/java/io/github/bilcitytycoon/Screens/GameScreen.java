@@ -30,6 +30,7 @@ import io.github.bilcitytycoon.Building;
 import io.github.bilcitytycoon.Faculty;
 import io.github.bilcitytycoon.Main;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import io.github.bilcitytycoon.Save.SaveLoad;
 import io.github.bilcitytycoon.Screens.Store.StoreScreen;
 
 public class GameScreen implements Screen {
@@ -37,7 +38,7 @@ public class GameScreen implements Screen {
     private Viewport screenViewport;
     private Stage stage;
     public static Skin skin;
-    private Main game;
+    private Main mainGame;
     private NewGameScreen newGameScreen;
     private SettingsScreen settingsScreen;
     private LoadGameScreen loadGameScreen;
@@ -68,7 +69,7 @@ public class GameScreen implements Screen {
         this.settingsScreen = new SettingsScreen(GameScreen.this, mainGame);
         this.loadGameScreen = new LoadGameScreen(mainGame, GameScreen.this);
 
-        this.game=mainGame;
+        this.mainGame=mainGame;
         screenViewport = new com.badlogic.gdx.utils.viewport.StretchViewport(1280, 720);
 
         stage = new Stage(screenViewport);
@@ -141,7 +142,8 @@ public class GameScreen implements Screen {
         saveBtn.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //Save game with this button
+                SaveLoad save = new SaveLoad(bilCityTycoonGame,mainGame);
+                save.saveGame();
             }
         });
         TextButton loadBtn = new TextButton("Load Game", skin);

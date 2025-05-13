@@ -43,7 +43,7 @@ public class Leaderboard {
         updateRanking();
     }
     public Leaderboard() {
-        player = new Player();
+
     }
 
     // generate N AI universities.
@@ -51,7 +51,7 @@ public class Leaderboard {
         ArrayList<String> names = new ArrayList<>(Arrays.asList(BOT_NAMES));
         Collections.shuffle(names, random);
         for (int i = 0; i < count && i < names.size(); i++) {
-            String name = names.get(i);
+            String name = names.get(i)+" University";
             int baseRep      = (random.nextInt(481) + 20) * 10;  // 200–5000
             int satisfaction = random.nextInt(81) + 20;         // 20–100%
             rankings.add(new OtherUniversity(name, baseRep, satisfaction));

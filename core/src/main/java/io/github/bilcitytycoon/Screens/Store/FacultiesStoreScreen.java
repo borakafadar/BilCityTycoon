@@ -79,30 +79,30 @@ public class FacultiesStoreScreen implements Screen {
         panelBackground.setSize(1920,1080);
 
         //test
-        Faculty test = new Faculty("Mathematics Building", 100, 100, 100, "sprites/Mathematics Building.png", 10, "test test test test test test test", game);
+        Faculty test = new Faculty("Mathematics Building", 100, 100, 100, "sprites/Mathematics Building.png", 10, "test test test test test test test");
 
         buttonTable.add(createFacultyButton(test)).width(1700).height(200).pad(10);
         buttonTable.row();
 
-        Faculty test1 = new Faculty("Mathematics Building", 100, 100, 100, "sprites/Mathematics Building.png", 8, "A place for solving complex equations and theoretical puzzles.", game);
+        Faculty test1 = new Faculty("Mathematics Building", 100, 100, 100, "sprites/Mathematics Building.png", 8, "A place for solving complex equations and theoretical puzzles.");
 
-        Faculty test2 = new Faculty("Computer Science Department", 120, 90, 110, "sprites/Computer Science Faculty.png", 10, "Where students turn caffeine into code and build the future.", game);
+        Faculty test2 = new Faculty("Computer Science Department", 120, 90, 110, "sprites/Computer Science Faculty.png", 10, "Where students turn caffeine into code and build the future.");
 
-        Faculty test3 = new Faculty("Physics Faculty", 95, 130, 105, "libgdx.png", 12, "Exploring gravity, quantum particles, and everything in between.", game);
+        Faculty test3 = new Faculty("Physics Faculty", 95, 130, 105, "libgdx.png", 12, "Exploring gravity, quantum particles, and everything in between.");
 
-        Faculty test4 = new Faculty("Biology & Life Sciences", 110, 85, 90, "libgdx.png", 9, "Dive into the wonders of DNA, evolution, and living organisms.", game);
+        Faculty test4 = new Faculty("Biology & Life Sciences", 110, 85, 90, "libgdx.png", 9, "Dive into the wonders of DNA, evolution, and living organisms.");
 
-        Faculty test5 = new Faculty("Architecture Studio", 130, 110, 115, "libgdx.png", 14, "Designing spaces with precision, creativity, and a lack of sleep.", game);
+        Faculty test5 = new Faculty("Architecture Studio", 130, 110, 115, "libgdx.png", 14, "Designing spaces with precision, creativity, and a lack of sleep.");
 
-        Faculty test6 = new Faculty("Literature and Arts", 100, 75, 120, "libgdx.png", 11, "A world of metaphors, stories, and endless interpretation.", game);
+        Faculty test6 = new Faculty("Literature and Arts", 100, 75, 120, "libgdx.png", 11, "A world of metaphors, stories, and endless interpretation.");
 
-        Faculty test7 = new Faculty("Psychology Department", 105, 100, 100, "libgdx.png", 10, "Understanding how the mind works, one experiment at a time.", game);
+        Faculty test7 = new Faculty("Psychology Department", 105, 100, 100, "libgdx.png", 10, "Understanding how the mind works, one experiment at a time.");
 
-        Faculty test8 = new Faculty("Political Science", 90, 85, 95, "libgdx.png", 10, "Analyzing power, governments, and global systems of influence.", game);
+        Faculty test8 = new Faculty("Political Science", 90, 85, 95, "libgdx.png", 10, "Analyzing power, governments, and global systems of influence.");
 
-        Faculty test9 = new Faculty("Engineering Faculty", 140, 120, 110, "libgdx.png", 13, "Building bridges, machines, and extremely long equations.", game);
+        Faculty test9 = new Faculty("Engineering Faculty", 140, 120, 110, "libgdx.png", 13, "Building bridges, machines, and extremely long equations.");
 
-        Faculty test10 = new Faculty("Environmental Sciences", 100, 95, 105, "libgdx.png", 9, "Studying ecosystems, climate change, and sustainable solutions.", game);
+        Faculty test10 = new Faculty("Environmental Sciences", 100, 95, 105, "libgdx.png", 9, "Studying ecosystems, climate change, and sustainable solutions.");
 
 
         Button testButton = createFacultyButton(test1);
