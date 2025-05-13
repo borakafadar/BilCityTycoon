@@ -191,25 +191,40 @@ public class Store {
         }
     }
 
-    public void buyFaculty(Faculty f){
+    public void buyFaculty(Faculty f, Player player){
         int index = unbuiltFaculties.indexOf(f);
         this.unbuiltFaculties.remove(index);
         this.builtFaculties.add(f);
         this.game.getPlayer().setCoin(this.game.getPlayer().getCoin() - f.getCost());
+        updatePlayerReputation(player);
+        updateStudentSatisfactionPoint(player);
     }
 
-    public void buyDecoration(Decoration d){
+    public void buyDecoration(Decoration d, Player player){
         int index = unbuiltDecorations.indexOf(d);
         this.unbuiltDecorations.remove(index);
         this.builtDecorations.add(d);
         this.game.getPlayer().setCoin(this.game.getPlayer().getCoin() - d.getCost());
+        updatePlayerReputation(player);
+        updateStudentSatisfactionPoint(player);
     }
 
-    public void buyOtherBuilding(OtherBuilding b){
+    public void buyOtherBuilding(OtherBuilding b, Player player){
         int index = unbuiltOtherBuildings.indexOf(b);
         this.unbuiltOtherBuildings.remove(index);
         this.builtOtherBuildings.add(b);
         this.game.getPlayer().setCoin(this.game.getPlayer().getCoin() - b.getCost());
+        updatePlayerReputation(player);
+        updateStudentSatisfactionPoint(player);
+
+    }
+
+    private void updatePlayerReputation(Player player) {
+        player.setUniversityReputationPoint(player.getUniversityReputationPoint() + 100);
+    }
+
+    private void updateStudentSatisfactionPoint(Player player) {
+        player.addStudentSatisfactionPoint(50);
     }
 
 
@@ -239,3 +254,4 @@ public class Store {
 
 
 }
+

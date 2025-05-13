@@ -2,6 +2,7 @@ package io.github.bilcitytycoon;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
@@ -16,7 +17,7 @@ public class BilCityTycoonGame {
     public BilCityTycoonGame(){
         this.player = new Player("Default",100,50,10,10,10);
         this.allBuildings = new ArrayList<Building>();
-        this.map = new Map();
+        this.map = new Map("North Campus", 20, 15);
         this.allUniversities=new ArrayList<>();
         this.leaderboard = new Leaderboard(/*this,*/ this.player);
         this.store = new Store();
