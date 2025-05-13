@@ -14,7 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import io.github.bilcitytycoon.BilCityTycoonGame;
 import io.github.bilcitytycoon.Main;
+import io.github.bilcitytycoon.Player;
+import io.github.bilcitytycoon.Save.SaveLoad;
 
 public class NewGameScreen implements Screen {
 
@@ -24,16 +27,17 @@ public class NewGameScreen implements Screen {
     private Stage mainStage;
     private Skin skin;
     private Main mainGame;
+    private String playerName;
+    private WelcomeScreen thisWelcomeScreen;
 
-
-    public NewGameScreen(Main mainGame){
+    public NewGameScreen(Main mainGame,WelcomeScreen thisWelcomeScreen){
         this.skin = createSkin();
         this.mainStage = new Stage();
         this.fitViewport = new FitViewport(1920,1080);
         this.stretchViewport = new StretchViewport(1366,768);
         this.backgroundStage = new Stage();
         this.mainGame = mainGame;
-
+        this.thisWelcomeScreen = thisWelcomeScreen;
         mainStage.setViewport(fitViewport);
         backgroundStage.setViewport(stretchViewport);
         Image panelBackground = new Image(new Texture(Gdx.files.internal("panelBackground.png")));
@@ -62,8 +66,13 @@ public class NewGameScreen implements Screen {
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //TODO
-                System.out.println("clicked");
+                playerName = playerNameField.getText().trim();
+                System.out.println("Player name: " + playerName); // test için
+                BilCityTycoonGame newGame = new BilCityTycoonGame();
+                newGame.getPlayer().setName(playerName);
+                //SaveLoad newGameSave = new SaveLoad(newGame,mainGame);
+                //newGameSave.saveGame();
+                mainGame.setScreen(new GameScreen(mainGame,newGame));
             }
         });
 
@@ -159,5 +168,11 @@ public class NewGameScreen implements Screen {
         fontParameter.gamma = 20f;
 
         return fontParameter;
+    }
+    public String getPlayerName(){
+        return playerName;
+    }
+    public WelcomeScreen getWelcomeScreen(){
+        return thisWelcomeScreen;
     }
 }

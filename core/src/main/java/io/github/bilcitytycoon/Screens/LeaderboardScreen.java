@@ -35,10 +35,10 @@ public class LeaderboardScreen implements Screen {
         this.mainGame = mainGame;
         this.mainStage = new Stage();
         this.fitViewport = new FitViewport(1920,1080);
-        //this.leaderboard = game.getLeaderboard();
+        this.leaderboard = game.getLeaderboard();
 
         //for test
-        this.leaderboard = new Leaderboard(this.game,null);
+        //this.leaderboard = new Leaderboard(/*this.game,*/null);
 
         this.stretchViewport = new StretchViewport(1366,768);
         this.backgroundStage = new Stage();
@@ -75,19 +75,13 @@ public class LeaderboardScreen implements Screen {
 
 
         //test code
-        OtherUniversity otherUniversity1 = new OtherUniversity("Bombardino University",3100,94,leaderboard);
-        OtherUniversity otherUniversity2 = new OtherUniversity("Crocodilo University",2500,83,leaderboard);
-        Player player = new Player("Zeynel Yildirim BilCity University",2300,69,leaderboard);
-        OtherUniversity otherUniversity3 = new OtherUniversity("Tralello University",2000,58,leaderboard);
-        OtherUniversity otherUniversity4 = new OtherUniversity("Musa Götten University",1500,47,leaderboard);
+        OtherUniversity otherUniversity1 = new OtherUniversity("Bombardino University",3100,94);
+        OtherUniversity otherUniversity2 = new OtherUniversity("Crocodilo University",2500,83);
+        Player player = new Player("Zeynel Yildirim BilCity University",2300,69,10,10,10);
+        OtherUniversity otherUniversity3 = new OtherUniversity("Tralello University",2000,58);
+        OtherUniversity otherUniversity4 = new OtherUniversity("Yasar University",1500,47);
 
-        ArrayList<University> universities = new ArrayList<>();
-        universities.add(otherUniversity1);
-        universities.add(otherUniversity2);
-        universities.add(player);
-        universities.add(otherUniversity3);
-        universities.add(otherUniversity4);
-
+        ArrayList<University> universities = game.getLeaderboard().getAllUniversities();
 
         Table buttonTable = createButtonTable(universities);
         buttonTable.setFillParent(true);
@@ -119,8 +113,7 @@ public class LeaderboardScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("clicked");
-                //mainGame.setScreen(gameScreen);
+                mainGame.setScreen(gameScreen);
             }
         });
 
@@ -188,7 +181,7 @@ public class LeaderboardScreen implements Screen {
             Label facultyLabel = new Label(university.getName(), skin,"default");
             facultyLabel.setWrap(true);
             facultyLabel.setAlignment(Align.center);
-            textTable.add(facultyLabel).width(facultyLabel.getText().length*20).height(50).padBottom(20).expandX().fillX();
+            textTable.add(facultyLabel).width(/*facultyLabel.getText().length*20*/660).height(50).padBottom(20).expandX().fillX();
             textTable.row();
 
             //right info panel
@@ -249,7 +242,7 @@ public class LeaderboardScreen implements Screen {
             Label facultyLabel = new Label(university.getName(), skin,"default");
             facultyLabel.setWrap(true);
             facultyLabel.setAlignment(Align.center);
-            textTable.add(facultyLabel).width(facultyLabel.getText().length*20).height(50).padBottom(20);
+            textTable.add(facultyLabel).width(facultyLabel.getText().length*200).height(50).padBottom(20);
             textTable.row();
             textTable.row();
 
@@ -262,7 +255,7 @@ public class LeaderboardScreen implements Screen {
             reputationTable.add(new Image(new Texture(Gdx.files.internal("icons/reputationIcon.png")))).width(40).height(40);
             Label reputationLabel = new Label("Your University Reputation Point: "+university.getUniversityReputationPoint(),skin,"small-label");
             reputationLabel.setWrap(true);
-            reputationTable.add(reputationLabel).size(220,50);
+            reputationTable.add(reputationLabel).size(250,50);
 
             Table satisfactionTable = new Table(skin);
             satisfactionTable.defaults().pad(10);
