@@ -25,10 +25,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import io.github.bilcitytycoon.BilCityTycoonGame;
-import io.github.bilcitytycoon.Building;
-import io.github.bilcitytycoon.Faculty;
-import io.github.bilcitytycoon.Main;
+import io.github.bilcitytycoon.*;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import io.github.bilcitytycoon.Save.SaveLoad;
 import io.github.bilcitytycoon.Screens.Store.StoreScreen;
@@ -43,6 +40,10 @@ public class GameScreen implements Screen {
     private SettingsScreen settingsScreen;
     private LoadGameScreen loadGameScreen;
     private BilCityTycoonGame bilCityTycoonGame;
+    private ImageTextButton coinBtn;
+    private Time time;
+    private Label dateLabel;
+    private Label dayLabel;
 
     private TextButton newGameButton;
     private TextButton loadGameButton;
@@ -59,11 +60,14 @@ public class GameScreen implements Screen {
     private final int cellSize = 64;
     private final int UI_TOP_BAR_HEIGHT = 75;
     private final int UI_BOTTOM_BAR_HEIGHT = 75;
-
+    private float dayTimer = 0;
+    private boolean isFast = false;
 
     public GameScreen(Main mainGame,BilCityTycoonGame game ) {
+        this.time = new Time();
 
         bilCityTycoonGame = game;
+        int balance = bilCityTycoonGame.getPlayer().getMoneyHandler().getBalance();
 
 
         this.settingsScreen = new SettingsScreen(GameScreen.this, mainGame);
@@ -229,7 +233,7 @@ public class GameScreen implements Screen {
         nameBtn.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //There will be a screen for user's stats
+                UniversityStatsPopup.show(stage, skin, bilCityTycoonGame.getPlayer());
             }
         });
         nameBtn.getLabel().setFontScale(0.7f);
@@ -283,10 +287,12 @@ public class GameScreen implements Screen {
         coinStyle.font = skin.getFont("PressStart2P-small");
         coinStyle.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("icons/bilCoin.png")));
 
-        ImageTextButton coinBtn = new ImageTextButton("9836\nBilcoins", coinStyle);
+        coinBtn = new ImageTextButton(balance+"\nBilcoins", coinStyle);
         coinBtn.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //showEconomyPopup();
+                EconomyPopUp.show(stage, skin, bilCityTycoonGame.getPlayer());
             }
         });
         coinBtn.getLabel().setFontScale(0.7f);
@@ -303,7 +309,7 @@ public class GameScreen implements Screen {
         Table datetable = new Table();
         datetable.setBackground(backgroundDrawable);
         Image dateIcon = new Image(new Texture(Gdx.files.internal("icons/semesterIcon.png")));
-        Label dateLabel = new Label("   Fall\n 2024/2025", skin, "labelStyle");
+         dateLabel = new Label("   Fall\n 2024/2025", skin, "labelStyle");
         dateLabel.setFontScale(0.8f);
         datetable.add(dateIcon).size(50, 50).padRight(10);
         datetable.add(dateLabel);
@@ -316,7 +322,7 @@ public class GameScreen implements Screen {
         dayTable.setBackground(backgroundDrawable);
 
         Image dayIcon = new Image(new Texture(Gdx.files.internal("icons/sunIcon.png")));
-        Label dayLabel = new Label("Day 33", skin, "labelStyle");
+         dayLabel = new Label("Day 33", skin, "labelStyle");
         dayLabel.setFontScale(0.8f);
         dayTable.add(dayIcon).size(40, 40).padRight(10);
         dayTable.add(dayLabel);
@@ -331,11 +337,18 @@ public class GameScreen implements Screen {
         timerStyle.font = skin.getFont("PressStart2P-small");
         timerStyle.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("icons/timeIcon.png")));
 
-        ImageTextButton timerBtn = new ImageTextButton("Time\n 2X", timerStyle);
+        ImageTextButton timerBtn = new ImageTextButton("Time\n 1X", timerStyle);
         timerBtn.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //There will be a function for speeding up
+                if (!isFast) {
+                    time.speedUpTime();
+                    timerBtn.setText("Time\n 2X");
+                } else {
+                    time.resetTimeSpeed();
+                    timerBtn.setText("Time\n 1X");
+                }
+                isFast = !isFast;
             }
         });
         timerBtn.getImageCell().height(35).width(35).padRight(10);
@@ -435,6 +448,11 @@ public class GameScreen implements Screen {
         stage.act();
         stage.draw();
 
+        time.updateTime();
+        dateLabel.setText(time.getSemesterName() + "\n " + time.getAcademicYear());
+        dayLabel.setText("Day " + time.getTotalDaysPlayed());
+
+
         if (isPlacingBuilding && selectedFaculty != null) {
             int width = 3;
             int height = 2;
@@ -446,7 +464,13 @@ public class GameScreen implements Screen {
                 previewImage.setPosition(hoveredGridX * cellSize, hoveredGridY * cellSize);
             }
         }
-
+        dayTimer += delta;
+        if (dayTimer >= time.getDefinedDayDurationMillis()) {
+            dayTimer = 0;
+            processDay();
+            System.out.println("Processed new day! Balance: " + bilCityTycoonGame.getPlayer().getMoneyHandler().getBalance());
+        }
+        coinBtn.getLabel().setText(bilCityTycoonGame.getPlayer().getMoneyHandler().getBalance() + "\nBilcoins");
     }
     @Override
     public void resize(int width, int height) {
@@ -499,6 +523,7 @@ public class GameScreen implements Screen {
                 mapGrid[i][j] = faculty;
             }
         }
+        bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) faculty.getCost());
 
         Image buildingImage = new Image(faculty.getImage().getDrawable());
         float scale = 2f;
@@ -511,5 +536,38 @@ public class GameScreen implements Screen {
         this.selectedFaculty = faculty;
         this.isPlacingBuilding = true;
     }
+    public void processDay() {
+        bilCityTycoonGame.getPlayer().getMoneyHandler().processDay();
+    }
+    private void showEconomyPopup() {
+        Dialog dialog = new Dialog("Economy", skin, "dialogStyle");
+
+        // İçerik label'ları
+        Label.LabelStyle boldStyle = new Label.LabelStyle(skin.getFont("PressStart2P-small"), Color.BLACK);
+
+        Label incomeLabel = new Label("Incomes:\nCorporate: 5000\nDonations: 3000\nGrants: 5000", boldStyle);
+        Label expenseLabel = new Label("Expenses:\nUtilities: 3000\nStaff: 2500", boldStyle);
+
+        int totalIncome = bilCityTycoonGame.getPlayer().getMoneyHandler().getIncome();
+        int totalExpense = bilCityTycoonGame.getPlayer().getMoneyHandler().getExpense();
+        int netIncome = totalIncome - totalExpense;
+
+        Label summaryLabel = new Label("Overall: " + (netIncome >= 0 ? "+" : "") + netIncome + " BilCoins", boldStyle);
+        summaryLabel.setColor(netIncome >= 0 ? Color.GREEN : Color.RED);
+
+        // Layout Table
+        Table contentTable = new Table();
+        contentTable.add(incomeLabel).pad(10).left();
+        contentTable.add(expenseLabel).pad(10).left();
+        contentTable.row();
+        contentTable.add(summaryLabel).colspan(2).pad(20).center();
+
+        dialog.getContentTable().add(contentTable).pad(20);
+        dialog.button("Close");
+
+        dialog.show(stage);
+    }
+
+
 
 }

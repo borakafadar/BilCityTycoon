@@ -13,16 +13,13 @@ public class BilCityTycoonGame {
     public Leaderboard leaderboard;
     public Store store;
     public BilCityTycoonGame(){
-        this.player = new Player("Default",100,50);
+        this.player = new Player("Default",100,50,10,10,10);
         this.allBuildings = new ArrayList<Building>();
         this.map = new Map();
         this.allUniversities=new ArrayList<>();
         this.leaderboard = new Leaderboard(/*this,*/ this.player);
         this.store = new Store();
     }
-
-
-
 
 
     public void initializeGame(){

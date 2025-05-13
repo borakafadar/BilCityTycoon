@@ -10,15 +10,21 @@ public abstract class University implements Comparable<University>{
     protected int universityReputationPoint;
     protected int studentSatisfactionRate;
     protected MoneyHandler moneyHandler;
+    protected int studentCount;
+    protected int dormOccupancy;
+    protected int dormCapacity;
 
 
     //The constructor
-    public University(String name, int baseRep,int satisfaction) {
+    public University(String name, int baseRep,int satisfaction,int studentCount,int dormOccupancy,int dormCapacity) {
         this.name = name;
         this.baseReputationPoints = baseRep;
         this.universityReputationPoint = baseRep;
         this.studentSatisfactionRate = satisfaction;
-        this.moneyHandler = new MoneyHandler();
+        this.moneyHandler = new MoneyHandler(2000);
+        this.studentCount = studentCount;
+        this.dormOccupancy = dormOccupancy;
+        this.dormCapacity = dormCapacity;
 
     }
     //Getter methods

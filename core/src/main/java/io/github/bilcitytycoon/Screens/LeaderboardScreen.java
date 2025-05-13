@@ -77,7 +77,7 @@ public class LeaderboardScreen implements Screen {
         //test code
         OtherUniversity otherUniversity1 = new OtherUniversity("Bombardino University",3100,94);
         OtherUniversity otherUniversity2 = new OtherUniversity("Crocodilo University",2500,83);
-        Player player = new Player("Zeynel Yildirim BilCity University",2300,69);
+        Player player = new Player("Zeynel Yildirim BilCity University",2300,69,10,10,10);
         OtherUniversity otherUniversity3 = new OtherUniversity("Tralello University",2000,58);
         OtherUniversity otherUniversity4 = new OtherUniversity("Yasar University",1500,47);
 

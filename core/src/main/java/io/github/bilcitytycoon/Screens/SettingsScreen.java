@@ -72,7 +72,8 @@ public class SettingsScreen implements Screen {
         mainTable.add(musicSliderLabel).width(200).height(50).padRight(150);
         musicSlider = new Slider(0,1,0.01f,false,skin);
         mainTable.add(musicSlider).width(400).height(50);
-        musicSlider.setValue(mainUI.music.getVolume());
+        //musicSlider.setValue(mainUI.music.getVolume());
+        musicSlider.setValue(0f);
         mainTable.row();
         musicSlider.addListener(new ChangeListener() {
             @Override

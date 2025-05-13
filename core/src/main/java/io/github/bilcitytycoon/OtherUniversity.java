@@ -13,7 +13,7 @@ public class OtherUniversity extends University {
     private ArrayList<String> recentInvestments;
 
     public OtherUniversity(String name, int universityReputationPoint, int studentSatisfactionRate) {
-        super(name, universityReputationPoint, studentSatisfactionRate);
+        super(name, universityReputationPoint, studentSatisfactionRate,0,0,0);
         this.leaderboardRanking = 0; // Default ranking
         this.monthsSinceLastInvestment = 0;
         this.recentInvestments = new ArrayList<>();
@@ -152,6 +152,6 @@ public class OtherUniversity extends University {
             studentSatisfactionRate, moneyHandler.getNetIncome());
     }
     public OtherUniversity(){
-        super("other university",0,0);
+        super("other university",0,0,0,0,0);
     }
 }

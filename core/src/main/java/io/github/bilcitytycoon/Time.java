@@ -5,7 +5,7 @@ public class Time {
     public int startYear = 2024; //sets the year to 2024
     public boolean isFallSemester = true;
     public long lastUpdatedTime; //saves the last update of time
-    public long definedMonthDurationMillis = 5* 60 * 1000; //default month duration
+    public long definedMonthDurationMillis = 60 * 1000 * 2; //default month duration
     public long monthDurationMillis = definedMonthDurationMillis;//month duration to be altered in the future
     public long definedDayDurationMillis = 10 * 1000;
     public int totalDaysPlayed = 0;
@@ -21,17 +21,21 @@ public class Time {
         long currentTime = System.currentTimeMillis();
         long delta = currentTime - lastUpdatedTime;
         inGameTimePlayed += delta;
+        lastUpdatedTime = currentTime; // her çağrıda güncellenmeli
 
         int daysPassed = (int) (inGameTimePlayed / definedDayDurationMillis);
         totalDaysPlayed += daysPassed;
         inGameTimePlayed %= definedDayDurationMillis;
 
-        //advances the month if a full month has passed
-        if(currentTime - lastUpdatedTime >= monthDurationMillis){
-            advanceMonth(); //updates the time by advancing the current in game month
-            lastUpdatedTime = currentTime;
+        // yeni kontrol: kaç ay geçtiğini hesapla
+        if (delta >= monthDurationMillis) {
+            int monthsPassed = (int) (delta / monthDurationMillis);
+            for (int i = 0; i < monthsPassed; i++) {
+                advanceMonth();
+            }
         }
     }
+
 
     //advances semester, if necessary, and month
     private void advanceMonth(){
@@ -52,15 +56,17 @@ public class Time {
     public void speedUpTime(){
         if(monthDurationMillis == definedMonthDurationMillis){
             this.monthDurationMillis = definedMonthDurationMillis / 2;
+            this.definedDayDurationMillis = 5000; // 5 saniye
         }
     }
 
-    //reverts back the time speed to its initial form
     public void resetTimeSpeed(){
         if(monthDurationMillis == definedMonthDurationMillis / 2){
             this.monthDurationMillis = definedMonthDurationMillis;
+            this.definedDayDurationMillis = 10000; // 10 saniye
         }
     }
+
 
     //returns how many in game days the players has played
     public int getTotalDaysPlayed() {
@@ -89,6 +95,12 @@ public class Time {
 
     public String getTime(){
         return getSemesterName() + " " + getAcademicYear() + ", Month " + getMonthInSemester() + ", Total Days Played: " + getTotalDaysPlayed();
+    }
+    public int getStartYear() {
+        return startYear;
+    }
+    public long getDefinedDayDurationMillis() {
+        return definedDayDurationMillis;
     }
 
 }

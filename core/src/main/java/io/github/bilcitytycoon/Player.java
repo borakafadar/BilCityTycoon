@@ -9,17 +9,20 @@ public class Player extends University {
     public int universityReputationPoint;
     public int studentSatisfactionRate;
     public ArrayList<Building> buildings;
+    public int studentCount;
+    public int dormOccupancy;
+    public int dormCapacity;
 
-    public Player(String name, int universityReputationPoint, int studentSatisfactionRate)
+    public Player(String name, int universityReputationPoint, int studentSatisfactionRate, int studentCount ,int dormOccupancy, int dormCapacity)
     {
-        super(name, universityReputationPoint, studentSatisfactionRate); // <-- bunu ekledik
+        super(name, universityReputationPoint, studentSatisfactionRate,studentCount,dormOccupancy,dormCapacity); // <-- bunu ekledik
         this.name = name;
         this.universityReputationPoint = universityReputationPoint;
         this.studentSatisfactionRate = studentSatisfactionRate;
         this.buildings = new ArrayList<>();
     }
     public Player(){
-        super("default",0,0);
+        super("default",0,0,0,0,0);
     }
 
 
@@ -65,6 +68,15 @@ public class Player extends University {
 
     public int getSatisfactionRate() {
         return this.studentSatisfactionRate;
+    }
+    public int getStudentCount() {
+        return this.studentCount;
+    }
+    public int getDormOccupancy() {
+        return this.dormOccupancy;
+    }
+    public int getDormCapacity() {
+        return this.dormCapacity;
     }
 
     public String getSaveFileName(){
