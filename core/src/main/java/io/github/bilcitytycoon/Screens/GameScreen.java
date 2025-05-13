@@ -67,7 +67,7 @@ public class GameScreen implements Screen {
     private boolean isFast = false;
 
     private int lastPopupDay = 0;
-    private int popupDayInterval = 1;
+    private int popupDayInterval = 14;
     private PopUpPanel currentPopup;
 
     public GameScreen(Main mainGame, BilCityTycoonGame game) {
@@ -456,7 +456,7 @@ public class GameScreen implements Screen {
 
         int currentDay = time.getTotalDaysPlayed();
 
-        if (currentDay > 2 && currentDay >= lastPopupDay + popupDayInterval) {
+        if (currentDay > 14 && currentDay >= lastPopupDay + popupDayInterval) {
             lastPopupDay = currentDay;
             showRandomPopup();
         }
