@@ -13,7 +13,7 @@ public class OtherBuilding extends Building{
     private int dormitoryCapacity;
 
     public OtherBuilding(String name, int cost, int income, int bill, int buildTime, String imagePath, String info,BilCityTycoonGame game) {
-        super(name, cost, bill);
+        super(name, cost, bill, 100, 100);
         this.income = income;
         this.buildTime = buildTime;
         this.info = info;
@@ -32,7 +32,7 @@ public class OtherBuilding extends Building{
         }
     }
     public OtherBuilding(){
-        super("other building",0,0);
+        super("other building",0,0, 200, 200);
     }
     // Getter methods for the building's properties
     public double getIncome() {

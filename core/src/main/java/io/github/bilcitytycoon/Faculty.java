@@ -17,8 +17,8 @@ public class Faculty extends Building {
     protected Upgrade[] upgrades; // Array to hold multiple upgrades
     protected int currentUpgradeLevel;//tracks the current upgrade
 
-    public Faculty(String name, int cost, int bill, int income, String imagePath, int buildTime, String info) {
-        super(name, cost, bill);
+    public Faculty(String name, int cost, int bill, int income, String imagePath, int buildTime, String info,int studentSatisfactionPoint,int universityReputationPoint) {
+        super(name, cost, bill,studentSatisfactionPoint,universityReputationPoint);
         this.income = income;
         this.info = info;
         this.buildTime = buildTime;
@@ -40,7 +40,7 @@ public class Faculty extends Building {
     }
 
     public Faculty(){
-        super("Faculty", 100, 100);
+        super("Faculty", 100, 100, 100, 50);
     }
 
     //Getter methods for the faculty's properties
@@ -112,7 +112,7 @@ public class Faculty extends Building {
                 this.bill += 30;
                 this.income += 45;// Example: Reduce monthly bill by 30 BilCoins
             } else if (UPGRADE_TYPE3.equals(upgrade.getType())) {
-                    pl.addStudenSatisfactionPoint(5); // Example: Increase student satisfaction by 5 points
+                    pl.addStudentSatisfactionPoint(5); // Example: Increase student satisfaction by 5 points
                     Faculty faculty = (Faculty) upgrade.getBuilding();
                     faculty.setConstructionTime(faculty.getConstructionTime() + 5); // Example: Increase construction time by 5 days
                 }

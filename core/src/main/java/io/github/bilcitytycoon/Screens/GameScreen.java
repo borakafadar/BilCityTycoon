@@ -45,6 +45,7 @@ public class GameScreen implements Screen {
     private Label dateLabel;
     private Label dayLabel;
     private Label ssrLabel;
+    private ImageTextButton leaderButon;
 
     private TextButton newGameButton;
     private TextButton loadGameButton;
@@ -72,7 +73,7 @@ public class GameScreen implements Screen {
 
 
         this.settingsScreen = new SettingsScreen(GameScreen.this, mainGame);
-        this.loadGameScreen = new LoadGameScreen(mainGame, GameScreen.this);
+
 
         this.mainGame=mainGame;
         screenViewport = new com.badlogic.gdx.utils.viewport.StretchViewport(1280, 720);
@@ -155,6 +156,7 @@ public class GameScreen implements Screen {
         loadBtn.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                loadGameScreen = new LoadGameScreen(mainGame, GameScreen.this);
                 mainGame.setScreen(loadGameScreen);
             }
         });
@@ -172,7 +174,6 @@ public class GameScreen implements Screen {
                         }
                     }
                 };
-
                 dialog.button("Yes", true);
                 dialog.button("No", false);
                 Label.LabelStyle dialogLabelStyle = new Label.LabelStyle();
@@ -266,7 +267,7 @@ public class GameScreen implements Screen {
         leaderStyle.font = skin.getFont("PressStart2P-small");
         leaderStyle.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("icons/rankingIcon.png")));
 
-        ImageTextButton leaderButon = new ImageTextButton("#41", leaderStyle);
+        leaderButon = new ImageTextButton("#41", leaderStyle);
         leaderButon.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -475,6 +476,8 @@ public class GameScreen implements Screen {
         coinBtn.getLabel().setText(bilCityTycoonGame.getPlayer().getMoneyHandler().getBalance() + "\nBilcoins");
 
         ssrLabel.setText("Student\nSatisfaction Rate %" + bilCityTycoonGame.getPlayer().studentSatisfactionRate);
+
+        leaderButon.setText("#" + bilCityTycoonGame.getPlayer().getRanking());
 
     }
     @Override

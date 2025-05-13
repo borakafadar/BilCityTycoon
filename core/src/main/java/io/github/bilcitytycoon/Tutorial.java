@@ -70,7 +70,7 @@ public class Tutorial {
         this.map = map;
         this.game = game;
         this.currentStep = WELCOME;
-        
+
         loadAvatars();
         createTutorialWindow();
     }
@@ -88,25 +88,25 @@ public class Tutorial {
     private void createTutorialWindow() {
         tutorialWindow = new Window("Tutorial", skin);
         tutorialWindow.setMovable(false);
-        
+
         // Create content table
         Table content = new Table(skin);
         content.pad(20);
-        
+
         // Add avatar image
         avatarImage = new Image(avatars[0]);
         content.add(avatarImage).size(150).padRight(20);
-        
+
         // Add message label
         messageLabel = new Label("", skin);
         messageLabel.setWrap(true);
         content.add(messageLabel).width(400).expandX().fillX();
-        
+
         content.row().pad(20);
-        
+
         // Add buttons
         Table buttonTable = new Table(skin);
-        
+
         skipButton = new TextButton("Skip Tutorial", skin);
         skipButton.addListener(new ChangeListener() {
             @Override
@@ -114,7 +114,7 @@ public class Tutorial {
                 endTutorial();
             }
         });
-        
+
         nextButton = new TextButton("Next", skin);
         nextButton.addListener(new ChangeListener() {
             @Override
@@ -122,15 +122,15 @@ public class Tutorial {
                 nextStep();
             }
         });
-        
+
         buttonTable.add(skipButton).padRight(20);
         buttonTable.add(nextButton);
-        
+
         content.add(buttonTable).colspan(2).right();
-        
+
         tutorialWindow.add(content).expand().fill();
         tutorialWindow.pack();
-        
+
         // Center window
         tutorialWindow.setPosition(
             (stage.getWidth() - tutorialWindow.getWidth()) / 2,
@@ -148,61 +148,61 @@ public class Tutorial {
     public void nextStep() {
         // Increment current step
         currentStep++;
-        
+
         // Check if we've reached the end
         if (currentStep > END_TUTORIAL) {
             // Reset to last step to avoid index errors
             currentStep = END_TUTORIAL;
             return;
         }
-        
+
         // Clear previous highlights
-        map.clearHighlights();
-        
+        //map.clearHighlights();
+
         // Add new highlights if needed
         String highlightArea = highlightAreas[currentStep];
         if (highlightArea != null) {
-            map.highlightArea(highlightArea);
+            //map.highlightArea(highlightArea);
         }
-        
+
         // Update UI elements
         if (messageLabel != null) {
             messageLabel.setText(getCurrentMessage());
         }
-        
+
         // Update avatar if available
         if (avatarImage != null && avatars != null && avatars.length > 0) {
             avatarImage.setDrawable(new TextureRegionDrawable(
                 new TextureRegion(avatars[currentStep % avatars.length]))
             );
         }
-        
+
         // Update button text for last step
         if (nextButton != null && currentStep == END_TUTORIAL) {
             nextButton.setText("Start Playing!");
         }
-        
+
         System.out.println("Tutorial advanced to step " + currentStep + ": " + getCurrentMessage());
     }
 
     private void showCurrentStep() {
         // Clear previous highlights
-        map.clearHighlights();
-        
+        //map.clearHighlights();
+
         // Update avatar (cycle through team members)
         avatarImage.setDrawable(new TextureRegionDrawable(
             new TextureRegion(avatars[currentStep % avatars.length]))
         );
-        
+
         // Update message
         messageLabel.setText(messages[currentStep]);
-        
+
         // Add highlights if needed
         String highlightArea = highlightAreas[currentStep];
         if (highlightArea != null) {
-            map.highlightArea(highlightArea);
+            //map.highlightArea(highlightArea);
         }
-        
+
         // Update next button text for last step
         if (currentStep == END_TUTORIAL) {
             nextButton.setText("Start Playing!");
@@ -212,15 +212,15 @@ public class Tutorial {
     private void endTutorial() {
         // Clean up
         tutorialWindow.remove();
-        map.clearHighlights();
-        
+        //map.clearHighlights();
+
         // Dispose textures
         for (Texture texture : avatars) {
             texture.dispose();
         }
-        
+
         // Signal game that tutorial is complete
-        game.setTutorialComplete(true);
+        //game.setTutorialComplete(true);
     }
 
     public boolean isActive() {
@@ -237,18 +237,18 @@ public class Tutorial {
 
 
     public void skipTutorial() {
-        map.clearHighlights();
+        //map.clearHighlights();
 
 
         if (tutorialWindow != null) {
             tutorialWindow.remove();
         }
-        
+
         // Skip to end
         currentStep = END_TUTORIAL;
-        
+
         // Signal game that tutorial is complete
-        game.setTutorialComplete(true);
+        //game.setTutorialComplete(true);
     }
 
 
@@ -263,7 +263,7 @@ public class Tutorial {
         return "Tutorial complete!";
     }
 
- 
+
     public boolean isComplete() {
         return currentStep >= END_TUTORIAL;
     }
@@ -271,12 +271,12 @@ public class Tutorial {
 // Add these helper methods for the Map class:
 private void updateHighlights() {
     // Clear existing highlights
-    map.clearHighlights();
-    
+    //map.clearHighlights();
+
     // Add new highlight if needed
     String highlightArea = highlightAreas[currentStep];
     if (highlightArea != null) {
-        map.highlightArea(highlightArea);
+        //map.highlightArea(highlightArea);
     }
 }
 
@@ -286,13 +286,13 @@ private void updateUI() {
         avatarImage.setDrawable(new TextureRegionDrawable(
             new TextureRegion(avatars[currentStep % avatars.length]))
         );
-    }   
-    
+    }
+
     // Update message
     if (messageLabel != null) {
         messageLabel.setText(getCurrentMessage());
     }
-    
+
     // Update next button text for last step
     if (nextButton != null && currentStep == END_TUTORIAL - 1) {
         nextButton.setText("Start Playing!");

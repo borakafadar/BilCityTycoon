@@ -2,9 +2,13 @@ package io.github.bilcitytycoon.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -31,21 +35,21 @@ public class TutorialScreen implements Screen {
         this.game = game;
         this.gameInstance = gameInstance;
         this.stage = new Stage(new ScreenViewport());
-        this.skin = new Skin(Gdx.files.internal("assets/uiskin.json"));
+        this.skin = createSkin();
         this.gameScreen = new GameScreen(game, gameInstance);
-        this.tutorial = new Tutorial(gameInstance.getMap(), gameInstance);
-        
+        this.tutorial = new Tutorial(stage,skin,gameInstance.getMap(), gameInstance);
+
         loadResources();
         createInitialChoice();
     }
 
     private void loadResources() {
         avatars = new Texture[5];
-        avatars[0] = new Texture(Gdx.files.internal("assets/character sprites/Yasar_default.png"));
-        avatars[1] = new Texture(Gdx.files.internal("assets/character sprites/Bora_default.png"));
-        avatars[2] = new Texture(Gdx.files.internal("assets/character sprites/Vural_default.png"));
-        avatars[3] = new Texture(Gdx.files.internal("assets/character sprites/Eylul_default.png"));
-        avatars[4] = new Texture(Gdx.files.internal("assets/character sprites/Zeynel_default.png"));
+        avatars[0] = new Texture(Gdx.files.internal("character sprites/Yasar_default.png"));
+        avatars[1] = new Texture(Gdx.files.internal("character sprites/Bora_default.png"));
+        avatars[2] = new Texture(Gdx.files.internal("character sprites/Vural_default.png"));
+        avatars[3] = new Texture(Gdx.files.internal("character sprites/Eylul_default.png"));
+        avatars[4] = new Texture(Gdx.files.internal("character sprites/Zeynel_default.png"));
     }
 
     private void createInitialChoice() {
@@ -69,7 +73,7 @@ public class TutorialScreen implements Screen {
             (Gdx.graphics.getWidth() - choice.getWidth()) / 2,
             (Gdx.graphics.getHeight() - choice.getHeight()) / 2
         );
-        
+
         stage.addActor(choice);
     }
 
@@ -77,7 +81,7 @@ public class TutorialScreen implements Screen {
         // Create tutorial window
         tutorialWindow = new Window("Tutorial", skin);
         tutorialWindow.setMovable(false);
-        
+
         Table content = new Table();
         content.pad(20);
 
@@ -94,7 +98,7 @@ public class TutorialScreen implements Screen {
 
         // Add buttons
         Table buttonTable = new Table();
-        
+
         skipButton = new TextButton("Skip Tutorial", skin);
         skipButton.addListener(new ChangeListener() {
             @Override
@@ -127,7 +131,7 @@ public class TutorialScreen implements Screen {
 
     private void nextTutorialStep() {
         tutorial.nextStep();
-        
+
         if (tutorial.isComplete()) {
             skipToGame();
             return;
@@ -161,7 +165,7 @@ public class TutorialScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         gameScreen.render(delta);
         stage.act(delta);
         stage.draw();
@@ -191,4 +195,48 @@ public class TutorialScreen implements Screen {
 
     @Override
     public void hide() {}
+
+    public Skin createSkin(){
+        FreeTypeFontGenerator bigFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(72,1);
+        FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(16,1);
+        FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(13,0);
+
+
+
+        BitmapFont bigFont = bigFontGenerator.generateFont(bigFontParameter);
+        BitmapFont smallFont = bigFontGenerator.generateFont(smallFontParameter);
+        BitmapFont smallestFont = bigFontGenerator.generateFont(smallestFontParameter);
+
+        Skin skin1 = new Skin();
+        skin1.add("PressStart2P", bigFont);
+        skin1.add("PressStart2P-small", smallFont);
+        skin1.add("PressStart2P-smallest", smallestFont);
+        skin1.add("PressStart2P-big", bigFont);
+
+        skin1.addRegions(new TextureAtlas(Gdx.files.internal("skin1.atlas")));
+
+        skin1.load(Gdx.files.internal("skin1.json"));
+
+        return skin1;
+    }
+    private FreeTypeFontGenerator.FreeTypeFontParameter generateFontParameter(int size, int borderWidth){
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter.size = size;
+        fontParameter.borderWidth = borderWidth;
+        fontParameter.borderColor = Color.BLACK;
+        fontParameter.color = Color.BLACK;
+        fontParameter.spaceX = 2;
+        fontParameter.spaceY = 5;
+        fontParameter.minFilter = Texture.TextureFilter.Nearest;
+        fontParameter.magFilter = Texture.TextureFilter.Nearest;
+        fontParameter.shadowOffsetX = 0;
+        fontParameter.shadowOffsetY = 0;
+        fontParameter.shadowColor = Color.BLACK;
+        fontParameter.borderStraight = false;
+        fontParameter.borderColor = Color.WHITE;
+        fontParameter.gamma = 20f;
+
+        return fontParameter;
+    }
 }
