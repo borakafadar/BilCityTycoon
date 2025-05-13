@@ -29,6 +29,8 @@ public class Time {
         totalDaysPlayed += daysPassed;
         inGameTimePlayed %= definedDayDurationMillis;
 
+
+
         // yeni kontrol: kaç ay geçtiğini hesapla
         if (delta >= monthDurationMillis) {
             int monthsPassed = (int) (delta / monthDurationMillis);
@@ -47,6 +49,7 @@ public class Time {
     private void advanceMonth(){
         monthIndex++;
         moneyHandler.collectMonthlyIncome(player);
+        totalDaysPlayed = 0;
 
         if(monthIndex == 4){
             monthIndex = 0;
