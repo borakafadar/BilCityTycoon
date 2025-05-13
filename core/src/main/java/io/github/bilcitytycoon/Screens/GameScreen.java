@@ -13,9 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -28,16 +26,18 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.bilcitytycoon.*;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import io.github.bilcitytycoon.Event;
 import io.github.bilcitytycoon.Save.SaveLoad;
 import io.github.bilcitytycoon.Screens.Store.StoreScreen;
 
+import java.util.HashSet;
 import java.util.Random;
 
 import java.util.ArrayList;
 
 public class GameScreen implements Screen {
     private Building selectedBuilding;
-
+    Stack mapStack;
     private Image previewImage;
     private Viewport screenViewport;
     private Stage stage;
@@ -72,6 +72,7 @@ public class GameScreen implements Screen {
     private final int UI_BOTTOM_BAR_HEIGHT = 75;
     private float dayTimer = 0;
     private boolean isFast = false;
+    float safeMargin = 100; // UI'nin biraz altına kadar izin ver
 
     private int lastPopupDay = 0;
     private int popupDayInterval = 14;
@@ -373,7 +374,7 @@ public class GameScreen implements Screen {
         bottomTable.add(timerBtn).height(50).width(180).expandX().right();
 
 
-        Stack mapStack = new Stack();
+        mapStack = new Stack();
         mapStack.setFillParent(true);
 
         Image background2 = new Image(mainBack);
@@ -388,6 +389,7 @@ public class GameScreen implements Screen {
         mapStack.addActor(roadImage);
 
         mapStack.addActor(buildingGroup);
+        buildingGroup.setTouchable(Touchable.disabled);
 
         Table midTable = new Table();
         midTable.add(mapStack).expand().fill();
@@ -452,13 +454,12 @@ public class GameScreen implements Screen {
         multiplexer.addProcessor(new InputAdapter() {
             @Override
             public boolean mouseMoved(int screenX, int screenY) {
-                if (isPlacingBuilding && selectedBuilding  != null) {
+                if (isPlacingBuilding && selectedBuilding != null) {
                     Vector3 world = stage.getCamera().unproject(new Vector3(screenX, screenY, 0));
-                    float mouseY = world.y;
+                    Actor hitActor = stage.hit(screenX, Gdx.graphics.getHeight() - screenY, true);
 
-                    boolean insideBuildableArea = mouseY >= UI_BOTTOM_BAR_HEIGHT && mouseY <= (stage.getHeight() - UI_TOP_BAR_HEIGHT);
-
-                    if (!insideBuildableArea) {
+                    if (hitActor != null && !(hitActor instanceof Image) && !(hitActor.getParent() instanceof Group)) {
+                        // UI elemanı üzerindeyiz, preview kapat
                         previewImage.setVisible(false);
                         return false;
                     }
@@ -479,14 +480,13 @@ public class GameScreen implements Screen {
                 return false;
             }
 
-
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                if (isPlacingBuilding && selectedBuilding  != null) {
+                if (isPlacingBuilding && selectedBuilding != null) {
                     Vector3 world = stage.getCamera().unproject(new Vector3(screenX, screenY, 0));
-                    float mouseY = world.y;
+                    Actor hitActor = stage.hit(screenX, Gdx.graphics.getHeight() - screenY, true);
 
-                    if (mouseY < UI_BOTTOM_BAR_HEIGHT || mouseY > (stage.getHeight() - UI_TOP_BAR_HEIGHT)) {
+                    if (hitActor != null && !(hitActor instanceof Image) && !(hitActor.getParent() instanceof Group)) {
                         return false;
                     }
 
@@ -495,14 +495,15 @@ public class GameScreen implements Screen {
 
                     int w = 2, h = 2;
                     if (canPlaceBuilding(hoveredGridX, hoveredGridY, w, h)) {
-                        placeBuilding(selectedBuilding , hoveredGridX, hoveredGridY, w, h);
-                        selectedBuilding  = null;
+                        placeBuilding(selectedBuilding, hoveredGridX, hoveredGridY, w, h);
+                        selectedBuilding = null;
                         isPlacingBuilding = false;
                         previewImage.setVisible(false);
                     }
                 }
                 return false;
             }
+
 
 
         });
@@ -552,7 +553,6 @@ public class GameScreen implements Screen {
         if (time.totalDaysPlayed == dayTimer + 1) {
             dayTimer = 0;
             processDay();
-            System.out.println("Processed new day! Balance: " + bilCityTycoonGame.getPlayer().getMoneyHandler().getBalance());
         }
         dayTimer = time.totalDaysPlayed;
 
@@ -614,7 +614,7 @@ public class GameScreen implements Screen {
 
         for (int i = x; i < x + width; i++) {
             for (int j = y; j < y + height; j++) {
-                if (grid[i][j] != null || currentMap.isRoad(i, j)) return false; // yolları kontrol et
+                if (grid[i][j] != null || currentMap.isRoad(i, j)) return false;
             }
         }
         return true;
@@ -622,18 +622,16 @@ public class GameScreen implements Screen {
 
 
 
-
     private void placeBuilding(Building building, int x, int y, int width, int height) {
+        if (!canPlaceBuilding(x, y, width, height)) return; // Ön kontrol yap!
+
         currentMap.placeBuilding(building, x, y, width, height);
         bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) building.getCost());
-
-        Image buildingImage = new Image(building.getImage().getDrawable());
-        float scale = 2f;
-        buildingImage.setSize(width * cellSize * scale, height * cellSize * scale);
-        buildingImage.setPosition((x * cellSize) - (width * cellSize * (scale - 1) / 2f), (y * cellSize) - (height * cellSize * (scale - 1) / 2f));
-
-        buildingGroup.addActor(buildingImage);
+        refreshBuildings();
     }
+
+
+
 
 
 
@@ -716,22 +714,32 @@ public class GameScreen implements Screen {
     }
 
     private void refreshBuildings() {
-        buildingGroup.remove();  // sahneden çıkar
+        buildingGroup.clearChildren();
 
         Building[][] grid = currentMap.getGrid();
+        HashSet<Building> added = new HashSet<>();
+
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
-                if (grid[i][j] != null) {
-                    Building building = grid[i][j];
+                Building building = grid[i][j];
+                if (building != null && !added.contains(building)) {
                     Image buildingImage = new Image(building.getImage().getDrawable());
                     float scale = 2f;
                     buildingImage.setSize(2 * cellSize * scale, 2 * cellSize * scale);
                     buildingImage.setPosition((i * cellSize) - (2 * cellSize * (scale - 1) / 2f), (j * cellSize) - (2 * cellSize * (scale - 1) / 2f));
                     buildingGroup.addActor(buildingImage);
+
+                    added.add(building); // Binayı ekledik olarak işaretle
                 }
             }
         }
     }
+
+
+
+
+
+
 
 
 

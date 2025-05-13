@@ -20,6 +20,7 @@ public class Map implements Serializable {
     }
 
 
+    // Map.java içinde
     public void placeBuilding(Building building, int x, int y, int width, int height) {
         for (int i = x; i < x + width; i++) {
             for (int j = y; j < y + height; j++) {
@@ -27,6 +28,7 @@ public class Map implements Serializable {
             }
         }
     }
+
     private void initializeDefaultRoads() {
         addRoad(1, 5, 19, 1);
         addRoad(1, 5, 19, 1);
