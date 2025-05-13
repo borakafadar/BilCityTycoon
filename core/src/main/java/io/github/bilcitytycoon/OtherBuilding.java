@@ -35,9 +35,7 @@ public class OtherBuilding extends Building{
         super("other building",0,0, 200, 200);
     }
     // Getter methods for the building's properties
-    public double getIncome() {
-        return this.income;
-    }
+
 
     public String getInfo(){
         return this.info;
