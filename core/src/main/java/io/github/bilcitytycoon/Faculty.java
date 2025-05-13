@@ -40,7 +40,7 @@ public class Faculty extends Building {
     }
 
     public Faculty(){
-        super("Faculty", 100, 100, 100, 50);
+        super("Faculty", 100, 100, 0, 0);
     }
 
     //Getter methods for the faculty's properties
@@ -93,7 +93,7 @@ public class Faculty extends Building {
         if (currentUpgradeLevel < upgrades.length && upgrades[currentUpgradeLevel] != null) {
             Upgrade upgrade = upgrades[currentUpgradeLevel];
             upgrade.applyUpgrade(moneyHandler, player); // Mark the upgrade as applied
-            applyUpgradeEffects(upgrade, info, game); // Apply the effects of the upgrade
+            applyUpgradeEffects(upgrade, info, game, moneyHandler, player); // Apply the effects of the upgrade
             currentUpgradeLevel++; // Move to the next upgrade level
         } else {
             System.out.println("No more upgrades available or upgrade not defined for this level.");
@@ -101,24 +101,11 @@ public class Faculty extends Building {
     }
 
     // Apply the effects of the upgrade to the building
-    private void applyUpgradeEffects(Upgrade upgrade, String info,BilCityTycoonGame game) {
-        Player pl = game.getPlayer();
+    private void applyUpgradeEffects(Upgrade upgrade, String info,BilCityTycoonGame game, MoneyHandler moneyHandler, Player player) {
         if (upgrade != null) {
-            // Example: Reduce maintenance cost or increase capacity
-            if(UPGRADE_TYPE1.equals(upgrade.getType())) {
-                this.bill += 20;
-                this.income += 30;
-            } else if (UPGRADE_TYPE2.equals(upgrade.getType())) {
-                this.bill += 30;
-                this.income += 45;// Example: Reduce monthly bill by 30 BilCoins
-            } else if (UPGRADE_TYPE3.equals(upgrade.getType())) {
-                    pl.addStudentSatisfactionPoint(5); // Example: Increase student satisfaction by 5 points
-                    Faculty faculty = (Faculty) upgrade.getBuilding();
-                    faculty.setConstructionTime(faculty.getConstructionTime() + 5); // Example: Increase construction time by 5 days
-                }
+            upgrade.applyUpgrade(moneyHandler, player);
             }
             this.info += "\n " + info + upgrade.getName();
-
     }
 }
 
