@@ -1,6 +1,8 @@
 package io.github.bilcitytycoon;
 
 public class Time {
+    public Player player;
+    public MoneyHandler moneyHandler;
     public int monthIndex = 0; //starts the game with month index [0-3]
     public int startYear = 2024; //sets the year to 2024
     public boolean isFallSemester = true;
@@ -36,10 +38,15 @@ public class Time {
         }
     }
 
+    public Player getPlayer(){
+        return this.player;
+    }
+
 
     //advances semester, if necessary, and month
     private void advanceMonth(){
         monthIndex++;
+        moneyHandler.collectMonthlyIncome(player);
 
         if(monthIndex == 4){
             monthIndex = 0;

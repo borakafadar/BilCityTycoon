@@ -64,4 +64,12 @@ public class MoneyHandler {
     public void processDay() {
         balance += netIncome;
     }
+
+    public void collectMonthlyIncome(Player player){
+        int totalIncome = 0;
+        for(Building building : player.buildings){
+            totalIncome += building.getIncome();
+        }
+        player.setCoin(player.getCoin() + totalIncome);
+    }
 }

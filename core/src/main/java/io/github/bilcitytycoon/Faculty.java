@@ -48,9 +48,7 @@ public class Faculty extends Building {
         return this.buildCost;
     }
 
-    public double getIncome() {
-        return this.income;
-    }
+
 
     public Image getImage(){
         return this.image;
@@ -107,5 +105,7 @@ public class Faculty extends Building {
             }
             this.info += "\n " + info + upgrade.getName();
     }
+
+
 }
 

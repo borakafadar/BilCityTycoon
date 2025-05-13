@@ -17,6 +17,7 @@ public abstract class Building {
     protected int constructionTime;
     protected int studentSatisfactionPoint;
     protected int universityReputationPoint;
+    protected int income;
 
     // Constructor for the Building class
     // Initializes the building's name, cost, and bill.
@@ -57,5 +58,10 @@ public abstract class Building {
         return studentSatisfactionPoint;
     }
     public abstract Image getImage();
+
+    public int getIncome(){
+        return this.income;
+    }
+
 
 }
