@@ -169,7 +169,7 @@ public class StoreScreen implements Screen {
         otherBuildingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                mainGame.setScreen(new OtherBuildingsStoreScreen(game,mainGame,thisStoreScreen));
+                mainGame.setScreen(new OtherBuildingsStoreScreen(game,mainGame,thisStoreScreen,gameScreen));
             }
         });
 

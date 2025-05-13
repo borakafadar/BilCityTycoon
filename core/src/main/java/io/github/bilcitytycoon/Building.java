@@ -1,6 +1,8 @@
 
 package io.github.bilcitytycoon;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+
 /*
  * Abstract class representing a building in the game.
  * It contains common properties and methods for all buildings.
@@ -54,4 +56,6 @@ public abstract class Building {
     public int getStudentSatisfactionPoint() {
         return studentSatisfactionPoint;
     }
+    public abstract Image getImage();
+
 }

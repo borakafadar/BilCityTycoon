@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import io.github.bilcitytycoon.*;
+import io.github.bilcitytycoon.Screens.GameScreen;
 
 import java.util.ArrayList;
 
@@ -30,8 +31,8 @@ public class OtherBuildingsStoreScreen implements Screen {
     private Main mainGame;
     private StoreScreen storeScreen;
     private Store store;
-
-    public OtherBuildingsStoreScreen(BilCityTycoonGame game, Main mainGame,StoreScreen storeScreen){
+    private GameScreen gameScreen;
+    public OtherBuildingsStoreScreen(BilCityTycoonGame game, Main mainGame, StoreScreen storeScreen, GameScreen gameScreen){
         this.game = game;
         this.mainGame = mainGame;
         this.mainStage = new Stage();
@@ -40,6 +41,7 @@ public class OtherBuildingsStoreScreen implements Screen {
         this.stretchViewport = new StretchViewport(1366,768);
         this.backgroundStage = new Stage();
         this.store = game.store;
+        this.gameScreen = gameScreen;
 
         backgroundStage.setViewport(stretchViewport);
         mainStage.setViewport(fitViewport);
@@ -213,7 +215,11 @@ public class OtherBuildingsStoreScreen implements Screen {
         button.pack();
 
         button.addListener(new ClickListener() {
-          //TODO:
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mainGame.setScreen(gameScreen);
+                gameScreen.startPlacing(otherBuilding);
+            }
         });
 
         return button;

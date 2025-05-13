@@ -36,6 +36,8 @@ import java.util.Random;
 import java.util.ArrayList;
 
 public class GameScreen implements Screen {
+    private Building selectedBuilding;
+
     private Image previewImage;
     private Viewport screenViewport;
     private Stage stage;
@@ -59,7 +61,6 @@ public class GameScreen implements Screen {
     private TextButton loadGameButton;
     private TextButton settingsButton;
     private TextButton quitButton;
-    private Faculty selectedFaculty;
     private static final int GRID_WIDTH = 20;
     private static final int GRID_HEIGHT = 15;
     private boolean isPlacingBuilding = false;
@@ -451,7 +452,7 @@ public class GameScreen implements Screen {
         multiplexer.addProcessor(new InputAdapter() {
             @Override
             public boolean mouseMoved(int screenX, int screenY) {
-                if (isPlacingBuilding && selectedFaculty != null) {
+                if (isPlacingBuilding && selectedBuilding  != null) {
                     Vector3 world = stage.getCamera().unproject(new Vector3(screenX, screenY, 0));
                     float mouseY = world.y;
 
@@ -481,7 +482,7 @@ public class GameScreen implements Screen {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                if (isPlacingBuilding && selectedFaculty != null) {
+                if (isPlacingBuilding && selectedBuilding  != null) {
                     Vector3 world = stage.getCamera().unproject(new Vector3(screenX, screenY, 0));
                     float mouseY = world.y;
 
@@ -494,8 +495,8 @@ public class GameScreen implements Screen {
 
                     int w = 2, h = 2;
                     if (canPlaceBuilding(hoveredGridX, hoveredGridY, w, h)) {
-                        placeBuilding(selectedFaculty, hoveredGridX, hoveredGridY, w, h);
-                        selectedFaculty = null;
+                        placeBuilding(selectedBuilding , hoveredGridX, hoveredGridY, w, h);
+                        selectedBuilding  = null;
                         isPlacingBuilding = false;
                         previewImage.setVisible(false);
                     }
@@ -537,7 +538,7 @@ public class GameScreen implements Screen {
         dayLabel.setText("Day " + time.getTotalDaysPlayed());
 
 
-        if (isPlacingBuilding && selectedFaculty != null) {
+        if (isPlacingBuilding && selectedBuilding  != null) {
             int width = 2;
             int height = 2;
 
@@ -622,11 +623,11 @@ public class GameScreen implements Screen {
 
 
 
-    private void placeBuilding(Faculty faculty, int x, int y, int width, int height) {
-        currentMap.placeBuilding(faculty, x, y, width, height);
-        bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) faculty.getCost());
+    private void placeBuilding(Building building, int x, int y, int width, int height) {
+        currentMap.placeBuilding(building, x, y, width, height);
+        bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) building.getCost());
 
-        Image buildingImage = new Image(faculty.getImage().getDrawable());
+        Image buildingImage = new Image(building.getImage().getDrawable());
         float scale = 2f;
         buildingImage.setSize(width * cellSize * scale, height * cellSize * scale);
         buildingImage.setPosition((x * cellSize) - (width * cellSize * (scale - 1) / 2f), (y * cellSize) - (height * cellSize * (scale - 1) / 2f));
@@ -636,10 +637,12 @@ public class GameScreen implements Screen {
 
 
 
-    public void startPlacing(Faculty faculty) {
-        this.selectedFaculty = faculty;
-        this.isPlacingBuilding = true;
+
+    public void startPlacing(Building building) {
+        this.selectedBuilding = building;
+        isPlacingBuilding = true;
     }
+
 
     public void processDay() {
         bilCityTycoonGame.getPlayer().getMoneyHandler().processDay();
@@ -687,15 +690,12 @@ public class GameScreen implements Screen {
         }
         Random random = new Random();
         int randomType = random.nextInt(3);
-    private void refreshBuildings() {
-        buildingGroup.remove();  // sahneden çıkar
-
         if (randomType == 0) {
             Event protestEvent = new Event("", 0, bilCityTycoonGame, -60);
             protestEvent.protest();
             currentPopup = new PopUpPanel(mainGame, bilCityTycoonGame, protestEvent, new TextButton("OK", skin));
-        buildingGroup = new Group();  // yeni bir group başlat
-        stage.addActor(buildingGroup); // yeniden ekle
+            buildingGroup = new Group();  // yeni bir group başlat
+            stage.addActor(buildingGroup); // yeniden ekle
 
         } else if (randomType == 1) {
             if (!bilCityTycoonGame.getPlayer().getBuildings().isEmpty()) {
@@ -715,12 +715,15 @@ public class GameScreen implements Screen {
         }
     }
 
+    private void refreshBuildings() {
+        buildingGroup.remove();  // sahneden çıkar
+
         Building[][] grid = currentMap.getGrid();
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
                 if (grid[i][j] != null) {
-                    Faculty faculty = (Faculty) grid[i][j];
-                    Image buildingImage = new Image(faculty.getImage().getDrawable());
+                    Building building = grid[i][j];
+                    Image buildingImage = new Image(building.getImage().getDrawable());
                     float scale = 2f;
                     buildingImage.setSize(2 * cellSize * scale, 2 * cellSize * scale);
                     buildingImage.setPosition((i * cellSize) - (2 * cellSize * (scale - 1) / 2f), (j * cellSize) - (2 * cellSize * (scale - 1) / 2f));

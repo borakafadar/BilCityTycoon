@@ -216,8 +216,13 @@ public class FacultiesStoreScreen implements Screen {
         button.add(mainTable).expand().fill().align(Align.left).top();
         button.pack();
         button.addListener(new ClickListener() {
-            //TODO: vural pls man
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mainGame.setScreen(gameScreen);
+                gameScreen.startPlacing(faculty);
+            }
         });
+
         return button;
     }
 

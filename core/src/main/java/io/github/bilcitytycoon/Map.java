@@ -19,15 +19,6 @@ public class Map implements Serializable {
 
     }
 
-    public void placeInitialRoads() {
-        for (int y = 0; y < grid[0].length; y++) {
-            grid[10][y] = new Road(false);
-        }
-
-        for (int x = 0; x < grid.length; x++) {
-            grid[x][7] = new Road(true);
-        }
-    }
 
     public void placeBuilding(Building building, int x, int y, int width, int height) {
         for (int i = x; i < x + width; i++) {

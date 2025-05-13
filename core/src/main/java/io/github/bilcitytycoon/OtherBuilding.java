@@ -43,7 +43,8 @@ public class OtherBuilding extends Building{
         return this.info;
     }
     public Image getImage(){
-        return new Image(new Texture(Gdx.files.internal(imagePath)));
+
+        return image;
     }
     public int getBuildTime(){
         return this.buildTime;
