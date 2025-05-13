@@ -16,8 +16,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import io.github.bilcitytycoon.BilCityTycoonGame;
+import io.github.bilcitytycoon.Faculty;
 import io.github.bilcitytycoon.Main;
 import io.github.bilcitytycoon.Upgrade;
+
+import java.util.ArrayList;
 
 public class UpgradesStoreScreen implements Screen {
     private FitViewport fitViewport;
@@ -67,7 +70,7 @@ public class UpgradesStoreScreen implements Screen {
         skin.load(Gdx.files.internal("skin1.json"));
 
         //TODO: temp, to test the table feature
-        Table buttonTable = new Table();
+        Table buttonTable = createButtonTable(initializeUpgrades());
         buttonTable.setFillParent(true);
 
         Image panelBackground = new Image(new Texture(Gdx.files.internal("panelBackground.png")));
@@ -209,13 +212,19 @@ public class UpgradesStoreScreen implements Screen {
 
         button.add(mainTable).expand().fill().align(Align.left).top();
         button.pack();
+        button.addListener(new ClickListener() {
+            //TODO vural pls man
+        });
         return button;
     }
 
-    private Table createButtonTable(){
-        //TODO
+    private Table createButtonTable(ArrayList<Upgrade> upgrades){
         Table buttonTable = new Table();
 
+        for(Upgrade upgrade : upgrades){
+            buttonTable.add(createUpgradeButton(upgrade)).width(1700).height(200).pad(20);
+            buttonTable.row();
+        }
         return buttonTable;
     }
 
@@ -238,6 +247,18 @@ public class UpgradesStoreScreen implements Screen {
         fontParameter.gamma = 20f;
 
         return fontParameter;
+    }
+    private ArrayList<Upgrade> initializeUpgrades(){
+        ArrayList<Upgrade> upgrades = new ArrayList<>();
+        for(Faculty faculty : game.store.getBuiltFaculties()){
+            for(Upgrade upgrade : faculty.getUpgrades()){
+                if(!upgrade.isMade()){
+                    upgrades.add(upgrade);
+                }
+            }
+        }
+
+        return upgrades;
     }
 }
 
