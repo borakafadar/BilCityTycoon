@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -29,6 +30,8 @@ import io.github.bilcitytycoon.*;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import io.github.bilcitytycoon.Save.SaveLoad;
 import io.github.bilcitytycoon.Screens.Store.StoreScreen;
+
+import java.util.ArrayList;
 
 public class GameScreen implements Screen {
     private Image previewImage;
@@ -44,6 +47,9 @@ public class GameScreen implements Screen {
     private Time time;
     private Label dateLabel;
     private Label dayLabel;
+    private Array<Map> mapList = new Array<Map>();
+    private int currentMapIndex = 0;
+    private Map currentMap;
 
     private TextButton newGameButton;
     private TextButton loadGameButton;
@@ -54,7 +60,6 @@ public class GameScreen implements Screen {
     private static final int GRID_HEIGHT = 15;
     private boolean isPlacingBuilding = false;
     private int hoveredGridX, hoveredGridY;
-    private Building[][] mapGrid = new Building[GRID_WIDTH][GRID_HEIGHT];
     private ShapeRenderer shapeRenderer;
     private Group buildingGroup = new Group();
     private final int cellSize = 64;
@@ -65,6 +70,11 @@ public class GameScreen implements Screen {
 
     public GameScreen(Main mainGame,BilCityTycoonGame game ) {
         this.time = new Time();
+        mapList.add(new Map("North Campus", 20, 15));
+        mapList.add(new Map("South Campus", 20, 15));
+        mapList.add(new Map("East Campus", 20, 15));
+
+        currentMap = mapList.get(currentMapIndex);
 
         bilCityTycoonGame = game;
         int balance = bilCityTycoonGame.getPlayer().getMoneyHandler().getBalance();
@@ -355,8 +365,26 @@ public class GameScreen implements Screen {
         bottomTable.add(timerBtn).height(50).width(180).expandX().right();
 
 
+        Stack mapStack = new Stack();
+        mapStack.setFillParent(true);
+
+        Image background2 = new Image(mainBack);
+        mapStack.addActor(background2);
+
+        Texture roadTexture = new Texture(Gdx.files.internal("road.png"));
+        Image roadImage = new Image(roadTexture);
+
+
+        roadImage.setSize(cellSize * 2, cellSize * 2);
+        roadImage.setPosition(5 * cellSize, 5 * cellSize);
+        mapStack.addActor(roadImage);
+
+        mapStack.addActor(buildingGroup);
+
         Table midTable = new Table();
-        midTable.add(background).expand().fill();
+        midTable.add(mapStack).expand().fill();
+
+
 
         //merging all items
         rootTable.add(topTable).height(75).expandX().fillX();
@@ -364,6 +392,44 @@ public class GameScreen implements Screen {
         rootTable.add(midTable).expand().fill();
         rootTable.row();
         rootTable.add(bottomTable).height(75).expandX().fillX();
+        Texture leftArrow = new Texture(Gdx.files.internal("leftTriangle.png"));
+        Texture rightArrow = new Texture(Gdx.files.internal("rightTriangle.png"));
+
+        ImageButton leftArrowBtn = new ImageButton(new TextureRegionDrawable(new TextureRegion(leftArrow)));
+        ImageButton rightArrowBtn = new ImageButton(new TextureRegionDrawable(new TextureRegion(rightArrow)));
+
+        leftArrowBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (currentMapIndex > 0) {
+                    currentMapIndex--;
+                    currentMap = mapList.get(currentMapIndex);
+                    refreshBuildings();
+                    updateArrowButtonsVisibility(leftArrowBtn, rightArrowBtn);
+
+                }
+            }
+        });
+
+        rightArrowBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (currentMapIndex < mapList.size - 1) {
+                    currentMapIndex++;
+                    currentMap = mapList.get(currentMapIndex);
+                    refreshBuildings();
+                    updateArrowButtonsVisibility(leftArrowBtn, rightArrowBtn);
+
+                }
+            }
+        });
+
+        stage.addActor(leftArrowBtn);
+        stage.addActor(rightArrowBtn);
+
+        leftArrowBtn.setPosition(20, Gdx.graphics.getHeight() / 2f - 50);
+        rightArrowBtn.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() / 2f - 50);
+        updateArrowButtonsVisibility(leftArrowBtn, rightArrowBtn);
 
     }
 
@@ -392,7 +458,7 @@ public class GameScreen implements Screen {
                     hoveredGridX = (int)(world.x / cellSize);
                     hoveredGridY = (int)(world.y / cellSize);
 
-                    int width = 3, height = 2;
+                    int width = 2, height = 2;
                     boolean canPlace = canPlaceBuilding(hoveredGridX, hoveredGridY, width, height);
 
                     previewImage.setVisible(canPlace);
@@ -419,7 +485,7 @@ public class GameScreen implements Screen {
                     hoveredGridX = (int)(world.x / cellSize);
                     hoveredGridY = (int)(world.y / cellSize);
 
-                    int w = 3, h = 2;
+                    int w = 2, h = 2;
                     if (canPlaceBuilding(hoveredGridX, hoveredGridY, w, h)) {
                         placeBuilding(selectedFaculty, hoveredGridX, hoveredGridY, w, h);
                         selectedFaculty = null;
@@ -454,7 +520,7 @@ public class GameScreen implements Screen {
 
 
         if (isPlacingBuilding && selectedFaculty != null) {
-            int width = 3;
+            int width = 2;
             int height = 2;
 
             boolean canPlace = canPlaceBuilding(hoveredGridX, hoveredGridY, width, height);
@@ -508,21 +574,21 @@ public class GameScreen implements Screen {
         return fontParameter;
     }
     private boolean canPlaceBuilding(int x, int y, int width, int height) {
-        if (x + width > mapGrid.length || y + height > mapGrid[0].length) return false;
+        Building[][] grid = currentMap.getGrid();
+        if (x + width > grid.length || y + height > grid[0].length) return false;
 
         for (int i = x; i < x + width; i++) {
             for (int j = y; j < y + height; j++) {
-                if (mapGrid[i][j] != null) return false;
+                if (grid[i][j] != null || currentMap.isRoad(i, j)) return false; // yolları kontrol et
             }
         }
         return true;
     }
+
+
+
     private void placeBuilding(Faculty faculty, int x, int y, int width, int height) {
-        for (int i = x; i < x + width; i++) {
-            for (int j = y; j < y + height; j++) {
-                mapGrid[i][j] = faculty;
-            }
-        }
+        currentMap.placeBuilding(faculty, x, y, width, height);
         bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) faculty.getCost());
 
         Image buildingImage = new Image(faculty.getImage().getDrawable());
@@ -532,6 +598,8 @@ public class GameScreen implements Screen {
 
         buildingGroup.addActor(buildingImage);
     }
+
+
     public void startPlacing(Faculty faculty) {
         this.selectedFaculty = faculty;
         this.isPlacingBuilding = true;
@@ -567,6 +635,41 @@ public class GameScreen implements Screen {
 
         dialog.show(stage);
     }
+    private void placeBuildingOnCurrentMap(Faculty faculty, int x, int y, int width, int height) {
+        currentMap.placeBuilding(faculty, x, y, width, height);
+        bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) faculty.getCost());
+        refreshBuildings();
+    }
+
+    private void refreshBuildings() {
+        buildingGroup.remove();  // sahneden çıkar
+
+        buildingGroup = new Group();  // yeni bir group başlat
+        stage.addActor(buildingGroup); // yeniden ekle
+
+        Building[][] grid = currentMap.getGrid();
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] != null) {
+                    Faculty faculty = (Faculty) grid[i][j];
+                    Image buildingImage = new Image(faculty.getImage().getDrawable());
+                    float scale = 2f;
+                    buildingImage.setSize(2 * cellSize * scale, 2 * cellSize * scale);
+                    buildingImage.setPosition((i * cellSize) - (2 * cellSize * (scale - 1) / 2f), (j * cellSize) - (2 * cellSize * (scale - 1) / 2f));
+                    buildingGroup.addActor(buildingImage);
+                }
+            }
+        }
+    }
+
+
+
+    private void updateArrowButtonsVisibility(ImageButton leftArrowBtn, ImageButton rightArrowBtn) {
+        leftArrowBtn.setVisible(currentMapIndex > 0);
+        rightArrowBtn.setVisible(currentMapIndex < mapList.size - 1);
+    }
+
+
 
 
 
