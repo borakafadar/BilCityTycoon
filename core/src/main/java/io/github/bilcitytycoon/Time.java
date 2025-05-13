@@ -10,7 +10,7 @@ public class Time {
     public long definedMonthDurationMillis = 60 * 1000 * 2; //default month duration
     public long monthDurationMillis = definedMonthDurationMillis;//month duration to be altered in the future
     public long definedDayDurationMillis = 10 * 1000;
-    public int totalDaysPlayed = 0;
+    public int totalDaysPlayed = 1;
     public long inGameTimePlayed = 0;
 
     public Time(){
@@ -49,7 +49,7 @@ public class Time {
     private void advanceMonth(){
         monthIndex++;
         moneyHandler.collectMonthlyIncome(player);
-        totalDaysPlayed = 0;
+        totalDaysPlayed = 1;
 
         if(monthIndex == 4){
             monthIndex = 0;
