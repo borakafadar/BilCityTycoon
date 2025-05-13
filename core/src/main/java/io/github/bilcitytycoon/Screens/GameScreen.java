@@ -30,6 +30,8 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import io.github.bilcitytycoon.Save.SaveLoad;
 import io.github.bilcitytycoon.Screens.Store.StoreScreen;
 
+import java.util.Random;
+
 public class GameScreen implements Screen {
     private Image previewImage;
     private Viewport screenViewport;
@@ -64,7 +66,11 @@ public class GameScreen implements Screen {
     private float dayTimer = 0;
     private boolean isFast = false;
 
-    public GameScreen(Main mainGame,BilCityTycoonGame game ) {
+    private int lastPopupDay = 0;
+    private int popupDayInterval = 1;
+    private PopUpPanel currentPopup;
+
+    public GameScreen(Main mainGame, BilCityTycoonGame game) {
         this.time = new Time();
 
         bilCityTycoonGame = game;
@@ -74,18 +80,18 @@ public class GameScreen implements Screen {
         this.settingsScreen = new SettingsScreen(GameScreen.this, mainGame);
         this.loadGameScreen = new LoadGameScreen(mainGame, GameScreen.this);
 
-        this.mainGame=mainGame;
+        this.mainGame = mainGame;
         screenViewport = new com.badlogic.gdx.utils.viewport.StretchViewport(1280, 720);
 
         stage = new Stage(screenViewport);
 
 
         FreeTypeFontGenerator bigFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(36,1);
+        FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(36, 1);
 
-        FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(16,1);
+        FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(16, 1);
 
-        FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(13,0);
+        FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(13, 0);
 
         BitmapFont bigFont = bigFontGenerator.generateFont(bigFontParameter);
         BitmapFont smallFont = bigFontGenerator.generateFont(smallFontParameter);
@@ -137,37 +143,37 @@ public class GameScreen implements Screen {
             }
         });
         TextButton settingsBtn = new TextButton("Settings", skin);
-        settingsBtn.addListener(new ClickListener(){
+        settingsBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 mainGame.setScreen(settingsScreen);
             }
         });
         TextButton saveBtn = new TextButton("Save Game", skin);
-        saveBtn.addListener(new ClickListener(){
+        saveBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                SaveLoad save = new SaveLoad(bilCityTycoonGame,mainGame);
+                SaveLoad save = new SaveLoad(bilCityTycoonGame, mainGame);
                 save.saveGame();
             }
         });
         TextButton loadBtn = new TextButton("Load Game", skin);
-        loadBtn.addListener(new ClickListener(){
+        loadBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 mainGame.setScreen(loadGameScreen);
             }
         });
         TextButton exitBtn = new TextButton("Exit Game", skin);
-        exitBtn.addListener(new ClickListener(){
+        exitBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //dialog box
-                Dialog dialog = new Dialog("Quit?", skin,"dialogStyle"){
+                Dialog dialog = new Dialog("Quit?", skin, "dialogStyle") {
                     //to quit when clicking yes
                     @Override
                     protected void result(Object object) {
-                        if((boolean)object){
+                        if ((boolean) object) {
                             Gdx.app.exit();
                         }
                     }
@@ -211,10 +217,10 @@ public class GameScreen implements Screen {
         style.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("icons/storeIcon.png")));
 
         ImageTextButton storeBtn = new ImageTextButton("Store", style);
-        storeBtn.addListener(new ClickListener(){
+        storeBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                mainGame.setScreen(new StoreScreen(bilCityTycoonGame,mainGame,GameScreen.this));
+                mainGame.setScreen(new StoreScreen(bilCityTycoonGame, mainGame, GameScreen.this));
             }
         });
         storeBtn.getLabel().setFontScale(0.7f);
@@ -230,8 +236,8 @@ public class GameScreen implements Screen {
         nameStyle.font = skin.getFont("PressStart2P-small");
         nameStyle.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("icons/bilkoamblemIcon.png")));
 
-        ImageTextButton nameBtn = new ImageTextButton(game.getPlayer().getName()+"\nBilCity University", nameStyle);
-        nameBtn.addListener(new ClickListener(){
+        ImageTextButton nameBtn = new ImageTextButton(game.getPlayer().getName() + "\nBilCity University", nameStyle);
+        nameBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 UniversityStatsPopup.show(stage, skin, bilCityTycoonGame.getPlayer());
@@ -256,7 +262,6 @@ public class GameScreen implements Screen {
         topTable.add(ssrTable).pad(3).expandX().fillX().height(50).width(300).center().right();
 
 
-
         //making of button of ranking universities
 
         ImageTextButton.ImageTextButtonStyle leaderStyle = new ImageTextButton.ImageTextButtonStyle();
@@ -267,10 +272,10 @@ public class GameScreen implements Screen {
         leaderStyle.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("icons/rankingIcon.png")));
 
         ImageTextButton leaderButon = new ImageTextButton("#41", leaderStyle);
-        leaderButon.addListener(new ClickListener(){
+        leaderButon.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                mainGame.setScreen(new LeaderboardScreen(bilCityTycoonGame,mainGame,GameScreen.this));
+                mainGame.setScreen(new LeaderboardScreen(bilCityTycoonGame, mainGame, GameScreen.this));
             }
         });
         leaderButon.getLabel().setFontScale(0.7f);
@@ -288,8 +293,8 @@ public class GameScreen implements Screen {
         coinStyle.font = skin.getFont("PressStart2P-small");
         coinStyle.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("icons/bilCoin.png")));
 
-        coinBtn = new ImageTextButton(balance+"\nBilcoins", coinStyle);
-        coinBtn.addListener(new ClickListener(){
+        coinBtn = new ImageTextButton(balance + "\nBilcoins", coinStyle);
+        coinBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //showEconomyPopup();
@@ -310,7 +315,7 @@ public class GameScreen implements Screen {
         Table datetable = new Table();
         datetable.setBackground(backgroundDrawable);
         Image dateIcon = new Image(new Texture(Gdx.files.internal("icons/semesterIcon.png")));
-         dateLabel = new Label("   Fall\n 2024/2025", skin, "labelStyle");
+        dateLabel = new Label("   Fall\n 2024/2025", skin, "labelStyle");
         dateLabel.setFontScale(0.8f);
         datetable.add(dateIcon).size(50, 50).padRight(10);
         datetable.add(dateLabel);
@@ -323,7 +328,7 @@ public class GameScreen implements Screen {
         dayTable.setBackground(backgroundDrawable);
 
         Image dayIcon = new Image(new Texture(Gdx.files.internal("icons/sunIcon.png")));
-         dayLabel = new Label("Day 33", skin, "labelStyle");
+        dayLabel = new Label("Day 33", skin, "labelStyle");
         dayLabel.setFontScale(0.8f);
         dayTable.add(dayIcon).size(40, 40).padRight(10);
         dayTable.add(dayLabel);
@@ -339,7 +344,7 @@ public class GameScreen implements Screen {
         timerStyle.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("icons/timeIcon.png")));
 
         ImageTextButton timerBtn = new ImageTextButton("Time\n 1X", timerStyle);
-        timerBtn.addListener(new ClickListener(){
+        timerBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (!isFast) {
@@ -365,7 +370,6 @@ public class GameScreen implements Screen {
         rootTable.add(midTable).expand().fill();
         rootTable.row();
         rootTable.add(bottomTable).height(75).expandX().fillX();
-
     }
 
     @Override
@@ -390,8 +394,8 @@ public class GameScreen implements Screen {
                         return false;
                     }
 
-                    hoveredGridX = (int)(world.x / cellSize);
-                    hoveredGridY = (int)(world.y / cellSize);
+                    hoveredGridX = (int) (world.x / cellSize);
+                    hoveredGridY = (int) (world.y / cellSize);
 
                     int width = 3, height = 2;
                     boolean canPlace = canPlaceBuilding(hoveredGridX, hoveredGridY, width, height);
@@ -417,8 +421,8 @@ public class GameScreen implements Screen {
                         return false;
                     }
 
-                    hoveredGridX = (int)(world.x / cellSize);
-                    hoveredGridY = (int)(world.y / cellSize);
+                    hoveredGridX = (int) (world.x / cellSize);
+                    hoveredGridY = (int) (world.y / cellSize);
 
                     int w = 3, h = 2;
                     if (canPlaceBuilding(hoveredGridX, hoveredGridY, w, h)) {
@@ -442,10 +446,21 @@ public class GameScreen implements Screen {
 
 
     }
+
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
         screenViewport.apply();
+
+        time.updateTime();
+
+        int currentDay = time.getTotalDaysPlayed();
+
+        if (currentDay > 2 && currentDay >= lastPopupDay + popupDayInterval) {
+            lastPopupDay = currentDay;
+            showRandomPopup();
+        }
+
         stage.act();
         stage.draw();
 
@@ -477,23 +492,32 @@ public class GameScreen implements Screen {
         ssrLabel.setText("Student\nSatisfaction Rate %" + bilCityTycoonGame.getPlayer().studentSatisfactionRate);
 
     }
+
     @Override
     public void resize(int width, int height) {
-        screenViewport.update(width,height,true);
+        screenViewport.update(width, height, true);
         screenViewport.apply(true);
     }
+
     @Override
-    public void pause() {}
+    public void pause() {
+    }
+
     @Override
-    public void resume() {}
+    public void resume() {
+    }
+
     @Override
-    public void hide() {}
+    public void hide() {
+    }
+
     @Override
     public void dispose() {
         stage.dispose();
         skin.dispose();
     }
-    private FreeTypeFontGenerator.FreeTypeFontParameter generateFontParameter(int size, int borderWidth){
+
+    private FreeTypeFontGenerator.FreeTypeFontParameter generateFontParameter(int size, int borderWidth) {
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         fontParameter.size = size;
         fontParameter.borderWidth = borderWidth;
@@ -512,6 +536,7 @@ public class GameScreen implements Screen {
 
         return fontParameter;
     }
+
     private boolean canPlaceBuilding(int x, int y, int width, int height) {
         if (x + width > mapGrid.length || y + height > mapGrid[0].length) return false;
 
@@ -522,6 +547,7 @@ public class GameScreen implements Screen {
         }
         return true;
     }
+
     private void placeBuilding(Faculty faculty, int x, int y, int width, int height) {
         for (int i = x; i < x + width; i++) {
             for (int j = y; j < y + height; j++) {
@@ -537,15 +563,18 @@ public class GameScreen implements Screen {
 
         buildingGroup.addActor(buildingImage);
     }
+
     public void startPlacing(Faculty faculty) {
         this.selectedFaculty = faculty;
         this.isPlacingBuilding = true;
     }
+
     public void processDay() {
         bilCityTycoonGame.getPlayer().getMoneyHandler().processDay();
         bilCityTycoonGame.getPlayer().studentSatisfactionPoint-=100;
         bilCityTycoonGame.getPlayer().calculateStudentSatisfactionRate();
     }
+
     private void showEconomyPopup() {
         Dialog dialog = new Dialog("Economy", skin, "dialogStyle");
 
@@ -575,6 +604,34 @@ public class GameScreen implements Screen {
         dialog.show(stage);
     }
 
+    private void showRandomPopup() {
+        if (currentPopup != null) {
+            currentPopup.remove();
+        }
+        Random random = new Random();
+        int randomType = random.nextInt(3);
 
+        if (randomType == 0) {
+            Event protestEvent = new Event("", 0, bilCityTycoonGame, -60);
+            protestEvent.protest();
+            currentPopup = new PopUpPanel(mainGame, bilCityTycoonGame, protestEvent, new TextButton("OK", skin));
+
+        } else if (randomType == 1) {
+            if (!bilCityTycoonGame.getPlayer().getBuildings().isEmpty()) {
+                Event fireEvent = new Event("", 0, bilCityTycoonGame, -100);
+                Building targetBuilding = fireEvent.randomBuilding();
+                fireEvent.burning(targetBuilding);
+                currentPopup = new PopUpPanel(mainGame, bilCityTycoonGame, fireEvent, new TextButton("Yes", skin), new TextButton("No", skin));
+            }
+        } else {
+            Event donationEvent = new Event("", 0, bilCityTycoonGame, 10);
+            donationEvent.donation();
+            currentPopup = new PopUpPanel(mainGame, bilCityTycoonGame, new TextButton("OK", skin), donationEvent);
+        }
+
+        if (currentPopup != null) {
+            stage.addActor(currentPopup);
+        }
+    }
 
 }
