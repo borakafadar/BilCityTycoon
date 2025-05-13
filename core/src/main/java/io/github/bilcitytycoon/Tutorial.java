@@ -1,174 +1,301 @@
 package io.github.bilcitytycoon;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import io.github.bilcitytycoon.Map;
-
-/**
- * Manages the in-game tutorial overlay using libGDX’s Scene2D UI.
- * Walks the player through each core gameplay step with avatar pop-ups
- * and map/UI highlights.
- **/
 
 public class Tutorial {
-    private final int WELCOME = 0;
-    private final int BUILD_RECTORATE = 1;
-    private final int BUILD_FACULTY = 2;
-    private final int HANDLE_BUDGET = 3;
-    private final int CHECK_SATISFACTION = 4;
-    private final int END_TUTORIAL = 5;
+    // Tutorial steps
+    public static final int WELCOME = 0;
+    public static final int NAME_UNIVERSITY = 1;
+    public static final int BUILD_RECTORATE = 2;
+    public static final int OPEN_STORE = 3;
+    public static final int BUILD_FACULTY = 4;
+    public static final int CHECK_BUDGET = 5;
+    public static final int BUILD_DORM = 6;
+    public static final int CHECK_SATISFACTION = 7;
+    public static final int TIME_CONTROLS = 8;
+    public static final int FINAL_TIPS = 9;
+    public static final int END_TUTORIAL = 10;
 
-    /*private final Stage stage;
+    private final Stage stage;
     private final Skin skin;
-    private final Map map;*/
+    private final Map map;
+    private final BilCityTycoonGame game;
 
-    private Table popupTable;
+    private Window tutorialWindow;
     private Image avatarImage;
     private Label messageLabel;
-    private Texture[] avatars;
     private TextButton nextButton;
-
+    private TextButton skipButton;
+    private Texture[] avatars;
     private int currentStep;
 
-   /**
-     * Creates and starts the tutorial sequence.
-     *
-     //* @param stage the Scene2D Stage on which to display tutorial UI
-     //* @param skin  the UI Skin (json + atlas) for styling widgets
-     //* @param map   the game Map, used for highlighting and resuming play
-     */
-/*
-    public Tutorial(Stage stage, Skin skin, Map map)
-    {
+    // Tutorial content arrays
+    private final String[] messages = {
+        "Welcome to BilCity Tycoon! I'm Yaşar, and I'll guide you through building your dream university.",
+        "First, let's name your university. Click on the text field above and enter a name that reflects your vision.",
+        "Great! Now let's build your Rectorate - the heart of your university. Look for the highlighted yellow area on the map.",
+        "Click the Store button at the top of the screen. This is where you'll find all buildings and upgrades.",
+        "Time to build your first faculty! Choose one from the Faculties tab. Remember to check the cost and reputation points.",
+        "Keep an eye on your BilCoins! Click the coin icon to see your income and expenses breakdown.",
+        "Students need a place to stay. Build a dormitory from the Other Buildings section.",
+        "Student satisfaction is crucial! Watch the satisfaction meter and add facilities to keep it high.",
+        "Use the time controls to speed up or pause the game. Each semester takes 4 months.",
+        "Remember: Happy students = More BilCoins = Better reputation. Balance your expenses and keep expanding!",
+        "You're ready to build your university empire! Good luck!"
+    };
+
+    private final String[] highlightAreas = {
+        null,                  // Welcome
+        "universityName",      // Name university
+        "buildableArea",       // Rectorate
+        "storeButton",        // Store
+        "facultyTab",         // Faculty
+        "bilcoinsPanel",      // Budget
+        "otherBuildingsTab",  // Dorm
+        "satisfactionMeter",  // Satisfaction
+        "timeControls",       // Time
+        null,                 // Tips
+        null                  // End
+    };
+
+    public Tutorial(Stage stage, Skin skin, Map map, BilCityTycoonGame game) {
         this.stage = stage;
         this.skin = skin;
         this.map = map;
+        this.game = game;
+        this.currentStep = WELCOME;
+        
         loadAvatars();
-        buildUi();
-        startTutorial();
-    }*/
-
-   //Loads all avatar textures used in the tutorial pop-ups.
-    private void loadAvatars()
-    {
-        avatars = new Texture[5];
-        avatars[0]= new Texture(""); //Yaşar these pictures should be added into icons
-        avatars[1]= new Texture(""); // Bora
-        avatars[2]= new Texture(""); //Vural
-        avatars[3]= new Texture(""); // Eylül
-        avatars[4]= new Texture(""); // Zeynel
-
+        createTutorialWindow();
     }
 
-    //Builds the pop-up Table, avatar Image, message Label, and Next button,then adds them to the stage.
-    /*private void buildUi()
-    {
-        popupTable = new Table(skin);
-        popupTable.setFillParent(true);
-        popupTable.pad(20).background("window");
+    private void loadAvatars() {
+        avatars = new Texture[5];
+        // Load character sprites for each team member
+        avatars[0] = new Texture(Gdx.files.internal("assets/character sprites/Yasar_default.png"));
+        avatars[1] = new Texture(Gdx.files.internal("assets/character sprites/Bora_default.png"));
+        avatars[2] = new Texture(Gdx.files.internal("assets/character sprites/Vural_default.png"));
+        avatars[3] = new Texture(Gdx.files.internal("assets/character sprites/Eylul_default.png"));
+        avatars[4] = new Texture(Gdx.files.internal("assets/character sprites/Zeynel_default.png"));
+    }
 
+    private void createTutorialWindow() {
+        tutorialWindow = new Window("Tutorial", skin);
+        tutorialWindow.setMovable(false);
+        
+        // Create content table
+        Table content = new Table(skin);
+        content.pad(20);
+        
+        // Add avatar image
         avatarImage = new Image(avatars[0]);
+        content.add(avatarImage).size(150).padRight(20);
+        
+        // Add message label
         messageLabel = new Label("", skin);
         messageLabel.setWrap(true);
+        content.add(messageLabel).width(400).expandX().fillX();
+        
+        content.row().pad(20);
+        
+        // Add buttons
+        Table buttonTable = new Table(skin);
+        
+        skipButton = new TextButton("Skip Tutorial", skin);
+        skipButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                endTutorial();
+            }
+        });
+        
         nextButton = new TextButton("Next", skin);
         nextButton.addListener(new ChangeListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor)
-            {
+            public void changed(ChangeEvent event, Actor actor) {
                 nextStep();
             }
         });
-
-        // Layout: avatar on left, text on right, button below
-        popupTable.add(avatarImage).size(120).padRight(15);
-        popupTable.add(messageLabel).expandX().fillX();
-        popupTable.row().padTop(10);
-        popupTable.add(nextButton).colspan(2).center();
-        stage.addActor(popupTable);
-    }*/
-    //Initializes the tutorial at the first step.
-    /*public void startTutorial()
-    {
-        currentStep = WELCOME;
-        showStep();
+        
+        buttonTable.add(skipButton).padRight(20);
+        buttonTable.add(nextButton);
+        
+        content.add(buttonTable).colspan(2).right();
+        
+        tutorialWindow.add(content).expand().fill();
+        tutorialWindow.pack();
+        
+        // Center window
+        tutorialWindow.setPosition(
+            (stage.getWidth() - tutorialWindow.getWidth()) / 2,
+            (stage.getHeight() - tutorialWindow.getHeight()) / 2
+        );
     }
 
-    // continues to the next tutorial step, or finishes if on the last step.
+    public void startTutorial() {
+        currentStep = WELCOME;
+        stage.addActor(tutorialWindow);
+        showCurrentStep();
+    }
+
+    // Change this method from private to public:
     public void nextStep() {
+        // Increment current step
         currentStep++;
-        showStep();
-    }*/
-
-    /**
-     * Displays the UI and map/UI highlights for the current step.
-     * Clears any previous highlights before applying the new ones.
-     */
-   /* public void showStep()
-    {
-        //Clear previous highlights
-        //map.clearHighlights();
-
-        switch(currentStep){
-            case WELCOME:
-                avatarImage.setDrawable(new TextureRegionDrawable(new TextureRegion(avatars[0])));
-                messageLabel.setText("Welcome to BilCity Tycoon! In this tutorial, you will learn how to build your campus while managing your budget, and keeping your students happy.");
-                break;
-
-            case BUILD_RECTORATE:
-                avatarImage.setDrawable(new TextureRegionDrawable(
-                    new TextureRegion(avatars[1])));
-                messageLabel.setText(
-                    "First, let’s place your Rectorate. Click on a yellow-highlighted grid to begin construction.");
-                map.highlightGrids("buildable");  // highlights all buildable grid cells
-                break;
-
-            case BUILD_FACULTY:
-                avatarImage.setDrawable(new TextureRegionDrawable(
-                    new TextureRegion(avatars[2])));
-                messageLabel.setText(
-                    "Now build a Faculty. Make sure you have enough BilCoins and an available grid."
-                );
-                map.highlightGrids("faculty-zone");
-                break;
-
-            case HANDLE_BUDGET:
-                avatarImage.setDrawable(new TextureRegionDrawable(
-                    new TextureRegion(avatars[3])));
-                messageLabel.setText(
-                    "Keep an eye on your Budget panel! Income comes from students and events; expenses from construction and maintenance."
-                );
-                map.highlightUI("budgetPanel");
-                break;
-
-            case CHECK_SATISFACTION:
-               avatarImage.setDrawable(new TextureRegionDrawable(
-                    new TextureRegion(avatars[4])));
-                messageLabel.setText(
-                    "Student Satisfaction affects your reputation. Happy students bring more BilCoins and higher rankings."
-                );
-                map.highlightUI("satisfactionMeter");
-                break;
-
-            case END_TUTORIAL:
-                finishTutorial();
-                return;
+        
+        // Check if we've reached the end
+        if (currentStep > END_TUTORIAL) {
+            // Reset to last step to avoid index errors
+            currentStep = END_TUTORIAL;
+            return;
         }
-    }*/
-
-     // Removes the tutorial overlay and resumes normal gameplay.
-    /*private void finishTutorial() {
-        popupTable.remove();
+        
+        // Clear previous highlights
         map.clearHighlights();
-        // Signal the game that tutorial is over, e.g.:
-        map.getGame().resumePlay();
-    }*/
+        
+        // Add new highlights if needed
+        String highlightArea = highlightAreas[currentStep];
+        if (highlightArea != null) {
+            map.highlightArea(highlightArea);
+        }
+        
+        // Update UI elements
+        if (messageLabel != null) {
+            messageLabel.setText(getCurrentMessage());
+        }
+        
+        // Update avatar if available
+        if (avatarImage != null && avatars != null && avatars.length > 0) {
+            avatarImage.setDrawable(new TextureRegionDrawable(
+                new TextureRegion(avatars[currentStep % avatars.length]))
+            );
+        }
+        
+        // Update button text for last step
+        if (nextButton != null && currentStep == END_TUTORIAL) {
+            nextButton.setText("Start Playing!");
+        }
+        
+        System.out.println("Tutorial advanced to step " + currentStep + ": " + getCurrentMessage());
+    }
 
-  // Checks whether the tutorial is still active.
+    private void showCurrentStep() {
+        // Clear previous highlights
+        map.clearHighlights();
+        
+        // Update avatar (cycle through team members)
+        avatarImage.setDrawable(new TextureRegionDrawable(
+            new TextureRegion(avatars[currentStep % avatars.length]))
+        );
+        
+        // Update message
+        messageLabel.setText(messages[currentStep]);
+        
+        // Add highlights if needed
+        String highlightArea = highlightAreas[currentStep];
+        if (highlightArea != null) {
+            map.highlightArea(highlightArea);
+        }
+        
+        // Update next button text for last step
+        if (currentStep == END_TUTORIAL) {
+            nextButton.setText("Start Playing!");
+        }
+    }
+
+    private void endTutorial() {
+        // Clean up
+        tutorialWindow.remove();
+        map.clearHighlights();
+        
+        // Dispose textures
+        for (Texture texture : avatars) {
+            texture.dispose();
+        }
+        
+        // Signal game that tutorial is complete
+        game.setTutorialComplete(true);
+    }
+
     public boolean isActive() {
         return currentStep <= END_TUTORIAL;
+    }
+
+    public void dispose() {
+        for (Texture texture : avatars) {
+            if (texture != null) {
+                texture.dispose();
+            }
+        }
+    }
+
+
+    public void skipTutorial() {
+        map.clearHighlights();
+
+
+        if (tutorialWindow != null) {
+            tutorialWindow.remove();
+        }
+        
+        // Skip to end
+        currentStep = END_TUTORIAL;
+        
+        // Signal game that tutorial is complete
+        game.setTutorialComplete(true);
+    }
+
+
+    public int getCurrentStep() {
+        return currentStep;
+    }
+
+    public String getCurrentMessage() {
+        if (currentStep >= 0 && currentStep < messages.length) {
+            return messages[currentStep];
+        }
+        return "Tutorial complete!";
+    }
+
+ 
+    public boolean isComplete() {
+        return currentStep >= END_TUTORIAL;
+    }
+
+// Add these helper methods for the Map class:
+private void updateHighlights() {
+    // Clear existing highlights
+    map.clearHighlights();
+    
+    // Add new highlight if needed
+    String highlightArea = highlightAreas[currentStep];
+    if (highlightArea != null) {
+        map.highlightArea(highlightArea);
+    }
+}
+
+private void updateUI() {
+    // Update avatar
+    if (avatarImage != null) {
+        avatarImage.setDrawable(new TextureRegionDrawable(
+            new TextureRegion(avatars[currentStep % avatars.length]))
+        );
+    }   
+    
+    // Update message
+    if (messageLabel != null) {
+        messageLabel.setText(getCurrentMessage());
+    }
+    
+    // Update next button text for last step
+    if (nextButton != null && currentStep == END_TUTORIAL - 1) {
+        nextButton.setText("Start Playing!");
+    }
     }
 }
