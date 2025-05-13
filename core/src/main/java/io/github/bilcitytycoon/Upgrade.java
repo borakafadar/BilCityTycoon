@@ -74,7 +74,7 @@ public class Upgrade {
     }
 
     private void updateStudentSatisfactionPoint(Player player) {
-        player.addStudenSatisfactionPoint(50);
+        player.addStudentSatisfactionPoint(50);
     }
 
 
