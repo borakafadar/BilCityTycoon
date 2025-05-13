@@ -130,6 +130,7 @@ public class Player extends University {
 
     public void constructBuilding(Building building){
         buildings.add(building);
-        building.triggerEffects();
+
     }
+
 }

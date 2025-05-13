@@ -73,25 +73,25 @@ public class Store {
 
 
     public void initializeFaculties(){
-        computerScienceFaculty = new Faculty("Computer Science Faculty", 120, 70, 70, "sprites/Computer Science Faculty.png", 10, "Where students turn caffeine into code and build the future.");
-        eeeBuilding = new Faculty("EEE Building", 110, 90, 90, "sprites/EEE Building.png", 10,"Where students learn to electrify their minds and brighten the future.");
-        biologyBuilding = new Faculty("Biology Building", 80, 50, 20, "sprites/Biology Building.png", 9, "Where students explore the core details of life");
-        psychologyBuilding = new Faculty("Psychology Building", 80, 40, 20,"sprites/Psychology Building.png", 7, "Where students meet and know their inner selves");
-        lawFaculty = new Faculty("Law Faculty", 90, 60, 40, "sprites/Law Faculty.png", 8, "Where students learn their rights and the chronological evolution of law.");
-        managementFaculty = new Faculty("Management Faculty", 70, 40, 20, "sprites/Management Faculty.png", 7, "Where students learn to manage their time and resources effectively.");
-        economicsBuilding = new Faculty("Economics Building", 80, 50, 40, "sprites/Economics Building.png", 8, "Where students learn to navigate the complex world of money and markets.");
-        physicsBuilding = new Faculty("Physics Building", 90, 70, 40, "sprites/Physics Building.png", 9, "Where students can dive into the amazing adventure of the universe");
-        industrialEngineeringBuilding = new Faculty("Industrial Engineering Building", 90, 60, 40, "sprites/Industrial Engineering Building.png", 8, "Where students learn to optimize processes and make the world more efficient.");
-        interiorArchitectureBuilding = new Faculty("Interior Architecture Building", 75, 45, 30, "sprites/Interior Architecture Building.png", 7, "Where students design inspiring and functional interior spaces.");
-        mechanicalEngineeringBuilding = new Faculty("Mechanical Engineering Building", 95, 65, 50, "sprites/Mechanical Engineering Building.png", 9, "Where students engineer machines and mechanisms that move the world.");
-        graphicDesignBuilding = new Faculty("Graphic Design Building", 70, 30, 25, "sprites/Graphic Design Building.png", 7, "Where creativity meets technology to communicate visually.");
-        chemistryBuilding = new Faculty("Chemistry Building", 85, 55, 45, "sprites/Chemistry Building.png", 8, "Where students explore reactions and molecules to unlock chemical secrets.");
-        urbanDesignAndLandscapeBuilding = new Faculty("Urban Design and Landscape Building", 75, 45, 20, "sprites/Urban Design and Landscape Building.png", 7, "Where students shape sustainable cities and green spaces.");
-        politicalScienceBuilding = new Faculty("Political Science Building", 70, 40, 20, "sprites/Political Science Building.png", 7, "Where students learn to navigate the complex world of politics.");
-        amphitheatreBuilding = new Faculty("Amphitheatre Building", 60, 20, 5, "sprites/Amphitheatre Building.png", 6, "Where the university gathers for performances, lectures, and events.");
-        mathematicsBuilding = new Faculty("Mathematics Building", 80, 50, 20, "sprites/Mathematics Building.png", 9, "Where abstract concepts become the language of the universe.");
-        communicationAndDesignBuilding = new Faculty("Communication and Design Building", 70, 45, 25, "sprites/Communication and Design Building.png", 7, "Where ideas are crafted into compelling stories and visuals.");
-        architectureBuilding = new Faculty("Architecture Building", 75, 50, 30, "sprites/Architecture Building.png", 8, "Where students draft the future skyline with innovation and precision.");
+        computerScienceFaculty = new Faculty("Computer Science Faculty", 120, 70, 70, "sprites/Computer Science Faculty.png", 10, "Where students turn caffeine into code and build the future.", 150, 70);
+        eeeBuilding = new Faculty("EEE Building", 110, 90, 90, "sprites/EEE Building.png", 10,"Where students learn to electrify their minds and brighten the future.", 120, 50);
+        biologyBuilding = new Faculty("Biology Building", 80, 50, 20, "sprites/Biology Building.png", 9, "Where students explore the core details of life", 90, 30);
+        psychologyBuilding = new Faculty("Psychology Building", 80, 40, 20,"sprites/Psychology Building.png", 7, "Where students meet and know their inner selves", 90, 30);
+        lawFaculty = new Faculty("Law Faculty", 90, 60, 40, "sprites/Law Faculty.png", 8, "Where students learn their rights and the chronological evolution of law.", 110, 40);
+        managementFaculty = new Faculty("Management Faculty", 70, 40, 20, "sprites/Management Faculty.png", 7, "Where students learn to manage their time and resources effectively.", 110, 40);
+        economicsBuilding = new Faculty("Economics Building", 80, 50, 40, "sprites/Economics Building.png", 8, "Where students learn to navigate the complex world of money and markets.", 90, 40);
+        physicsBuilding = new Faculty("Physics Building", 90, 70, 40, "sprites/Physics Building.png", 9, "Where students can dive into the amazing adventure of the universe", 90, 40);
+        industrialEngineeringBuilding = new Faculty("Industrial Engineering Building", 90, 60, 40, "sprites/Industrial Engineering Building.png", 8, "Where students learn to optimize processes and make the world more efficient.", 100, 40);
+        interiorArchitectureBuilding = new Faculty("Interior Architecture Building", 75, 45, 30, "sprites/Interior Architecture Building.png", 7, "Where students design inspiring and functional interior spaces.",90, 40);
+        mechanicalEngineeringBuilding = new Faculty("Mechanical Engineering Building", 95, 65, 50, "sprites/Mechanical Engineering Building.png", 9, "Where students engineer machines and mechanisms that move the world.", 120, 60);
+        graphicDesignBuilding = new Faculty("Graphic Design Building", 70, 30, 25, "sprites/Graphic Design Building.png", 7, "Where creativity meets technology to communicate visually.", 90, 35);
+        chemistryBuilding = new Faculty("Chemistry Building", 85, 55, 45, "sprites/Chemistry Building.png", 8, "Where students explore reactions and molecules to unlock chemical secrets.", 90, 30);
+        urbanDesignAndLandscapeBuilding = new Faculty("Urban Design and Landscape Building", 75, 45, 20, "sprites/Urban Design and Landscape Building.png", 7, "Where students shape sustainable cities and green spaces.", 90, 35);
+        politicalScienceBuilding = new Faculty("Political Science Building", 70, 40, 20, "sprites/Political Science Building.png", 7, "Where students learn to navigate the complex world of politics.", 100, 40);
+        amphitheatreBuilding = new Faculty("Amphitheatre Building", 60, 20, 5, "sprites/Amphitheatre Building.png", 6, "Where the university gathers for performances, lectures, and events.",  70, 20);
+        mathematicsBuilding = new Faculty("Mathematics Building", 80, 50, 20, "sprites/Mathematics Building.png", 9, "Where abstract concepts become the language of the universe.", 100, 40);
+        communicationAndDesignBuilding = new Faculty("Communication and Design Building", 70, 45, 25, "sprites/Communication and Design Building.png", 7, "Where ideas are crafted into compelling stories and visuals.",80, 30);
+        architectureBuilding = new Faculty("Architecture Building", 75, 50, 30, "sprites/Architecture Building.png", 8, "Where students draft the future skyline with innovation and precision.",70, 30);
 
         unbuiltFaculties.add(computerScienceFaculty);
         unbuiltFaculties.add(eeeBuilding);

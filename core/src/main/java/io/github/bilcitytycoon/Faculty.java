@@ -17,8 +17,8 @@ public class Faculty extends Building {
     protected Upgrade[] upgrades; // Array to hold multiple upgrades
     protected int currentUpgradeLevel;//tracks the current upgrade
 
-    public Faculty(String name, int cost, int bill, int income, String imagePath, int buildTime, String info) {
-        super(name, cost, bill);
+    public Faculty(String name, int cost, int bill, int income, String imagePath, int buildTime, String info,int studentSatisfactionPoint,int universityReputationPoint) {
+        super(name, cost, bill,studentSatisfactionPoint,universityReputationPoint);
         this.income = income;
         this.info = info;
         this.buildTime = buildTime;
