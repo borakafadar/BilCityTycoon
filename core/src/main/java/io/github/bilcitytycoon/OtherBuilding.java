@@ -40,15 +40,10 @@ public class OtherBuilding extends Building{
     }
 
     public String getInfo(){
-        return "Building Name: " + this.name + "\n" +
-               "Cost: " + this.buildCost + " BilCoins\n" +
-               "Monthly Bill: " + this.bill + " BilCoins\n" +
-               "Income: " + this.income + " BilCoins\n" +
-               "Build Time: " + this.buildTime + " days\n" +
-               "Info: " + this.info;
+        return this.info;
     }
     public Image getImage(){
-        return this.image;
+        return new Image(new Texture(Gdx.files.internal(imagePath)));
     }
     public int getBuildTime(){
         return this.buildTime;

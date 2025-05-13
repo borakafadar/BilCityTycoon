@@ -18,11 +18,13 @@ public abstract class Building {
     protected int constructionTime;
     protected Upgrade[] upgrades; // Array to hold multiple upgrades
     protected int currentUpgradeLevel;//tracks the current upgrade
+    protected int studentSatisfactionPoint;
+    protected int universityReputationPoint;
 
 
     // Constructor for the Building class
     // Initializes the building's name, cost, and bill.
-    public Building(String name, int cost, int bill) {
+    public Building(String name, int cost, int bill,int studentSatisfactionPoint,int universityReputationPoint) {
         this.upgrades = new Upgrade[3]; // Initialize the upgrades array with a size of 3
         this.info = "No additional information";
         this.constructionTime = 0;
@@ -97,7 +99,7 @@ public abstract class Building {
                 this.bill -= 30; // Example: Reduce monthly bill by 30 BilCoins
             } else if (UPGRADE_TYPE3.equals(upgrade.getType())) {
                 if(upgrade.getBuilding() instanceof OtherBuilding){
-                    pl.addStudenSatisfactionPoint(5); // Example: Increase student satisfaction by 5 points
+                    //pl.addStudenSatisfactionPoint(5); // Example: Increase student satisfaction by 5 points
                     OtherBuilding otherBuilding = (OtherBuilding) upgrade.getBuilding();
                     otherBuilding.setDormitoryCapacity(otherBuilding.getDormitoryCapacity() + 10); // Example: Increase capacity by 10
                 }
@@ -112,4 +114,9 @@ public abstract class Building {
             this.info += "\n " + info + upgrade.getName();
         }
     }
+
+    public int getStudentSatisfactionPoint() {
+        return studentSatisfactionPoint;
+    }
+
 }

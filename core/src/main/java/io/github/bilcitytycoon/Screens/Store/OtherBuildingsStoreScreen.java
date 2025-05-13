@@ -18,6 +18,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import io.github.bilcitytycoon.*;
 
+import java.util.ArrayList;
+
 public class OtherBuildingsStoreScreen implements Screen {
     private FitViewport fitViewport;
     private StretchViewport stretchViewport; //for background
@@ -27,6 +29,7 @@ public class OtherBuildingsStoreScreen implements Screen {
     private BilCityTycoonGame game;
     private Main mainGame;
     private StoreScreen storeScreen;
+    private Store store;
 
     public OtherBuildingsStoreScreen(BilCityTycoonGame game, Main mainGame,StoreScreen storeScreen){
         this.game = game;
@@ -36,6 +39,7 @@ public class OtherBuildingsStoreScreen implements Screen {
         this.storeScreen = storeScreen;
         this.stretchViewport = new StretchViewport(1366,768);
         this.backgroundStage = new Stage();
+        this.store = game.store;
 
         backgroundStage.setViewport(stretchViewport);
         mainStage.setViewport(fitViewport);
@@ -66,7 +70,7 @@ public class OtherBuildingsStoreScreen implements Screen {
         skin.load(Gdx.files.internal("skin1.json"));
 
         //TODO: temp, to test the table feature
-        Table buttonTable = new Table();
+        Table buttonTable = createButtonTable(store.getUnbuiltOtherBuildings());
         buttonTable.setFillParent(true);
 
         Image panelBackground = new Image(new Texture(Gdx.files.internal("panelBackground.png")));
@@ -161,11 +165,11 @@ public class OtherBuildingsStoreScreen implements Screen {
         Label facultyLabel = new Label(otherBuilding.getName(), skin,"default");
         facultyLabel.setWrap(true);
         facultyLabel.setAlignment(Align.center);
-        textTable.add(facultyLabel).width(facultyLabel.getText().length*35).height(50).padBottom(20);
+        textTable.add(facultyLabel).width(facultyLabel.getText().length*70).height(50).padBottom(20);
         textTable.row();
         Label infoLabel = new Label(otherBuilding.getInfo(),skin,"small-label");
         infoLabel.setWrap(true);
-        textTable.add(infoLabel).width(facultyLabel.getText().length*25+75).height(50);
+        textTable.add(infoLabel).width(infoLabel.getText().length*7).height(50);
         textTable.row();
 
         //right info panel
@@ -207,12 +211,21 @@ public class OtherBuildingsStoreScreen implements Screen {
 
         button.add(mainTable).expand().fill().align(Align.left).top();
         button.pack();
+
+        button.addListener(new ClickListener() {
+          //TODO:
+        });
+
         return button;
     }
 
-    private Table createButtonTable(){
-        //TODO
+    private Table createButtonTable(ArrayList<OtherBuilding> otherBuildings){
+
         Table buttonTable = new Table();
+        for(OtherBuilding otherBuilding : otherBuildings){
+            buttonTable.add(createOtherBuildingButton(otherBuilding)).width(1700).height(200).pad(20);
+            buttonTable.row();
+        }
 
         return buttonTable;
     }
