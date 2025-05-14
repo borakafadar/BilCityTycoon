@@ -627,6 +627,13 @@ public class GameScreen implements Screen {
 
         currentMap.placeBuilding(building, x, y, width, height);
         bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) building.getCost());
+        if(building instanceof Faculty){
+            bilCityTycoonGame.store.buyFaculty((Faculty) building,bilCityTycoonGame.getPlayer());
+        } else if(building instanceof OtherBuilding){
+            bilCityTycoonGame.store.buyOtherBuilding((OtherBuilding) building,bilCityTycoonGame.getPlayer());
+        }
+
+        bilCityTycoonGame.getLeaderboard().updateRanking();
         refreshBuildings();
     }
 

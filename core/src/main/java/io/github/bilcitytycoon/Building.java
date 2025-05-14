@@ -27,6 +27,8 @@ public abstract class Building {
         this.name = name;
         this.buildCost = cost;
         this.bill = bill;
+        this.studentSatisfactionPoint = studentSatisfactionPoint;
+        this.universityReputationPoint = universityReputationPoint;
     }
 
     //An abstract method to get the building's information.
