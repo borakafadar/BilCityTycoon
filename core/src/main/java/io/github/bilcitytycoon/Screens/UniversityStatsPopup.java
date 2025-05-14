@@ -13,7 +13,6 @@ public class UniversityStatsPopup {
     public static void show(Stage stage, Skin skin, Player player) {
         Dialog dialog = new Dialog("", skin);
 
-        // Pastel arka plan + kare çerçeve
         Pixmap pixmap = new Pixmap(600, 400, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.valueOf("DDF5FF")); // pastel mavi-beyaz
         pixmap.fill();
@@ -26,14 +25,14 @@ public class UniversityStatsPopup {
         dialog.getContentTable().pad(20);
 
         // Başlık
-        Label title = new Label("UNIVERSITY STATS", skin, "labelStyle");
+        Label title = new Label("UNIVERSITY STATS", skin);
         title.setFontScale(0.7f);
         title.setColor(Color.BLACK);
         dialog.getContentTable().add(title).padBottom(20).center().row();
 
         // Üst bilgi
         Table header = new Table();
-        Label universityName = new Label(player.getName() + "\nBilCity University", skin, "labelStyle");
+        Label universityName = new Label(player.getName() + "\nBilCity University", skin);
         universityName.setFontScale(0.5f);
         universityName.setColor(Color.BLACK);
         header.add(universityName).center();
