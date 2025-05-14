@@ -1,6 +1,7 @@
 package io.github.bilcitytycoon;
 
 public class Time {
+    private int lastYearCheckedDay = 0;
     public Player player;
     public MoneyHandler moneyHandler;
     public int monthIndex = 0; //starts the game with month index [0-3]
@@ -28,6 +29,14 @@ public class Time {
         int daysPassed = (int) (inGameTimePlayed / definedDayDurationMillis);
         totalDaysPlayed += daysPassed;
         inGameTimePlayed %= definedDayDurationMillis;
+        // mevcut gün hesaplamasından sonra
+        if (totalDaysPlayed >= lastYearCheckedDay + 120) {
+            lastYearCheckedDay = totalDaysPlayed;
+            isFallSemester = !isFallSemester;
+            if (isFallSemester) {
+                startYear++;
+            }
+        }
 
 
 
@@ -111,6 +120,10 @@ public class Time {
     }
     public long getDefinedDayDurationMillis() {
         return definedDayDurationMillis;
+    }
+    public void setDayDurationMillis(long millis) {
+        this.definedDayDurationMillis = millis;
+        this.inGameTimePlayed = 0; // Eski kalan zaman sıfırlanmalı
     }
 
 }
