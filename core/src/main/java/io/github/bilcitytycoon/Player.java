@@ -132,5 +132,16 @@ public class Player extends University {
         buildings.add(building);
 
     }
+    public boolean isBankruptOfSatisfaction() {
+        return this.studentSatisfactionPoint <= 0;
+    }
+    public void safeDecreaseStudentSatisfactionPoint(int amount) {
+        this.studentSatisfactionPoint -= amount;
+        if (this.studentSatisfactionPoint < 0) {
+            this.studentSatisfactionPoint = 0;
+        }
+        calculateStudentSatisfactionRate();
+    }
+
 
 }

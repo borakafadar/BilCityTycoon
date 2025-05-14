@@ -15,10 +15,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import io.github.bilcitytycoon.BilCityTycoonGame;
-import io.github.bilcitytycoon.Faculty;
-import io.github.bilcitytycoon.Main;
-import io.github.bilcitytycoon.Upgrade;
+import io.github.bilcitytycoon.*;
 
 import java.util.ArrayList;
 
@@ -31,10 +28,12 @@ public class UpgradesStoreScreen implements Screen {
     private BilCityTycoonGame game;
     private Main mainGame;
     private StoreScreen storeScreen;
+    private Store store;
 
     public UpgradesStoreScreen(BilCityTycoonGame game, Main mainGame,StoreScreen storeScreen){
         this.game = game;
         this.mainGame = mainGame;
+        this.store = game.store;
         this.mainStage = new Stage();
         this.fitViewport = new FitViewport(1920,1080);
         this.storeScreen = storeScreen;
@@ -212,9 +211,18 @@ public class UpgradesStoreScreen implements Screen {
 
         button.add(mainTable).expand().fill().align(Align.left).top();
         button.pack();
+        // Listener'da (örnek olarak son eklenen bina değil, upgrade'e ait faculty'den alınmalı)
         button.addListener(new ClickListener() {
-            //TODO vural pls man
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Apply the upgrade directly
+                upgrade.applyUpgrade(game.getPlayer().getMoneyHandler(), game.getPlayer());
+                button.setDisabled(true);
+            }
         });
+
+
+
         return button;
     }
 

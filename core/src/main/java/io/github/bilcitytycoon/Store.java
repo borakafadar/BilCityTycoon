@@ -223,12 +223,12 @@ public class Store {
 
     }
 
-    private void updatePlayerReputation(Player player,Building building) {
+    public void updatePlayerReputation(Player player,Building building) {
         player.setUniversityReputationPoint(player.getUniversityReputationPoint() + building.universityReputationPoint);
     }
 
 
-    private void updateStudentSatisfactionPoint(Player player,Building building) {
+    public void updateStudentSatisfactionPoint(Player player,Building building) {
         player.addStudentSatisfactionPoint(building.studentSatisfactionPoint);
     }
 

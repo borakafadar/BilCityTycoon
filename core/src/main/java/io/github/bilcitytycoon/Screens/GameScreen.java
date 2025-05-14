@@ -445,7 +445,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        time.setDayDurationMillis(100); // 1 gün = 1 saniye
 
         refreshBuildings();
         shapeRenderer = new ShapeRenderer();
@@ -533,7 +532,14 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(0, 0, 0, 1);
         screenViewport.apply();
 
+        if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.F1)) {
+            bilCityTycoonGame.debugShowAllEndings = true;
+        }
 
+        if (bilCityTycoonGame.debugShowAllEndings) {
+            showAllEndingsOnce();
+            bilCityTycoonGame.debugShowAllEndings = false; // sadece bir kez çalıştırmak için kapat
+        }
         int currentDay = time.getTotalDaysPlayed();
 
         if (currentDay > 14 && currentDay >= lastPopupDay + popupDayInterval) {
@@ -663,9 +669,13 @@ public class GameScreen implements Screen {
 
     public void processDay() {
         bilCityTycoonGame.getPlayer().getMoneyHandler().processDay();
-        bilCityTycoonGame.getPlayer().studentSatisfactionPoint-=100;
-        bilCityTycoonGame.getPlayer().calculateStudentSatisfactionRate();
+        bilCityTycoonGame.getPlayer().safeDecreaseStudentSatisfactionPoint(100);
+
+        // Artık tüm endingleri kontrol ediyor
+        bilCityTycoonGame.checkEnding(mainGame);
     }
+
+
 
     private void showEconomyPopup() {
         Dialog dialog = new Dialog("Economy", skin, "dialogStyle");
@@ -761,9 +771,39 @@ public class GameScreen implements Screen {
         dayLabel.setText("Day " + time.getTotalDaysPlayed());
     }
 
+    private void showAllEndingsOnce() {
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            @Override
+            public void run() {
+                bilCityTycoonGame.presentUltimateEnding();
+                mainGame.setScreen(new EndingScreen(bilCityTycoonGame, mainGame, bilCityTycoonGame.endingTitle, bilCityTycoonGame.endingInfo, bilCityTycoonGame.leftButtonText, bilCityTycoonGame.rightButtonText, mainGame.getScreen()));
+            }
+        }, 0);
 
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            @Override
+            public void run() {
+                bilCityTycoonGame.presentTrueEnding();
+                mainGame.setScreen(new EndingScreen(bilCityTycoonGame, mainGame, bilCityTycoonGame.endingTitle, bilCityTycoonGame.endingInfo, bilCityTycoonGame.leftButtonText, bilCityTycoonGame.rightButtonText, mainGame.getScreen()));
+            }
+        }, 3);
 
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            @Override
+            public void run() {
+                bilCityTycoonGame.presentBankruptEnding();
+                mainGame.setScreen(new EndingScreen(bilCityTycoonGame, mainGame, bilCityTycoonGame.endingTitle, bilCityTycoonGame.endingInfo, bilCityTycoonGame.leftButtonText, bilCityTycoonGame.rightButtonText, mainGame.getScreen()));
+            }
+        }, 6);
 
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            @Override
+            public void run() {
+                bilCityTycoonGame.presentLawsuitEnding();
+                mainGame.setScreen(new EndingScreen(bilCityTycoonGame, mainGame, bilCityTycoonGame.endingTitle, bilCityTycoonGame.endingInfo, bilCityTycoonGame.leftButtonText, bilCityTycoonGame.rightButtonText, mainGame.getScreen()));
+            }
+        }, 9);
+    }
 
 
     private void updateArrowButtonsVisibility(ImageButton leftArrowBtn, ImageButton rightArrowBtn) {

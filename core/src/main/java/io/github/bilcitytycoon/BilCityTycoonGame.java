@@ -14,10 +14,11 @@ public class BilCityTycoonGame {
     public Map map;
     public Leaderboard leaderboard;
     public Store store;
-    private String endingTitle;
-    private String endingInfo;
-    private String leftButtonText;
-    private String rightButtonText;
+    public String endingTitle;
+    public String endingInfo;
+    public String leftButtonText;
+    public String rightButtonText;
+    public boolean debugShowAllEndings = false;
 
     public BilCityTycoonGame(){
         this.player = new Player("Default",100,50,10,10,10);
@@ -104,4 +105,45 @@ public class BilCityTycoonGame {
     public Map getMap() {
         return this.map;
     }
+    public ArrayList<Building> getBuildings() {
+        return allBuildings;
+    }
+    public String getEndingTitle() {
+        return endingTitle;
+    }
+
+    public String getEndingInfo() {
+        return endingInfo;
+    }
+
+    public String getLeftButtonText() {
+        return leftButtonText;
+    }
+
+    public String getRightButtonText() {
+        return rightButtonText;
+    }
+    public String getCurrentEndingStatus() {
+        StringBuilder status = new StringBuilder();
+
+        if (player.getCoin() <= 0) {
+            status.append("💰 Bankrupt Ending Active\n");
+        }
+        if (player.getStudentSatisfactionRate() <= 15) {
+            status.append("⚖ Lawsuit Ending Active\n");
+        }
+        if (player.getRanking() == 1 && player.getStudentSatisfactionRate() >= 90) {
+            status.append("🏆 Ultimate Ending Available\n");
+        }
+        if (player.getRanking() <= 5) {
+            status.append("🥈 True Ending Available\n");
+        }
+
+        if (status.length() == 0) {
+            status.append("🚀 No Ending Condition Met Yet");
+        }
+
+        return status.toString();
+    }
+
 }
