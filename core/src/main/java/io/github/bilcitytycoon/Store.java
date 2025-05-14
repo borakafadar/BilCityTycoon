@@ -60,6 +60,7 @@ public class Store {
         initializeFaculties();
         initializeDecorations();
         initializeOtherBuildings();
+        initializeUpgrades();
     }
 //    public Store(){
 //        this.game = null;
