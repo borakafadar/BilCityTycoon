@@ -532,6 +532,7 @@ public class GameScreen implements Screen {
         screenViewport.apply();
 
         time.updateTime();
+        bilCityTycoonGame.checkEnding(mainGame);
 
         int currentDay = time.getTotalDaysPlayed();
 

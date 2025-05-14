@@ -40,7 +40,7 @@ public class Event {
 
     public void donation(){
         this.info = "A generous donor has donated " + randomDonation() + " BilCoins to the university!";
-        this.cost = 0;
+        this.cost = -randomDonation();
         this.studentSatisfactionPoint = 10;
         this.avatar = new Image(new Texture(Gdx.files.internal(getAvatar())));
         this.game.getPlayer().setCoin(this.game.getPlayer().getCoin() + randomDonation());
@@ -75,6 +75,7 @@ public class Event {
     }
 
     public void updatePlayer(){
+        this.game.getPlayer().setCoin(this.game.getPlayer().getCoin() - this.cost);
         this.game.getPlayer().setStudentSatisfactionRate(game.getPlayer().getStudentSatisfactionRate() + studentSatisfactionPoint);
     }
 
