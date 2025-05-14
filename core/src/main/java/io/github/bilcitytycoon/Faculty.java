@@ -3,8 +3,10 @@ package io.github.bilcitytycoon;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
-public class Faculty extends Building {
+public class Faculty extends Building implements Json.Serializable{
 
     private static final String UPGRADE_TYPE1 ="Ventilation";
     private static final String UPGRADE_TYPE2 ="Energy Efficiency";
@@ -19,6 +21,7 @@ public class Faculty extends Building {
 
     public Faculty(String name, int cost, int bill, int income, String imagePath, int buildTime, String info,int studentSatisfactionPoint,int universityReputationPoint) {
         super(name, cost, bill,studentSatisfactionPoint,universityReputationPoint);
+
         this.income = income;
         this.info = info;
         this.buildTime = buildTime;
@@ -50,8 +53,12 @@ public class Faculty extends Building {
 
 
 
-    public Image getImage(){
-        return this.image;
+    @Override
+    public Image getImage() {
+        if (image == null && imagePath != null && Gdx.files.internal(imagePath).exists()) {
+            image = new Image(new Texture(Gdx.files.internal(imagePath)));
+        }
+        return image;
     }
     public String getImagePath(){
         return this.imagePath;
@@ -104,6 +111,40 @@ public class Faculty extends Building {
             upgrade.applyUpgrade(moneyHandler, player);
             }
             this.info += "\n " + info + upgrade.getName();
+    }
+    @Override
+    public void write(Json json) {
+        json.writeValue("type", this.getClass().getName()); // Class bilgisi
+        json.writeValue("name", name);
+        json.writeValue("buildCost", buildCost);
+        json.writeValue("bill", bill);
+        json.writeValue("studentSatisfactionPoint", studentSatisfactionPoint);
+        json.writeValue("universityReputationPoint", universityReputationPoint);
+        json.writeValue("income", income);
+        json.writeValue("imagePath", imagePath);
+        json.writeValue("info", info);
+        json.writeValue("buildTime", buildTime);
+        json.writeValue("currentUpgradeLevel", currentUpgradeLevel);
+        // Upgrades is not serialized yet — upgrade serialization ayrı bir işlem olabilir.
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        this.name = jsonData.getString("name");
+        this.buildCost = jsonData.getInt("buildCost");
+        this.bill = jsonData.getInt("bill");
+        this.studentSatisfactionPoint = jsonData.getInt("studentSatisfactionPoint");
+        this.universityReputationPoint = jsonData.getInt("universityReputationPoint");
+        this.income = jsonData.getInt("income");
+        this.imagePath = jsonData.getString("imagePath");
+        this.info = jsonData.getString("info");
+        this.buildTime = jsonData.getInt("buildTime");
+        this.currentUpgradeLevel = jsonData.getInt("currentUpgradeLevel", 0);
+
+        // Görsel yeniden yüklenmeli çünkü Texture transient
+        if (imagePath != null && Gdx.files.internal(imagePath).exists()) {
+            this.image = new Image(new Texture(Gdx.files.internal(imagePath)));
+        }
     }
 
 

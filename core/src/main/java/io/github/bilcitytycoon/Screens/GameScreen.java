@@ -80,11 +80,8 @@ public class GameScreen implements Screen {
 
     public GameScreen(Main mainGame, BilCityTycoonGame game) {
         this.time = new Time();
-        mapList.add(new Map("North Campus", 20, 15));
-        mapList.add(new Map("South Campus", 20, 15));
-        mapList.add(new Map("East Campus", 20, 15));
+        this.currentMap = game.getMap(); // 👈 JSON'dan gelen map atanmalı
 
-        currentMap = mapList.get(currentMapIndex);
 
         bilCityTycoonGame = game;
         int balance = bilCityTycoonGame.getPlayer().getMoneyHandler().getBalance();
@@ -445,6 +442,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        refreshBuildings();
         shapeRenderer = new ShapeRenderer();
         stage.addActor(buildingGroup);
 
