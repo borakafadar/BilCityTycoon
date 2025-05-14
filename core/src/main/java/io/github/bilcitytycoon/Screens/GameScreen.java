@@ -445,6 +445,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        time.setDayDurationMillis(100); // 1 gün = 1 saniye
+
         refreshBuildings();
         shapeRenderer = new ShapeRenderer();
         stage.addActor(buildingGroup);
@@ -545,6 +547,8 @@ public class GameScreen implements Screen {
         stage.draw();
 
         time.updateTime();
+        updateDateLabels();
+
         dateLabel.setText(time.getSemesterName() + "\n " + time.getAcademicYear());
         dayLabel.setText("Day " + time.getTotalDaysPlayed());
 
@@ -754,6 +758,10 @@ public class GameScreen implements Screen {
 
 
 
+    private void updateDateLabels() {
+        dateLabel.setText(time.getSemesterName() + "\n " + time.getAcademicYear());
+        dayLabel.setText("Day " + time.getTotalDaysPlayed());
+    }
 
 
 
