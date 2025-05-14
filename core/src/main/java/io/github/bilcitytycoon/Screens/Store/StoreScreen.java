@@ -183,7 +183,7 @@ public class StoreScreen implements Screen {
         decorationsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                mainGame.setScreen(new DecorationsStoreScreen(game,mainGame,thisStoreScreen));
+                mainGame.setScreen(new DecorationsStoreScreen(game,mainGame,thisStoreScreen,gameScreen));
             }
         });
 

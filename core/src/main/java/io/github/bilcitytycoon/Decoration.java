@@ -36,4 +36,10 @@ public class Decoration{
         return this.name;
     }
     public int getBuildTime(){return this.buildTime;}
+    public String getImagePath(){
+        return this.imagePath;
+    }
+    public void setImage(Image image){
+        this.image = image;
+    }
 }

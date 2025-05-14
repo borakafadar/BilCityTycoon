@@ -56,7 +56,8 @@ public class GameScreen implements Screen {
     private Array<Map> mapList = new Array<Map>();
     private int currentMapIndex = 0;
     private Map currentMap;
-
+    private Decoration selectedDecoration;
+    private boolean isPlacingDecoration = false;
     private TextButton newGameButton;
     private TextButton loadGameButton;
     private TextButton settingsButton;
@@ -75,6 +76,7 @@ public class GameScreen implements Screen {
     float safeMargin = 100; // UI'nin biraz altına kadar izin ver
     private Stage hamburgerStage;
     private Table hmbrgrPanel;
+    private ArrayList<Decoration> placedDecorations = new ArrayList<>();
 
     private int lastPopupDay = 0;
     private int popupDayInterval = 14;
@@ -549,6 +551,45 @@ public class GameScreen implements Screen {
 
         stage.act();
         stage.draw();
+        if (isPlacingDecoration && selectedDecoration != null && selectedDecoration.getImage() != null) {
+            Vector3 world = stage.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+            previewImage.setVisible(true);
+            previewImage.setPosition((int) (world.x / cellSize) * cellSize, (int) (world.y / cellSize) * cellSize);
+
+            if (Gdx.input.justTouched()) {
+                if (bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) selectedDecoration.getCost())) {
+                    try {
+                        Image placedImage = new Image(selectedDecoration.getImage().getDrawable());
+                        placedImage.setSize(cellSize * 2, cellSize * 2);
+                        placedImage.setPosition((int) (world.x / cellSize) * cellSize, (int) (world.y / cellSize) * cellSize);
+                        buildingGroup.addActor(placedImage);
+
+                        // 🌟 Ek olarak bir kopyasını listeye ekle:
+                        Decoration placedCopy = new Decoration(
+                            selectedDecoration.getName(),
+                            selectedDecoration.getCost(),
+                            selectedDecoration.getImagePath(),
+                            selectedDecoration.getInfo(),
+                            0
+                        );
+                        placedCopy.setImage(placedImage);
+                        placedDecorations.add(placedCopy);
+
+                    } catch (Exception e) {
+                        System.out.println("DECORATION PLACE ERROR: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+
+                    isPlacingDecoration = false;
+                    selectedDecoration = null;
+                    previewImage.setVisible(false);
+                } else {
+                    System.out.println("Not enough money to place decoration!");
+                }
+            }
+
+        }
+
 
         time.updateTime();
         updateDateLabels();
@@ -762,6 +803,13 @@ public class GameScreen implements Screen {
                 }
             }
         }
+        for (Decoration decoration : placedDecorations) {
+            Image image = new Image(decoration.getImage().getDrawable());
+            image.setSize(cellSize * 2, cellSize * 2);
+            image.setPosition(decoration.getImage().getX(), decoration.getImage().getY());
+            buildingGroup.addActor(image);
+        }
+
     }
 
 
@@ -812,7 +860,10 @@ public class GameScreen implements Screen {
     }
 
 
-
+    public void startPlacing(Decoration decoration) {
+        this.selectedDecoration = decoration;
+        isPlacingDecoration = true;
+    }
 
 
 }
