@@ -51,6 +51,10 @@ public class MoneyHandler {
         return balance;
     }
 
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
     public boolean spend(int amount) {
         if (balance >= amount) {
             this.balance -= amount;
