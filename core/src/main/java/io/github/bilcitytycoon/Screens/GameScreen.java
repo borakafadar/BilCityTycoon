@@ -497,8 +497,14 @@ public class GameScreen implements Screen {
                     int w = 2, h = 2;
                     if (canPlaceBuilding(hoveredGridX, hoveredGridY, w, h)) {
                         placeBuilding(selectedBuilding, hoveredGridX, hoveredGridY, w, h);
-                        bilCityTycoonGame.store.getBuiltFaculties().add((Faculty) selectedBuilding);
-                        bilCityTycoonGame.store.getUnbuiltFaculties().remove(selectedBuilding);
+                        if(selectedBuilding instanceof Faculty){
+                            bilCityTycoonGame.store.getBuiltFaculties().add((Faculty) selectedBuilding);
+                            bilCityTycoonGame.store.getUnbuiltFaculties().remove(selectedBuilding);
+                        } else if(selectedBuilding instanceof OtherBuilding){
+                            bilCityTycoonGame.store.getBuiltOtherBuildings().add((OtherBuilding) selectedBuilding);
+                            bilCityTycoonGame.store.getUnbuiltOtherBuildings().remove(selectedBuilding);
+                        }
+
                         selectedBuilding = null;
                         isPlacingBuilding = false;
                         previewImage.setVisible(false);
