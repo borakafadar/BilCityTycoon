@@ -20,9 +20,8 @@ public class OtherUniversity extends University {
     }
 
 
-    /**
-     * Simulates monthly updates for AI university
-     */
+    //Simulates monthly updates for bot university
+
     public void updateUniversity() {
         // Update satisfaction rate with random fluctuation
         int satisfactionChange = random.nextInt(MAX_MONTHLY_CHANGE * 2) - MAX_MONTHLY_CHANGE;
