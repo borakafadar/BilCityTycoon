@@ -4,6 +4,7 @@ package io.github.bilcitytycoon;
 import java.util.ArrayList;
 
 public class Player extends University {
+    public MoneyHandler moneyHandler;
     public int coin;
     public String name;
     public int universityReputationPoint;
@@ -16,7 +17,7 @@ public class Player extends University {
 
     public Player(String name, int universityReputationPoint, int studentSatisfactionRate, int studentCount ,int dormOccupancy, int dormCapacity)
     {
-        super(name, universityReputationPoint, studentSatisfactionRate,studentCount,dormOccupancy,dormCapacity); // <-- bunu ekledik
+        super(name, universityReputationPoint, studentSatisfactionRate,studentCount,dormOccupancy,dormCapacity);
         this.name = name;
         this.universityReputationPoint = universityReputationPoint;
         this.studentSatisfactionRate = studentSatisfactionRate;
@@ -24,6 +25,8 @@ public class Player extends University {
         this.studentCount = studentCount;
         this.dormOccupancy = dormOccupancy;
         this.buildings = new ArrayList<>();
+        this.moneyHandler = new MoneyHandler(1000);
+        this.coin = 1000;
     }
     public Player(){
         super("default",0,0,0,0,0);
@@ -31,10 +34,13 @@ public class Player extends University {
 
 
     public int getCoin() {
-        return coin;
+        return moneyHandler != null ? moneyHandler.getBalance() : coin;
     }
     public void setCoin(int newCoin) {
         this.coin = newCoin;
+        if (moneyHandler != null) {
+            moneyHandler.setBalance(newCoin);
+        }
     }
     public String getName() {
         return name;
@@ -58,7 +64,6 @@ public class Player extends University {
     }
 
     public void addBuilding(Building building){
-        //TODO
         this.buildings.add(building);
     }
 
@@ -132,5 +137,16 @@ public class Player extends University {
         buildings.add(building);
 
     }
+    public boolean isBankruptOfSatisfaction() {
+        return this.studentSatisfactionPoint <= 0;
+    }
+    public void safeDecreaseStudentSatisfactionPoint(int amount) {
+        this.studentSatisfactionPoint -= amount;
+        if (this.studentSatisfactionPoint < 0) {
+            this.studentSatisfactionPoint = 0;
+        }
+        calculateStudentSatisfactionRate();
+    }
+
 
 }

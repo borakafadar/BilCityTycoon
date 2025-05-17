@@ -63,8 +63,6 @@ public class LoadGameScreen implements Screen {
 
         // Create placeholder for save files list
         Table saveFilesTable = createSavesTable();
-        //Label placeholderLabel = new Label("No save files found", skin, "default");
-        //saveFilesTable.add(placeholderLabel).pad(30);
 
         ScrollPane scrollPane = new ScrollPane(saveFilesTable, skin);
         scrollPane.setFadeScrollBars(false);
@@ -200,7 +198,7 @@ public class LoadGameScreen implements Screen {
                 dialogLabelStyle.font = skin.getFont("PressStart2P-big");
 
 
-                //dialogLabelStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textTooltipBackground.png")))); //todo: temp background
+                //dialogLabelStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textTooltipBackground.png"))));
                 dialog.text("Are you sure you\n want to load this file?", dialogLabelStyle);
                 dialog.show(mainStage);
 

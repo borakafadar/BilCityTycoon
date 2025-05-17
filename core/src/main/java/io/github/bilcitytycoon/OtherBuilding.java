@@ -3,8 +3,10 @@ package io.github.bilcitytycoon;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
-public class OtherBuilding extends Building{
+public class OtherBuilding extends Building implements Json.Serializable{
     public int income;
     public int buildTime;
     public transient Image image;
@@ -35,16 +37,19 @@ public class OtherBuilding extends Building{
         super("other building",0,0, 200, 200);
     }
     // Getter methods for the building's properties
-    public double getIncome() {
-        return this.income;
-    }
+
 
     public String getInfo(){
         return this.info;
     }
-    public Image getImage(){
-        return new Image(new Texture(Gdx.files.internal(imagePath)));
+    @Override
+    public Image getImage() {
+        if (image == null && imagePath != null && Gdx.files.internal(imagePath).exists()) {
+            image = new Image(new Texture(Gdx.files.internal(imagePath)));
+        }
+        return image;
     }
+
     public int getBuildTime(){
         return this.buildTime;
     }
@@ -62,6 +67,38 @@ public class OtherBuilding extends Building{
 
     public int getDormitoryCapacity() {
         return this.dormitoryCapacity;
+    }
+    @Override
+    public void write(Json json) {
+        json.writeValue("type", this.getClass().getName());
+        json.writeValue("name", name);
+        json.writeValue("buildCost", buildCost);
+        json.writeValue("bill", bill);
+        json.writeValue("studentSatisfactionPoint", studentSatisfactionPoint);
+        json.writeValue("universityReputationPoint", universityReputationPoint);
+        json.writeValue("income", income);
+        json.writeValue("imagePath", imagePath);
+        json.writeValue("info", info);
+        json.writeValue("buildTime", buildTime);
+        json.writeValue("dormitoryCapacity", dormitoryCapacity);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        this.name = jsonData.getString("name");
+        this.buildCost = jsonData.getInt("buildCost");
+        this.bill = jsonData.getInt("bill");
+        this.studentSatisfactionPoint = jsonData.getInt("studentSatisfactionPoint");
+        this.universityReputationPoint = jsonData.getInt("universityReputationPoint");
+        this.income = jsonData.getInt("income");
+        this.imagePath = jsonData.getString("imagePath");
+        this.info = jsonData.getString("info");
+        this.buildTime = jsonData.getInt("buildTime");
+        this.dormitoryCapacity = jsonData.getInt("dormitoryCapacity", 0);
+
+        if (imagePath != null && Gdx.files.internal(imagePath).exists()) {
+            this.image = new Image(new Texture(Gdx.files.internal(imagePath)));
+        }
     }
 
 

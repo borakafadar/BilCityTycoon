@@ -3,6 +3,7 @@ package io.github.bilcitytycoon;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import io.github.bilcitytycoon.Screens.EndingScreen;
 import io.github.bilcitytycoon.Screens.GameScreen;
 import io.github.bilcitytycoon.Screens.Store.FacultiesStoreScreen;
 import io.github.bilcitytycoon.Screens.Store.StoreScreen;

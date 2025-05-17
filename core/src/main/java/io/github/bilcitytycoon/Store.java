@@ -3,6 +3,7 @@ package io.github.bilcitytycoon;
 import java.util.ArrayList;
 
 public class Store {
+    private Leaderboard leaderboard;
     private BilCityTycoonGame game;
     private ArrayList<Faculty> unbuiltFaculties;
     private ArrayList<Faculty> builtFaculties;
@@ -57,9 +58,11 @@ public class Store {
         unbuiltOtherBuildings = new ArrayList<OtherBuilding>();
         builtOtherBuildings = new ArrayList<OtherBuilding>();
 
+
         initializeFaculties();
         initializeDecorations();
         initializeOtherBuildings();
+        initializeUpgrades();
     }
 //    public Store(){
 //        this.game = null;
@@ -177,7 +180,7 @@ public class Store {
 
             Upgrade capacityUpgrade = new Upgrade(
                 "Capacity Expansion",
-                10000,
+                300,
                 6,
                 faculty.getImagePath(),
                 "Adds more lecture halls, labs, and facilities.",
@@ -195,36 +198,38 @@ public class Store {
         int index = unbuiltFaculties.indexOf(f);
         this.unbuiltFaculties.remove(index);
         this.builtFaculties.add(f);
-        this.game.getPlayer().setCoin(this.game.getPlayer().getCoin() - f.getCost());
-        updatePlayerReputation(player);
-        updateStudentSatisfactionPoint(player);
+        player.setCoin(player.getCoin() - f.getCost());
+        updatePlayerReputation(player,f);
+        updateStudentSatisfactionPoint(player,f);
+
     }
 
     public void buyDecoration(Decoration d, Player player){
         int index = unbuiltDecorations.indexOf(d);
         this.unbuiltDecorations.remove(index);
         this.builtDecorations.add(d);
-        this.game.getPlayer().setCoin(this.game.getPlayer().getCoin() - d.getCost());
-        updatePlayerReputation(player);
-        updateStudentSatisfactionPoint(player);
+        player.setCoin(player.getCoin() - d.getCost());
+
+
     }
 
     public void buyOtherBuilding(OtherBuilding b, Player player){
         int index = unbuiltOtherBuildings.indexOf(b);
         this.unbuiltOtherBuildings.remove(index);
         this.builtOtherBuildings.add(b);
-        this.game.getPlayer().setCoin(this.game.getPlayer().getCoin() - b.getCost());
-        updatePlayerReputation(player);
-        updateStudentSatisfactionPoint(player);
+        player.setCoin(player.getCoin() - b.getCost());
+        updatePlayerReputation(player,b);
+        updateStudentSatisfactionPoint(player,b);
 
     }
 
-    private void updatePlayerReputation(Player player) {
-        player.setUniversityReputationPoint(player.getUniversityReputationPoint() + 100);
+    public void updatePlayerReputation(Player player,Building building) {
+        player.setUniversityReputationPoint(player.getUniversityReputationPoint() + building.universityReputationPoint);
     }
 
-    private void updateStudentSatisfactionPoint(Player player) {
-        player.addStudentSatisfactionPoint(50);
+
+    public void updateStudentSatisfactionPoint(Player player,Building building) {
+        player.addStudentSatisfactionPoint(building.studentSatisfactionPoint);
     }
 
 

@@ -13,9 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -28,14 +26,18 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.bilcitytycoon.*;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import io.github.bilcitytycoon.Event;
 import io.github.bilcitytycoon.Save.SaveLoad;
 import io.github.bilcitytycoon.Screens.Store.StoreScreen;
 
+import java.util.HashSet;
 import java.util.Random;
 
 import java.util.ArrayList;
 
 public class GameScreen implements Screen {
+    private Building selectedBuilding;
+    Stack mapStack;
     private Image previewImage;
     private Viewport screenViewport;
     private Stage stage;
@@ -54,12 +56,12 @@ public class GameScreen implements Screen {
     private Array<Map> mapList = new Array<Map>();
     private int currentMapIndex = 0;
     private Map currentMap;
-
+    private Decoration selectedDecoration;
+    private boolean isPlacingDecoration = false;
     private TextButton newGameButton;
     private TextButton loadGameButton;
     private TextButton settingsButton;
     private TextButton quitButton;
-    private Faculty selectedFaculty;
     private static final int GRID_WIDTH = 20;
     private static final int GRID_HEIGHT = 15;
     private boolean isPlacingBuilding = false;
@@ -71,22 +73,23 @@ public class GameScreen implements Screen {
     private final int UI_BOTTOM_BAR_HEIGHT = 75;
     private float dayTimer = 0;
     private boolean isFast = false;
+    float safeMargin = 100;
+    private Stage hamburgerStage;
+    private Table hmbrgrPanel;
+    private ArrayList<Decoration> placedDecorations;
 
     private int lastPopupDay = 0;
     private int popupDayInterval = 14;
     private PopUpPanel currentPopup;
 
     public GameScreen(Main mainGame, BilCityTycoonGame game) {
-        this.time = new Time();
-        mapList.add(new Map("North Campus", 20, 15));
-        mapList.add(new Map("South Campus", 20, 15));
-        mapList.add(new Map("East Campus", 20, 15));
-
-        currentMap = mapList.get(currentMapIndex);
+        this.time = game.getTime();
+        this.currentMap = game.getMap();
+        this.placedDecorations = game.placedDecorations;
 
         bilCityTycoonGame = game;
         int balance = bilCityTycoonGame.getPlayer().getMoneyHandler().getBalance();
-
+        hamburgerStage = new Stage();
 
         this.settingsScreen = new SettingsScreen(GameScreen.this, mainGame);
 
@@ -138,7 +141,7 @@ public class GameScreen implements Screen {
 
         Texture hmbrgrtexture = new Texture(Gdx.files.internal("icons/hamburgerIcon.png"));
         Drawable hmbrgrdrawable = new TextureRegionDrawable(new TextureRegion(hmbrgrtexture));
-        Table hmbrgrPanel = new Table();
+        hmbrgrPanel = new Table();
         hmbrgrPanel.setBackground(new TextureRegionDrawable(new Texture(Gdx.files.internal("panelBackground.png"))));
         hmbrgrPanel.setVisible(false);
 
@@ -214,7 +217,7 @@ public class GameScreen implements Screen {
                 hmbrgrPanel.setVisible(!hmbrgrPanel.isVisible());
             }
         });
-        stage.addActor(hmbrgrPanel);
+
         topTable.add(hmbrgrBtn).pad(3).expandX().fillX().height(50).width(100).left();
 
 
@@ -281,8 +284,9 @@ public class GameScreen implements Screen {
         leaderStyle.font = skin.getFont("PressStart2P-small");
         leaderStyle.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("icons/rankingIcon.png")));
 
-        leaderButon.addListener(new ClickListener(){
         leaderButon = new ImageTextButton("#41", leaderStyle);
+        leaderButon.addListener(new ClickListener(){
+
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 mainGame.setScreen(new LeaderboardScreen(bilCityTycoonGame, mainGame, GameScreen.this));
@@ -371,7 +375,7 @@ public class GameScreen implements Screen {
         bottomTable.add(timerBtn).height(50).width(180).expandX().right();
 
 
-        Stack mapStack = new Stack();
+        mapStack = new Stack();
         mapStack.setFillParent(true);
 
         Image background2 = new Image(mainBack);
@@ -386,6 +390,7 @@ public class GameScreen implements Screen {
         mapStack.addActor(roadImage);
 
         mapStack.addActor(buildingGroup);
+        buildingGroup.setTouchable(Touchable.disabled);
 
         Table midTable = new Table();
         midTable.add(mapStack).expand().fill();
@@ -436,11 +441,14 @@ public class GameScreen implements Screen {
         leftArrowBtn.setPosition(20, Gdx.graphics.getHeight() / 2f - 50);
         rightArrowBtn.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() / 2f - 50);
         updateArrowButtonsVisibility(leftArrowBtn, rightArrowBtn);
+        stage.addActor(hmbrgrPanel);
 
     }
 
     @Override
     public void show() {
+
+        refreshBuildings();
         shapeRenderer = new ShapeRenderer();
         stage.addActor(buildingGroup);
 
@@ -450,13 +458,11 @@ public class GameScreen implements Screen {
         multiplexer.addProcessor(new InputAdapter() {
             @Override
             public boolean mouseMoved(int screenX, int screenY) {
-                if (isPlacingBuilding && selectedFaculty != null) {
+                if (isPlacingBuilding && selectedBuilding != null) {
                     Vector3 world = stage.getCamera().unproject(new Vector3(screenX, screenY, 0));
-                    float mouseY = world.y;
+                    Actor hitActor = stage.hit(screenX, Gdx.graphics.getHeight() - screenY, true);
 
-                    boolean insideBuildableArea = mouseY >= UI_BOTTOM_BAR_HEIGHT && mouseY <= (stage.getHeight() - UI_TOP_BAR_HEIGHT);
-
-                    if (!insideBuildableArea) {
+                    if (hitActor != null && !(hitActor instanceof Image) && !(hitActor.getParent() instanceof Group)) {
                         previewImage.setVisible(false);
                         return false;
                     }
@@ -477,14 +483,13 @@ public class GameScreen implements Screen {
                 return false;
             }
 
-
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                if (isPlacingBuilding && selectedFaculty != null) {
+                if (isPlacingBuilding && selectedBuilding != null) {
                     Vector3 world = stage.getCamera().unproject(new Vector3(screenX, screenY, 0));
-                    float mouseY = world.y;
+                    Actor hitActor = stage.hit(screenX, Gdx.graphics.getHeight() - screenY, true);
 
-                    if (mouseY < UI_BOTTOM_BAR_HEIGHT || mouseY > (stage.getHeight() - UI_TOP_BAR_HEIGHT)) {
+                    if (hitActor != null && !(hitActor instanceof Image) && !(hitActor.getParent() instanceof Group)) {
                         return false;
                     }
 
@@ -493,14 +498,23 @@ public class GameScreen implements Screen {
 
                     int w = 2, h = 2;
                     if (canPlaceBuilding(hoveredGridX, hoveredGridY, w, h)) {
-                        placeBuilding(selectedFaculty, hoveredGridX, hoveredGridY, w, h);
-                        selectedFaculty = null;
+                        placeBuilding(selectedBuilding, hoveredGridX, hoveredGridY, w, h);
+                        if(selectedBuilding instanceof Faculty){
+                            bilCityTycoonGame.store.getBuiltFaculties().add((Faculty) selectedBuilding);
+                            bilCityTycoonGame.store.getUnbuiltFaculties().remove(selectedBuilding);
+                        } else if(selectedBuilding instanceof OtherBuilding){
+                            bilCityTycoonGame.store.getBuiltOtherBuildings().add((OtherBuilding) selectedBuilding);
+                            bilCityTycoonGame.store.getUnbuiltOtherBuildings().remove(selectedBuilding);
+                        }
+
+                        selectedBuilding = null;
                         isPlacingBuilding = false;
                         previewImage.setVisible(false);
                     }
                 }
                 return false;
             }
+
 
 
         });
@@ -511,7 +525,7 @@ public class GameScreen implements Screen {
         previewImage.setVisible(false);
         stage.addActor(previewImage);
 
-
+        hmbrgrPanel.toFront();
     }
 
     @Override
@@ -519,8 +533,14 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(0, 0, 0, 1);
         screenViewport.apply();
 
-        time.updateTime();
+        if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.F1)) {
+            bilCityTycoonGame.debugShowAllEndings = true;
+        }
 
+        if (bilCityTycoonGame.debugShowAllEndings) {
+            showAllEndingsOnce();
+            bilCityTycoonGame.debugShowAllEndings = false;
+        }
         int currentDay = time.getTotalDaysPlayed();
 
         if (currentDay > 14 && currentDay >= lastPopupDay + popupDayInterval) {
@@ -530,13 +550,54 @@ public class GameScreen implements Screen {
 
         stage.act();
         stage.draw();
+        if (isPlacingDecoration && selectedDecoration != null && selectedDecoration.getImage() != null) {
+            Vector3 world = stage.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+            previewImage.setVisible(true);
+            previewImage.setPosition((int) (world.x / cellSize) * cellSize, (int) (world.y / cellSize) * cellSize);
+
+            if (Gdx.input.justTouched()) {
+                if (bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) selectedDecoration.getCost())) {
+                    try {
+                        Image placedImage = new Image(selectedDecoration.getImage().getDrawable());
+                        placedImage.setSize(cellSize * 2, cellSize * 2);
+                        placedImage.setPosition((int) (world.x / cellSize) * cellSize, (int) (world.y / cellSize) * cellSize);
+                        buildingGroup.addActor(placedImage);
+
+                        Decoration placedCopy = new Decoration(
+                            selectedDecoration.getName(),
+                            selectedDecoration.getCost(),
+                            selectedDecoration.getImagePath(),
+                            selectedDecoration.getInfo(),
+                            0
+                        );
+                        placedCopy.setImage(placedImage);
+                        placedCopy.setX(placedImage.getX());
+                        placedCopy.setY(placedImage.getY());
+                        placedDecorations.add(placedCopy);
+
+                    } catch (Exception e) {
+                        System.out.println("DECORATION PLACE ERROR: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+
+                    isPlacingDecoration = false;
+                    selectedDecoration = null;
+                    previewImage.setVisible(false);
+                    bilCityTycoonGame.checkEnding(mainGame);
+                }
+            }
+
+        }
+
 
         time.updateTime();
+        updateDateLabels();
+
         dateLabel.setText(time.getSemesterName() + "\n " + time.getAcademicYear());
         dayLabel.setText("Day " + time.getTotalDaysPlayed());
 
 
-        if (isPlacingBuilding && selectedFaculty != null) {
+        if (isPlacingBuilding && selectedBuilding  != null) {
             int width = 2;
             int height = 2;
 
@@ -550,7 +611,6 @@ public class GameScreen implements Screen {
         if (time.totalDaysPlayed == dayTimer + 1) {
             dayTimer = 0;
             processDay();
-            System.out.println("Processed new day! Balance: " + bilCityTycoonGame.getPlayer().getMoneyHandler().getBalance());
         }
         dayTimer = time.totalDaysPlayed;
 
@@ -612,7 +672,7 @@ public class GameScreen implements Screen {
 
         for (int i = x; i < x + width; i++) {
             for (int j = y; j < y + height; j++) {
-                if (grid[i][j] != null || currentMap.isRoad(i, j)) return false; // yolları kontrol et
+                if (grid[i][j] != null || currentMap.isRoad(i, j)) return false;
             }
         }
         return true;
@@ -620,36 +680,48 @@ public class GameScreen implements Screen {
 
 
 
+    private void placeBuilding(Building building, int x, int y, int width, int height) {
+        if (!canPlaceBuilding(x, y, width, height)) return; // Ön kontrol yap!
+        boolean didSpend = bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) building.getCost());
+        if (!didSpend) return;
+        bilCityTycoonGame.checkEnding(mainGame);
 
-    private void placeBuilding(Faculty faculty, int x, int y, int width, int height) {
-        currentMap.placeBuilding(faculty, x, y, width, height);
-        bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) faculty.getCost());
 
-        Image buildingImage = new Image(faculty.getImage().getDrawable());
-        float scale = 2f;
-        buildingImage.setSize(width * cellSize * scale, height * cellSize * scale);
-        buildingImage.setPosition((x * cellSize) - (width * cellSize * (scale - 1) / 2f), (y * cellSize) - (height * cellSize * (scale - 1) / 2f));
+        currentMap.placeBuilding(building, x, y, width, height);
+        if(building instanceof Faculty){
+            bilCityTycoonGame.store.buyFaculty((Faculty) building,bilCityTycoonGame.getPlayer());
+        } else if(building instanceof OtherBuilding){
+            bilCityTycoonGame.store.buyOtherBuilding((OtherBuilding) building,bilCityTycoonGame.getPlayer());
+        }
 
-        buildingGroup.addActor(buildingImage);
+        bilCityTycoonGame.getLeaderboard().updateRanking();
+        refreshBuildings();
     }
 
 
 
-    public void startPlacing(Faculty faculty) {
-        this.selectedFaculty = faculty;
-        this.isPlacingBuilding = true;
+
+
+
+
+    public void startPlacing(Building building) {
+        this.selectedBuilding = building;
+        isPlacingBuilding = true;
     }
+
 
     public void processDay() {
         bilCityTycoonGame.getPlayer().getMoneyHandler().processDay();
-        bilCityTycoonGame.getPlayer().studentSatisfactionPoint-=100;
-        bilCityTycoonGame.getPlayer().calculateStudentSatisfactionRate();
+        bilCityTycoonGame.getPlayer().safeDecreaseStudentSatisfactionPoint(100);
+        bilCityTycoonGame.getLeaderboard().updateRanking();
+        bilCityTycoonGame.checkEnding(mainGame);
     }
+
+
 
     private void showEconomyPopup() {
         Dialog dialog = new Dialog("Economy", skin, "dialogStyle");
 
-        // İçerik label'ları
         Label.LabelStyle boldStyle = new Label.LabelStyle(skin.getFont("PressStart2P-small"), Color.BLACK);
 
         Label incomeLabel = new Label("Incomes:\nCorporate: 5000\nDonations: 3000\nGrants: 5000", boldStyle);
@@ -677,6 +749,7 @@ public class GameScreen implements Screen {
     private void placeBuildingOnCurrentMap(Faculty faculty, int x, int y, int width, int height) {
         currentMap.placeBuilding(faculty, x, y, width, height);
         bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) faculty.getCost());
+        bilCityTycoonGame.checkEnding(mainGame);
         refreshBuildings();
     }
 
@@ -686,15 +759,12 @@ public class GameScreen implements Screen {
         }
         Random random = new Random();
         int randomType = random.nextInt(3);
-    private void refreshBuildings() {
-        buildingGroup.remove();  // sahneden çıkar
-
         if (randomType == 0) {
             Event protestEvent = new Event("", 0, bilCityTycoonGame, -60);
             protestEvent.protest();
             currentPopup = new PopUpPanel(mainGame, bilCityTycoonGame, protestEvent, new TextButton("OK", skin));
-        buildingGroup = new Group();  // yeni bir group başlat
-        stage.addActor(buildingGroup); // yeniden ekle
+            buildingGroup = new Group();
+            stage.addActor(buildingGroup);
 
         } else if (randomType == 1) {
             if (!bilCityTycoonGame.getPlayer().getBuildings().isEmpty()) {
@@ -714,22 +784,75 @@ public class GameScreen implements Screen {
         }
     }
 
+    private void refreshBuildings() {
+        buildingGroup.clearChildren();
+
         Building[][] grid = currentMap.getGrid();
+        HashSet<Building> added = new HashSet<>();
+
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
-                if (grid[i][j] != null) {
-                    Faculty faculty = (Faculty) grid[i][j];
-                    Image buildingImage = new Image(faculty.getImage().getDrawable());
+                Building building = grid[i][j];
+                if (building != null && !added.contains(building)) {
+                    Image buildingImage = new Image(building.getImage().getDrawable());
                     float scale = 2f;
                     buildingImage.setSize(2 * cellSize * scale, 2 * cellSize * scale);
                     buildingImage.setPosition((i * cellSize) - (2 * cellSize * (scale - 1) / 2f), (j * cellSize) - (2 * cellSize * (scale - 1) / 2f));
                     buildingGroup.addActor(buildingImage);
+
+                    added.add(building);
                 }
             }
         }
+        for (Decoration decoration : placedDecorations) {
+            Image image = new Image(decoration.getImage().getDrawable());
+            image.setSize(cellSize * 2, cellSize * 2);
+            image.setPosition(decoration.getImage().getX(), decoration.getImage().getY());
+            buildingGroup.addActor(image);
+        }
+
     }
 
 
+
+    private void updateDateLabels() {
+        dateLabel.setText(time.getSemesterName() + "\n " + time.getAcademicYear());
+        dayLabel.setText("Day " + time.getTotalDaysPlayed());
+    }
+
+    private void showAllEndingsOnce() {
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            @Override
+            public void run() {
+                bilCityTycoonGame.presentUltimateEnding();
+                mainGame.setScreen(new EndingScreen(bilCityTycoonGame, mainGame, bilCityTycoonGame.endingTitle, bilCityTycoonGame.endingInfo, bilCityTycoonGame.leftButtonText, bilCityTycoonGame.rightButtonText, mainGame.getScreen()));
+            }
+        }, 0);
+
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            @Override
+            public void run() {
+                bilCityTycoonGame.presentTrueEnding();
+                mainGame.setScreen(new EndingScreen(bilCityTycoonGame, mainGame, bilCityTycoonGame.endingTitle, bilCityTycoonGame.endingInfo, bilCityTycoonGame.leftButtonText, bilCityTycoonGame.rightButtonText, mainGame.getScreen()));
+            }
+        }, 3);
+
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            @Override
+            public void run() {
+                bilCityTycoonGame.presentBankruptEnding();
+                mainGame.setScreen(new EndingScreen(bilCityTycoonGame, mainGame, bilCityTycoonGame.endingTitle, bilCityTycoonGame.endingInfo, bilCityTycoonGame.leftButtonText, bilCityTycoonGame.rightButtonText, mainGame.getScreen()));
+            }
+        }, 6);
+
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            @Override
+            public void run() {
+                bilCityTycoonGame.presentLawsuitEnding();
+                mainGame.setScreen(new EndingScreen(bilCityTycoonGame, mainGame, bilCityTycoonGame.endingTitle, bilCityTycoonGame.endingInfo, bilCityTycoonGame.leftButtonText, bilCityTycoonGame.rightButtonText, mainGame.getScreen()));
+            }
+        }, 9);
+    }
 
     private void updateArrowButtonsVisibility(ImageButton leftArrowBtn, ImageButton rightArrowBtn) {
         leftArrowBtn.setVisible(currentMapIndex > 0);
@@ -737,7 +860,10 @@ public class GameScreen implements Screen {
     }
 
 
-
+    public void startPlacing(Decoration decoration) {
+        this.selectedDecoration = decoration;
+        isPlacingDecoration = true;
+    }
 
 
 }

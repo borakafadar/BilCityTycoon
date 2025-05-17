@@ -13,7 +13,7 @@ public class Leaderboard {
     public Player player;
     public Random random = new Random();
 
-    public static final int SATISFACTION_MULTIPLIER = 70; // THIS CAN BE ALTERED
+    public static final int SATISFACTION_MULTIPLIER = 50; // THIS CAN BE ALTERED
 
     // Preset names for AI bots.
     public static final String[] BOT_NAMES = {
@@ -77,17 +77,11 @@ public class Leaderboard {
         }
     }
 
-    // @return a new list sorted by Reputation (highest first).
-    public ArrayList<University> getByReputation() {
-        updateRanking();
-        return new ArrayList<>(rankings);
-    }
 
-    /** @return a new list sorted by Satisfaction (highest first). */
-    public ArrayList<University> getBySatisfaction() {
+    public ArrayList<University> getByReputation() {
         ArrayList<University> sorted = new ArrayList<>(rankings);
         sorted.sort(Comparator
-            .comparingInt(University::getStudentSatisfactionRate)
+            .comparingInt(University::getUniversityReputationPoint)
             .reversed()
         );
         return sorted;
@@ -99,10 +93,7 @@ public class Leaderboard {
         return player.getRanking();
     }
 
-    /** @return the player’s current Satisfaction rank (1 = top). */
-    public int getPlayerSatisfactionRank() {
-        return getBySatisfaction().indexOf(player) + 1;
-    }
+
 
     /** @return the raw list of all universities (in current sorted order). */
     public ArrayList<University> getAllUniversities() {

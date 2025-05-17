@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import io.github.bilcitytycoon.*;
+import io.github.bilcitytycoon.Screens.GameScreen;
 
 public class DecorationsStoreScreen implements Screen {
     private FitViewport fitViewport;
@@ -26,9 +27,11 @@ public class DecorationsStoreScreen implements Screen {
     private BilCityTycoonGame game;
     private Main mainGame;
     private StoreScreen storeScreen;
+    private GameScreen gameScreen;
 
-    public DecorationsStoreScreen(BilCityTycoonGame game, Main mainGame,StoreScreen storeScreen){
+    public DecorationsStoreScreen(BilCityTycoonGame game, Main mainGame, StoreScreen storeScreen, GameScreen gameScreen) {
         this.game = game;
+        this.gameScreen=gameScreen;
         this.mainGame = mainGame;
         this.mainStage = new Stage();
         this.fitViewport = new FitViewport(1920,1080);
@@ -68,23 +71,16 @@ public class DecorationsStoreScreen implements Screen {
         Table buttonTable = new Table();
         //buttonTable.setFillParent(true);
 
-        Decoration test = new Decoration("test",100,"libgdx.png","test",0);
-        Button testButton = createDecorationButton(test);
-        buttonTable.add(createDecorationButton(test)).width(1700).height(200).pad(10);
-        buttonTable.row();
-        buttonTable.add(createDecorationButton(test)).width(1700).height(200).pad(10);
-        buttonTable.row();
-        buttonTable.add(createDecorationButton(test)).width(1700).height(200).pad(10);
-        buttonTable.row();
-        buttonTable.add(createDecorationButton(test)).width(1700).height(200).pad(10);
-        buttonTable.row();
-        buttonTable.add(createDecorationButton(test)).width(1700).height(200).pad(10);
-        buttonTable.row();
-        buttonTable.add(createDecorationButton(test)).width(1700).height(200).pad(10);
-        buttonTable.row();
-        buttonTable.add(createDecorationButton(test)).width(1700).height(200).pad(10);
-        buttonTable.row();
+        Decoration test = new Decoration("Tree",10,"sprites/Trees.png","Increases oxygen",0);
+        Decoration test1 = new Decoration("Science Faculty Pool",300,"sprites/Science Faculty Pool.png","Special to Science Faculty",0);
+        Decoration test2 = new Decoration("Ornamental Pool",400,"sprites/Ornamental Pool.png","Looks amazing",0);
 
+        buttonTable.add(createDecorationButton(test)).width(1700).height(200).pad(10);
+        buttonTable.row();
+        buttonTable.add(createDecorationButton(test1)).width(1700).height(200).pad(10);
+        buttonTable.row();
+        buttonTable.add(createDecorationButton(test2)).width(1700).height(200).pad(10);
+        buttonTable.row();
 
         Image panelBackground = new Image(new Texture(Gdx.files.internal("panelBackground.png")));
         backgroundStage.addActor(panelBackground);
@@ -221,13 +217,20 @@ public class DecorationsStoreScreen implements Screen {
         mainTable.center();
         mainTable.defaults().pad(100);
 
+
         button.add(mainTable).expand().fill().align(Align.left).top();
         button.pack();
+        button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mainGame.setScreen(gameScreen);
+                gameScreen.startPlacing(decoration);
+            }
+        });
         return button;
     }
 
     private Table createButtonTable(){
-        //TODO
         Table buttonTable = new Table();
 
         return buttonTable;

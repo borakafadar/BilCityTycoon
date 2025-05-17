@@ -13,9 +13,8 @@ public class UniversityStatsPopup {
     public static void show(Stage stage, Skin skin, Player player) {
         Dialog dialog = new Dialog("", skin);
 
-        // Pastel arka plan + kare çerçeve
         Pixmap pixmap = new Pixmap(600, 400, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.valueOf("DDF5FF")); // pastel mavi-beyaz
+        pixmap.setColor(Color.valueOf("DDF5FF"));
         pixmap.fill();
         pixmap.setColor(Color.LIGHT_GRAY);
         pixmap.drawRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
@@ -25,21 +24,18 @@ public class UniversityStatsPopup {
         dialog.getContentTable().setBackground(new TextureRegionDrawable(backgroundTexture));
         dialog.getContentTable().pad(20);
 
-        // Başlık
-        Label title = new Label("UNIVERSITY STATS", skin, "labelStyle");
+        Label title = new Label("UNIVERSITY STATS", skin);
         title.setFontScale(0.7f);
         title.setColor(Color.BLACK);
         dialog.getContentTable().add(title).padBottom(20).center().row();
 
-        // Üst bilgi
         Table header = new Table();
-        Label universityName = new Label(player.getName() + "\nBilCity University", skin, "labelStyle");
+        Label universityName = new Label(player.getName() + "\nBilCity University", skin);
         universityName.setFontScale(0.5f);
         universityName.setColor(Color.BLACK);
         header.add(universityName).center();
         dialog.getContentTable().add(header).padBottom(20).center().row();
 
-        // İçerik
         Table statsTable = new Table();
         statsTable.defaults().padBottom(15);
 
@@ -49,7 +45,6 @@ public class UniversityStatsPopup {
         statsTable.add(new Label("Student Satisfaction Rate: %" + player.getStudentSatisfactionRate(), skin)).left().row();
         statsTable.add(new Label("University Reputation Points: " + player.getReputationPoints(), skin)).left().row();
 
-        // Yazı font scale (daha ince ve şık)
         for (Cell<?> cell : statsTable.getCells()) {
             if (cell.getActor() instanceof Label) {
                 ((Label) cell.getActor()).setFontScale(0.5f);

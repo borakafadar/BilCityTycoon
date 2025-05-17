@@ -59,7 +59,6 @@ public class SettingsScreen implements Screen {
         mainTable.row();
 
 
-        //TODO: make the slider work
         Label audioSliderLabel = new Label("Audio",skin);
         mainTable.add(audioSliderLabel).width(200).height(50).padRight(150);
         audioSlider = new Slider(0,100,1,false,skin);
@@ -67,7 +66,6 @@ public class SettingsScreen implements Screen {
         mainTable.row();
 
 
-        //TODO: make the slider work
         Label musicSliderLabel = new Label("Music",skin);
         mainTable.add(musicSliderLabel).width(200).height(50).padRight(150);
         musicSlider = new Slider(0,1,0.01f,false,skin);

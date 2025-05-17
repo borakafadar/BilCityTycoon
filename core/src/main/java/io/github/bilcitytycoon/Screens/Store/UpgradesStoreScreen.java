@@ -11,13 +11,16 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import io.github.bilcitytycoon.BilCityTycoonGame;
-import io.github.bilcitytycoon.Main;
-import io.github.bilcitytycoon.Upgrade;
+import io.github.bilcitytycoon.*;
+import io.github.bilcitytycoon.Screens.GameScreen;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class UpgradesStoreScreen implements Screen {
     private FitViewport fitViewport;
@@ -27,11 +30,14 @@ public class UpgradesStoreScreen implements Screen {
     private Skin skin;
     private BilCityTycoonGame game;
     private Main mainGame;
+    private Image roadImage;
     private StoreScreen storeScreen;
+    private Store store;
 
     public UpgradesStoreScreen(BilCityTycoonGame game, Main mainGame,StoreScreen storeScreen){
         this.game = game;
         this.mainGame = mainGame;
+        this.store = game.store;
         this.mainStage = new Stage();
         this.fitViewport = new FitViewport(1920,1080);
         this.storeScreen = storeScreen;
@@ -51,8 +57,6 @@ public class UpgradesStoreScreen implements Screen {
 
 
 
-        //TODO: please clean this code up, it works but it is really garbage
-
         BitmapFont bigFont = bigFontGenerator.generateFont(bigFontParameter);
         BitmapFont smallFont = bigFontGenerator.generateFont(smallFontParameter);
         BitmapFont smallestFont = bigFontGenerator.generateFont(smallestFontParameter);
@@ -66,8 +70,7 @@ public class UpgradesStoreScreen implements Screen {
         skin.addRegions(new TextureAtlas(Gdx.files.internal("skin1.atlas")));
         skin.load(Gdx.files.internal("skin1.json"));
 
-        //TODO: temp, to test the table feature
-        Table buttonTable = new Table();
+        Table buttonTable = createButtonTable(initializeUpgrades());
         buttonTable.setFillParent(true);
 
         Image panelBackground = new Image(new Texture(Gdx.files.internal("panelBackground.png")));
@@ -209,13 +212,37 @@ public class UpgradesStoreScreen implements Screen {
 
         button.add(mainTable).expand().fill().align(Align.left).top();
         button.pack();
+        button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Apply the upgrade directly
+                upgrade.applyUpgrade(game.getPlayer().getMoneyHandler(), game.getPlayer());
+                button.setDisabled(true);
+                mainGame.setScreen(storeScreen.getGameScreen()); // 🔁 geri dön
+            }
+        });
+        TextButton changeRoadBtn = new TextButton("Change Road", skin);
+        changeRoadBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //storeScreen.getGameScreen().changeRoadTexture("road2.png");
+            }
+        });
+        //buttonTable.add(changeRoadBtn).width(1700).height(200).pad(20);
+       // buttonTable.row();
+
+
+
         return button;
     }
 
-    private Table createButtonTable(){
-        //TODO
+    private Table createButtonTable(ArrayList<Upgrade> upgrades){
         Table buttonTable = new Table();
 
+        for(Upgrade upgrade : upgrades){
+            buttonTable.add(createUpgradeButton(upgrade)).width(1700).height(200).pad(20);
+            buttonTable.row();
+        }
         return buttonTable;
     }
 
@@ -238,6 +265,28 @@ public class UpgradesStoreScreen implements Screen {
         fontParameter.gamma = 20f;
 
         return fontParameter;
+    }
+    private ArrayList<Upgrade> initializeUpgrades() {
+        ArrayList<Upgrade> upgrades = new ArrayList<>();
+        HashSet<String> addedNames = new HashSet<>();
+
+        for (Faculty faculty : game.store.getBuiltFaculties()) {
+            for (Upgrade upgrade : faculty.getUpgrades()) {
+                if (!upgrade.isMade() && !addedNames.contains(upgrade.getName())) {
+                    upgrades.add(upgrade);
+                    addedNames.add(upgrade.getName());
+                }
+            }
+        }
+
+        return upgrades;
+    }
+
+    public void changeRoadTexture(String path) {
+        if (roadImage != null) {
+            Texture newRoadTexture = new Texture(Gdx.files.internal(path));
+            roadImage.setDrawable(new TextureRegionDrawable(newRoadTexture));
+        }
     }
 }
 

@@ -3,15 +3,16 @@ package io.github.bilcitytycoon;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Json;
 
-public class Upgrade {
+public class Upgrade implements Json.Serializable{
+    private transient Building building;
     private static final String UPGRADE_TYPE1 ="Ventilation";
     private static final String UPGRADE_TYPE2 ="Energy Efficiency";
     private static final String UPGRADE_TYPE3 ="Capacity";
     private String name; //Name of the upgrade
     private int upgradeCost; //Cost of the upgrade
     private int constructionTime; //Time required to complete the upgrade
-    private Building building; // The building associated with the upgrade
     private String info; //Additional information about the upgrade
     private boolean isMade; //A flag to check whether the upgrade is made
     private transient Image image; //Visual representation of the upgrade
@@ -35,6 +36,8 @@ public class Upgrade {
         } else {
             throw new IllegalArgumentException("Invalid image path: " + imagePath);
         }
+    }
+    public Upgrade() {
     }
 
     public void updateBudget(MoneyHandler moneyHandler){
@@ -113,4 +116,28 @@ public class Upgrade {
 
     @Override
     public String toString(){return "";}
+    public void write(com.badlogic.gdx.utils.Json json) {
+        json.writeValue("name", name);
+        json.writeValue("upgradeCost", upgradeCost);
+        json.writeValue("constructionTime", constructionTime);
+        json.writeValue("info", info);
+        json.writeValue("upgradeType", upgradeType);
+        json.writeValue("imagePath", imagePath);
+        json.writeValue("isMade", isMade);
+    }
+
+    public void read(com.badlogic.gdx.utils.Json json, com.badlogic.gdx.utils.JsonValue jsonData) {
+        this.name = jsonData.getString("name");
+        this.upgradeCost = jsonData.getInt("upgradeCost");
+        this.constructionTime = jsonData.getInt("constructionTime");
+        this.info = jsonData.getString("info");
+        this.upgradeType = jsonData.getString("upgradeType");
+        this.imagePath = jsonData.getString("imagePath");
+        this.isMade = jsonData.getBoolean("isMade", false);
+
+        if (imagePath != null && Gdx.files.internal(imagePath).exists()) {
+            this.image = new Image(new Texture(Gdx.files.internal(imagePath)));
+        }
+    }
+
 }

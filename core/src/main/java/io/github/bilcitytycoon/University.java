@@ -69,7 +69,7 @@ public abstract class University implements Comparable<University>{
 
     @Override
     public int compareTo(University u) {
-        return Integer.compare(u.universityReputationPoint, this.universityReputationPoint);
+        return Integer.compare(u.getUniversityReputationPoint(), this.getUniversityReputationPoint());
     }
 
     //used by leaderboard.updateRanking()
@@ -86,7 +86,7 @@ public abstract class University implements Comparable<University>{
 
     // Update reputation points based on satisfaction rate
     public void updateReputationPoints() {
-        this.universityReputationPoint = this.studentSatisfactionRate * 70; // Example multiplier
+        this.universityReputationPoint = this.studentSatisfactionRate * 50; // Example multiplier
     }
 
     //This might be changed

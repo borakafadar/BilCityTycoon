@@ -31,7 +31,6 @@ public class StoreScreen implements Screen {
     private GameScreen gameScreen;
 
     public StoreScreen(BilCityTycoonGame game, Main mainGame, GameScreen gameScreen){
-        //TODO the buttons in the stores are not finished because the store things are not finished
 
         this.game = game;
         this.mainGame = mainGame;
@@ -58,7 +57,6 @@ public class StoreScreen implements Screen {
 
         FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(13,0);
 
-        //TODO: please clean this code up, it works but it is really garbage
 
         BitmapFont bigFont = bigFontGenerator.generateFont(bigFontParameter);
         BitmapFont smallFont = bigFontGenerator.generateFont(smallFontParameter);
@@ -169,7 +167,7 @@ public class StoreScreen implements Screen {
         otherBuildingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                mainGame.setScreen(new OtherBuildingsStoreScreen(game,mainGame,thisStoreScreen));
+                mainGame.setScreen(new OtherBuildingsStoreScreen(game,mainGame,thisStoreScreen,gameScreen));
             }
         });
 
@@ -183,7 +181,7 @@ public class StoreScreen implements Screen {
         decorationsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                mainGame.setScreen(new DecorationsStoreScreen(game,mainGame,thisStoreScreen));
+                mainGame.setScreen(new DecorationsStoreScreen(game,mainGame,thisStoreScreen,gameScreen));
             }
         });
 
@@ -227,6 +225,10 @@ public class StoreScreen implements Screen {
 
         return fontParameter;
     }
+    public GameScreen getGameScreen() {
+        return this.gameScreen;
+    }
+
 }
 
 

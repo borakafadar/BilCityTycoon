@@ -55,13 +55,24 @@ public class MoneyHandler {
         if (balance >= amount) {
             this.balance -= amount;
             return true;
-        } else {
-            System.out.println("Not enough money!");
-            return false;
         }
+        return false;
     }
+
 
     public void processDay() {
         balance += netIncome;
     }
+
+    public void collectMonthlyIncome(Player player){
+        int totalIncome = 0;
+        for(Building building : player.buildings){
+            totalIncome += building.getIncome();
+        }
+        player.setCoin(player.getCoin() + totalIncome);
+    }
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
 }

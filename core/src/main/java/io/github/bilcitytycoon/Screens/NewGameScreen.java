@@ -67,11 +67,10 @@ public class NewGameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 playerName = playerNameField.getText().trim();
-                System.out.println("Player name: " + playerName); // test için
+                System.out.println("Player name: " + playerName);
                 BilCityTycoonGame newGame = new BilCityTycoonGame();
                 newGame.getPlayer().setName(playerName);
-                //SaveLoad newGameSave = new SaveLoad(newGame,mainGame);
-                //newGameSave.saveGame();
+
                 mainGame.setScreen(new GameScreen(mainGame,newGame));
             }
         });

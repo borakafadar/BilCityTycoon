@@ -40,7 +40,6 @@ public class WelcomeScreen implements Screen {
 
     public WelcomeScreen(Main game){
 
-        //TODO: make this into a method so that it can be more readable
         this.main = game;
         thisWelcomeScreen = this;
 
@@ -59,7 +58,6 @@ public class WelcomeScreen implements Screen {
 
 
 
-        //TODO: please clean this code up, it works but it is really garbage
 
         BitmapFont bigFont = bigFontGenerator.generateFont(bigFontParameter);
         BitmapFont smallFont = bigFontGenerator.generateFont(smallFontParameter);
