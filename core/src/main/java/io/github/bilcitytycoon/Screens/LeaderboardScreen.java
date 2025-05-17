@@ -19,10 +19,13 @@ import io.github.bilcitytycoon.*;
 
 import java.util.ArrayList;
 
-
+/**
+ * This screen displays the leaderboard showing all universities, including the player's university,
+ * sorted by reputation and student satisfaction.
+ */
 public class LeaderboardScreen implements Screen {
     private FitViewport fitViewport;
-    private StretchViewport stretchViewport; //for background
+    private StretchViewport stretchViewport;
     private Stage backgroundStage;
     private Stage mainStage;
     private Skin skin;
@@ -30,15 +33,15 @@ public class LeaderboardScreen implements Screen {
     private Main mainGame;
     private Leaderboard leaderboard;
 
-    public LeaderboardScreen(BilCityTycoonGame game, Main mainGame, GameScreen gameScreen){
+    /**
+     * Constructor for the leaderboard screen, prepares the background, font, skin and buttons.
+     */
+    public LeaderboardScreen(BilCityTycoonGame game, Main mainGame, GameScreen gameScreen) {
         this.game = game;
         this.mainGame = mainGame;
         this.mainStage = new Stage();
         this.fitViewport = new FitViewport(1920,1080);
         this.leaderboard = game.getLeaderboard();
-
-        //for test
-        //this.leaderboard = new Leaderboard(/*this.game,*/null);
 
         this.stretchViewport = new StretchViewport(1366,768);
         this.backgroundStage = new Stage();
@@ -47,16 +50,10 @@ public class LeaderboardScreen implements Screen {
         mainStage.setViewport(fitViewport);
 
         FreeTypeFontGenerator bigFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter  titleFontParameter = generateFontParameter(75,2);
+        FreeTypeFontGenerator.FreeTypeFontParameter titleFontParameter = generateFontParameter(75,2);
         FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(35,1);
-
         FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(16,0);
-
         FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(14,1);
-
-
-
-        //TODO: please clean this code up, it works but it is really garbage
 
         BitmapFont bigFont = bigFontGenerator.generateFont(bigFontParameter);
         BitmapFont smallFont = bigFontGenerator.generateFont(smallFontParameter);
@@ -71,16 +68,6 @@ public class LeaderboardScreen implements Screen {
         skin.addRegions(new TextureAtlas(Gdx.files.internal("skin1.atlas")));
         skin.load(Gdx.files.internal("skin1.json"));
 
-        //TODO: temp, to test the table feature
-
-
-        //test code
-        OtherUniversity otherUniversity1 = new OtherUniversity("Bombardino University",3100,94);
-        OtherUniversity otherUniversity2 = new OtherUniversity("Crocodilo University",2500,83);
-        Player player = new Player("Zeynel Yildirim BilCity University",2300,69,10,10,10);
-        OtherUniversity otherUniversity3 = new OtherUniversity("Tralello University",2000,58);
-        OtherUniversity otherUniversity4 = new OtherUniversity("Yasar University",1500,47);
-
         ArrayList<University> universities = game.getLeaderboard().getAllUniversities();
 
         Table buttonTable = createButtonTable(universities);
@@ -90,26 +77,25 @@ public class LeaderboardScreen implements Screen {
         backgroundStage.addActor(panelBackground);
         panelBackground.setSize(1920,1080);
 
-
-
-        ScrollPane scrollPane = new ScrollPane(buttonTable,skin);
+        ScrollPane scrollPane = new ScrollPane(buttonTable, skin);
         scrollPane.setHeight(100);
-        scrollPane.setScrollingDisabled(true,false);
+        scrollPane.setScrollingDisabled(true, false);
         scrollPane.setFadeScrollBars(false);
         scrollPane.setClamp(true);
-        scrollPane.setOverscroll(false,true);
+        scrollPane.setOverscroll(false, true);
 
         Table rootTable = new Table();
         rootTable.setFillParent(true);
         buttonTable.bottom();
         buttonTable.pack();
 
-        Label titleLabel = new Label("Leaderboard",skin,"title-label");
+        Label titleLabel = new Label("Leaderboard", skin, "title-label");
         titleLabel.setAlignment(Align.center);
         rootTable.add(titleLabel).expandX().fillX().padTop(90).padBottom(50);
         rootTable.row();
         rootTable.add(scrollPane).expand().fill();
-        ImageButton backButton = new ImageButton(skin,"back-button");
+
+        ImageButton backButton = new ImageButton(skin, "back-button");
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -117,20 +103,17 @@ public class LeaderboardScreen implements Screen {
             }
         });
 
-
-
-
         mainStage.addActor(rootTable);
-
         mainStage.addActor(backButton);
-        backButton.setPosition(100,920);
-        backButton.setSize(100,100);
+        backButton.setPosition(100, 920);
+        backButton.setSize(100, 100);
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(mainStage);
     }
+
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.WHITE);
@@ -141,169 +124,155 @@ public class LeaderboardScreen implements Screen {
         mainStage.act();
         fitViewport.apply();
         mainStage.draw();
-
     }
+
     @Override
     public void resize(int width, int height) {
-        fitViewport.update(width,height,true);
-        stretchViewport.update(width, height,true);
+        fitViewport.update(width, height, true);
+        stretchViewport.update(width, height, true);
     }
+
     @Override
     public void pause() {}
+
     @Override
     public void resume() {}
+
     @Override
     public void hide() {}
+
     @Override
     public void dispose() {
         skin.dispose();
         mainStage.dispose();
-
     }
 
-
-     private Button createUniversityButton(University university){
-        if(university instanceof OtherUniversity){
-            Button button = new Button(skin,"store-button");
+    /**
+     * Creates a UI button for each university in the leaderboard.
+     * Handles both player and non-player university layouts.
+     */
+    private Button createUniversityButton(University university) {
+        if (university instanceof OtherUniversity) {
+            Button button = new Button(skin, "store-button");
             Table mainTable = new Table();
-            mainTable.pad(10);
-            mainTable.padBottom(20);
-            //left panel
-            Table rankingTable = new Table(skin);
+            mainTable.pad(10).padBottom(20);
 
-            Label rankingLabel = new Label(university.getRanking()+"#",skin,"title-label");
+            // Left: Rank number
+            Table rankingTable = new Table(skin);
+            Label rankingLabel = new Label(university.getRanking() + "#", skin, "title-label");
             rankingTable.add(rankingLabel).expandX().fillX().padBottom(20);
 
-            //mid panel
+            // Middle: Name
             Table textTable = new Table(skin);
-
-
-            Label facultyLabel = new Label(university.getName(), skin,"default");
+            Label facultyLabel = new Label(university.getName(), skin, "default");
             facultyLabel.setWrap(true);
             facultyLabel.setAlignment(Align.center);
-            textTable.add(facultyLabel).width(/*facultyLabel.getText().length*20*/660).height(50).padBottom(20).expandX().fillX();
+            textTable.add(facultyLabel).width(660).height(50).padBottom(20).expandX().fillX();
             textTable.row();
 
-            //right info panel
+            // Right: Stats
             Table infoTable = new Table(skin);
             infoTable.defaults().pad(10);
 
             Table reputationTable = new Table(skin);
             reputationTable.defaults().pad(10);
             reputationTable.add(new Image(new Texture(Gdx.files.internal("icons/reputationIcon.png")))).width(40).height(40);
-            Label reputationLabel = new Label("University Reputation Point: "+university.getUniversityReputationPoint(),skin,"small-label");
+            Label reputationLabel = new Label("University Reputation Point: " + university.getUniversityReputationPoint(), skin, "small-label");
             reputationLabel.setWrap(true);
-            reputationTable.add(reputationLabel).size(200,50);
+            reputationTable.add(reputationLabel).size(200, 50);
 
             Table satisfactionTable = new Table(skin);
             satisfactionTable.defaults().pad(10);
             satisfactionTable.add(new Image(new Texture(Gdx.files.internal("icons/satisfactionIcon.png")))).width(40).height(40);
-            Label satisfactionLabel = new Label("Student Satisfaction Rate: "+university.getStudentSatisfactionRate()+"%",skin,"small-label");
+            Label satisfactionLabel = new Label("Student Satisfaction Rate: " + university.getStudentSatisfactionRate() + "%", skin, "small-label");
             satisfactionLabel.setWrap(true);
-            satisfactionTable.add(satisfactionLabel).size(220,50);
-
+            satisfactionTable.add(satisfactionLabel).size(220, 50);
 
             infoTable.add(reputationTable);
             infoTable.add(satisfactionTable);
             infoTable.row();
 
-
-
-            mainTable.defaults().pad(40);
-            mainTable.top();
+            mainTable.defaults().pad(40).top();
             mainTable.add(rankingTable).expand().fill().align(Align.left).top();
-            mainTable.add(textTable).expand().fill().width(textTable.getWidth()).align(Align.center).expandX().fillX();
-            mainTable.add(infoTable).expand().fill().align(Align.right).size(700,50);
+            mainTable.add(textTable).expand().fill().align(Align.center).expandX().fillX();
+            mainTable.add(infoTable).expand().fill().align(Align.right).size(700, 50);
 
-
-
-            mainTable.center();
-            mainTable.defaults().pad(100);
-
+            mainTable.center().defaults().pad(100);
             button.add(mainTable).expand().fill().align(Align.left).top();
 
             return button;
-        } else if(university instanceof Player){
-            Button button = new Button(skin,"player-button");
-            Table mainTable = new Table();
-            mainTable.pad(10);
-            mainTable.padBottom(20);
-            //left panel
-            Table rankingTable = new Table(skin);
 
-            Label rankingLabel = new Label(university.getRanking()+"#",skin,"title-label");
+        } else if (university instanceof Player) {
+            Button button = new Button(skin, "player-button");
+            Table mainTable = new Table();
+            mainTable.pad(10).padBottom(20);
+
+            Table rankingTable = new Table(skin);
+            Label rankingLabel = new Label(university.getRanking() + "#", skin, "title-label");
             rankingTable.add(rankingLabel).expandX().fillX().padBottom(20);
 
-
-            //mid panel
             Table textTable = new Table(skin);
-
-
-            Label facultyLabel = new Label(university.getName(), skin,"default");
+            Label facultyLabel = new Label(university.getName(), skin, "default");
             facultyLabel.setWrap(true);
             facultyLabel.setAlignment(Align.center);
-            textTable.add(facultyLabel).width(facultyLabel.getText().length*200).height(50).padBottom(20);
-            textTable.row();
+            textTable.add(facultyLabel).width(facultyLabel.getText().length * 200).height(50).padBottom(20);
             textTable.row();
 
-            //right info panel
             Table infoTable = new Table(skin);
             infoTable.defaults().pad(10).fillX().expand();
 
             Table reputationTable = new Table(skin);
             reputationTable.defaults().pad(10);
             reputationTable.add(new Image(new Texture(Gdx.files.internal("icons/reputationIcon.png")))).width(40).height(40);
-            Label reputationLabel = new Label("Your University Reputation Point: "+university.getUniversityReputationPoint(),skin,"small-label");
+            Label reputationLabel = new Label("Your University Reputation Point: " + university.getUniversityReputationPoint(), skin, "small-label");
             reputationLabel.setWrap(true);
-            reputationTable.add(reputationLabel).size(250,50);
+            reputationTable.add(reputationLabel).size(250, 50);
 
             Table satisfactionTable = new Table(skin);
             satisfactionTable.defaults().pad(10);
             satisfactionTable.add(new Image(new Texture(Gdx.files.internal("icons/satisfactionIcon.png")))).width(40).height(40);
-            Label satisfactionLabel = new Label("Your Student Satisfaction Rate: "+university.getStudentSatisfactionRate()+"%",skin,"small-label");
+            Label satisfactionLabel = new Label("Your Student Satisfaction Rate: " + university.getStudentSatisfactionRate() + "%", skin, "small-label");
             satisfactionLabel.setWrap(true);
-            satisfactionTable.add(satisfactionLabel).size(220,50);
-
+            satisfactionTable.add(satisfactionLabel).size(220, 50);
 
             infoTable.add(reputationTable);
             infoTable.add(satisfactionTable);
             infoTable.row();
 
-
-            mainTable.defaults().pad(40);
-            mainTable.top();
+            mainTable.defaults().pad(40).top();
             mainTable.add(rankingTable).expand().fill().align(Align.left);
-            mainTable.add(textTable).expand().fill().width(textTable.getWidth()).align(Align.center);
-            mainTable.add(infoTable).expand().fill().align(Align.right).size(700,50);
+            mainTable.add(textTable).expand().fill().align(Align.center);
+            mainTable.add(infoTable).expand().fill().align(Align.right).size(700, 50);
 
-
-
-            mainTable.center();
-            mainTable.defaults().pad(100);
-
+            mainTable.center().defaults().pad(100);
             button.add(mainTable).expand().fill().align(Align.left).top();
             button.pack();
             return button;
         }
-        //to shut the compiler up
-        return null;
+
+        return null; // fallback
     }
 
-    private Table createButtonTable(ArrayList<University> universities){
-        if(universities == null || universities.isEmpty()){
+    /**
+     * Builds a table containing university buttons from the list.
+     */
+    private Table createButtonTable(ArrayList<University> universities) {
+        if (universities == null || universities.isEmpty()) {
             return new Table();
         }
 
         Table buttonTable = new Table();
-        for(University university : universities){
+        for (University university : universities) {
             buttonTable.add(createUniversityButton(university)).width(1700).height(200).pad(10);
             buttonTable.row();
         }
         return buttonTable;
     }
 
-
-    private FreeTypeFontGenerator.FreeTypeFontParameter generateFontParameter(int size, int borderWidth){
+    /**
+     * Utility function to generate font parameters for consistent visual style.
+     */
+    private FreeTypeFontGenerator.FreeTypeFontParameter generateFontParameter(int size, int borderWidth) {
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         fontParameter.size = size;
         fontParameter.borderWidth = borderWidth;
@@ -323,5 +292,3 @@ public class LeaderboardScreen implements Screen {
         return fontParameter;
     }
 }
-
-

@@ -17,6 +17,11 @@ import io.github.bilcitytycoon.Event;
 import io.github.bilcitytycoon.Main;
 import java.util.Random;
 
+/**
+ * PopUpPanel is a UI component used to display special game events
+ * such as protests, fires, or donations. It uses custom avatars,
+ * text feedback, and action buttons (OK).
+ */
 public class PopUpPanel extends Table {
     private Image avatar;
     private Texture avatarTexture;
@@ -29,6 +34,9 @@ public class PopUpPanel extends Table {
     private TextButton yes;
     private TextButton no;
 
+    /**
+     * Constructor for protest popups with a single OK button.
+     */
     public PopUpPanel(Main main, BilCityTycoonGame game, Event protest, TextButton OK) {
         this.main = main;
         this.game = game;
@@ -47,7 +55,7 @@ public class PopUpPanel extends Table {
         this.add(avatar).width(200).height(200).pad(20).align(Align.topRight);
         this.row();
 
-        // Info label
+        // Protest effect
         specialEvent.protest();
         String text = specialEvent.getInfo();
         Label infoLabel = new Label(text, skin, "small-label");
@@ -56,7 +64,7 @@ public class PopUpPanel extends Table {
         this.add(infoLabel).width(800).height(100).pad(20).align(Align.center);
         this.row();
 
-        // OK Button
+        // OK button
         OK = new TextButton("OK", skin);
         OK.addListener(new ClickListener(){
             @Override
@@ -66,13 +74,14 @@ public class PopUpPanel extends Table {
             }
         });
 
-        // Optional: create a sub table to position OK button right
         Table buttonTable = new Table();
         buttonTable.add(OK).width(150).height(75).pad(20);
         this.add(buttonTable).expandX().right().pad(10);
     }
 
-
+    /**
+     * Constructor for fire event popup with Yes and No buttons.
+     */
     public PopUpPanel(Main main, BilCityTycoonGame game, Event fire, TextButton yes, TextButton no) {
         this.main = main;
         this.game = game;
@@ -90,6 +99,7 @@ public class PopUpPanel extends Table {
         this.add(avatar).width(200).height(200).pad(20).align(Align.topRight);
         this.row();
 
+        // Fire effect
         specialEvent.burning(randomBuilding());
         String text = specialEvent.getInfo();
         Label infoLabel = new Label(text, skin, "small-label");
@@ -98,6 +108,7 @@ public class PopUpPanel extends Table {
         this.add(infoLabel).width(800).height(100).pad(20).align(Align.center);
         this.row();
 
+        // Yes/No buttons
         Table buttonTable = new Table();
         yes = new TextButton("Yes", skin, "small-label");
         yes.addListener(new ClickListener(){
@@ -123,7 +134,9 @@ public class PopUpPanel extends Table {
         this.add(buttonTable).colspan(2).center();
     }
 
-
+    /**
+     * Constructor for donation popup with a single OK button.
+     */
     public PopUpPanel(Main main, BilCityTycoonGame game, TextButton OK, Event donation) {
         this.main = main;
         this.game = game;
@@ -141,6 +154,7 @@ public class PopUpPanel extends Table {
         this.add(avatar).width(200).height(200).pad(20).align(Align.topRight);
         this.row();
 
+        // Donation effect
         specialEvent.donation();
         String text = specialEvent.getInfo();
         Label infoLabel = new Label(text, skin, "small-label");
@@ -160,6 +174,9 @@ public class PopUpPanel extends Table {
         this.add(OK).width(150).height(75).pad(20).align(Align.bottomRight);
     }
 
+    /**
+     * Returns a random avatar path from the sprite folder.
+     */
     public String randomAvatar(){
         String[] avatars = {
             "character sprites/Bora_default.png",
@@ -174,18 +191,22 @@ public class PopUpPanel extends Table {
         return avatars[randomIndex];
     }
 
+    /**
+     * Returns a random building from the player's current buildings.
+     */
     public Building randomBuilding(){
         Random rand = new Random();
         return game.getPlayer().getBuildings().get(rand.nextInt(game.getPlayer().getBuildings().size()));
     }
 
+    /**
+     * Creates the skin and loads all necessary fonts and assets.
+     */
     public Skin createSkin(){
         FreeTypeFontGenerator bigFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(72,1);
         FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(16,1);
         FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(13,0);
-
-
 
         BitmapFont bigFont = bigFontGenerator.generateFont(bigFontParameter);
         BitmapFont smallFont = bigFontGenerator.generateFont(smallFontParameter);
@@ -198,7 +219,6 @@ public class PopUpPanel extends Table {
         skin1.add("PressStart2P-big", bigFont);
 
         skin1.addRegions(new TextureAtlas(Gdx.files.internal("skin1.atlas")));
-
         skin1.load(Gdx.files.internal("skin1.json"));
 
         return skin1;

@@ -19,17 +19,49 @@ import io.github.bilcitytycoon.BilCityTycoonGame;
 import io.github.bilcitytycoon.Main;
 import io.github.bilcitytycoon.Screens.GameScreen;
 
+/**
+ * This screen acts as the main hub for the store, allowing the player
+ * to navigate to subcategories such as Faculties, Other Buildings,
+ * Upgrades, and Decorations. It also provides a close button to return
+ * to the game screen.
+ */
 public class StoreScreen implements Screen {
+
+    /** Viewport used for fitting UI elements to screen size */
     private FitViewport fitViewport;
+
+    /** Viewport used to stretch the background across screen */
     private StretchViewport stretchViewport; //for the background
+
+    /** Stage used to render UI elements */
     private Stage mainStage;
+
+    /** Stage used to render the background panel */
     private Stage backgroundStage;
+
+    /** Skin used for font and UI styling */
     private Skin skin;
+
+    /** Reference to the main game instance */
     private BilCityTycoonGame game;
+
+    /** Main application controller, used for screen transitions */
     private Main mainGame;
+
+    /** Reference to this store screen for passing into sub-screens */
     private StoreScreen thisStoreScreen;
+
+    /** Reference to the game screen to return to upon closing */
     private GameScreen gameScreen;
 
+    /**
+     * Constructs the StoreScreen with references to game logic, main app controller,
+     * and game screen. Initializes fonts, layout, and store category buttons.
+     *
+     * @param game the main game logic controller
+     * @param mainGame the screen manager for transitions
+     * @param gameScreen the screen to return to from the store
+     */
     public StoreScreen(BilCityTycoonGame game, Main mainGame, GameScreen gameScreen){
         //TODO the buttons in the stores are not finished because the store things are not finished
 
@@ -44,18 +76,14 @@ public class StoreScreen implements Screen {
         mainStage.setViewport(fitViewport);
         backgroundStage.setViewport(stretchViewport);
 
-
         Image panelBackground = new Image(new Texture(Gdx.files.internal("panelBackground.png")));
         backgroundStage.addActor(panelBackground);
         panelBackground.setSize(1920,1080);
 
         FreeTypeFontGenerator bigFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter  titleFontParameter = generateFontParameter(75,2);
-
         FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(34,1);
-
         FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(16,1);
-
         FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(13,0);
 
         //TODO: please clean this code up, it works but it is really garbage
@@ -75,7 +103,6 @@ public class StoreScreen implements Screen {
 
         Label storeLabel = new Label("Store",skin,"title-label");
 
-
         ImageButton closeButton = new ImageButton(skin,"close-button");
         mainStage.addActor(closeButton);
 
@@ -85,33 +112,28 @@ public class StoreScreen implements Screen {
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                  mainGame.setScreen(gameScreen);
-                  dispose();
+                mainGame.setScreen(gameScreen);
+                dispose();
             }
         });
+
         Table rootTable = new Table();
-
         rootTable.setFillParent(true);
-
 
         rootTable.add(storeLabel).expandX().align(Align.center).padTop(70);
         rootTable.row();
 
         Table buttonTable = createStoresTable();
-
         rootTable.add(buttonTable).expand().padTop(100).align(Align.center);
 
-
-
         mainStage.addActor(rootTable);
-
-
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(mainStage);
     }
+
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.WHITE);
@@ -120,32 +142,39 @@ public class StoreScreen implements Screen {
         stretchViewport.apply();
         backgroundStage.draw();
 
-
         mainStage.act();
         fitViewport.apply();
         mainStage.draw();
-
-
     }
+
     @Override
     public void resize(int width, int height) {
         fitViewport.update(width,height,true);
         stretchViewport.update(width,height,true);
     }
+
     @Override
     public void pause() {}
+
     @Override
     public void resume() {}
+
     @Override
     public void hide() {}
+
     @Override
     public void dispose() {
         skin.dispose();
         mainStage.dispose();
-
     }
 
-    private Table createStoresTable (){
+    /**
+     * Creates a table containing buttons for each store category (Faculties, Other Buildings, etc.).
+     * Sets their sizes and click listeners to navigate to the appropriate screens.
+     *
+     * @return A Table with all category buttons
+     */
+    private Table createStoresTable () {
         Table mainTable = new Table();
 
         final float BUTTON_WIDTH = 403*1.5f;
@@ -160,10 +189,10 @@ public class StoreScreen implements Screen {
         ImageButton decorationsButton = new ImageButton(skin,"store-decorations-button");
 
         facultyButton.addListener(new ClickListener() {
-           @Override
-           public void clicked(InputEvent event, float x, float y) {
-               mainGame.setScreen(new FacultiesStoreScreen(game,mainGame,thisStoreScreen,gameScreen));
-           }
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mainGame.setScreen(new FacultiesStoreScreen(game,mainGame,thisStoreScreen,gameScreen));
+            }
         });
 
         otherBuildingsButton.addListener(new ClickListener() {
@@ -187,11 +216,9 @@ public class StoreScreen implements Screen {
             }
         });
 
-
         //libGDX is garbage, and it will not change its button's image size, so you have to force it with this
         for (ImageButton btn : new ImageButton[]{facultyButton, otherBuildingsButton, upgradesButton, decorationsButton}) {
             btn.getImageCell().expand().fill();
-
         }
 
         mainTable.add(facultyButton);
@@ -203,10 +230,8 @@ public class StoreScreen implements Screen {
         mainTable.center();
         mainTable.pack();
 
-
         return mainTable;
     }
-
 
     private FreeTypeFontGenerator.FreeTypeFontParameter generateFontParameter(int size, int borderWidth){
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -228,5 +253,3 @@ public class StoreScreen implements Screen {
         return fontParameter;
     }
 }
-
-

@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import io.github.bilcitytycoon.*;
@@ -21,17 +20,50 @@ import io.github.bilcitytycoon.Screens.GameScreen;
 
 import java.util.ArrayList;
 
+/**
+ * Displays the "Other Buildings" section in the store UI.
+ * Players can view and select unbuilt utility buildings to place on the map.
+ */
 public class OtherBuildingsStoreScreen implements Screen {
+
+    /** Viewport for scaling the main UI layout */
     private FitViewport fitViewport;
+
+    /** Viewport for stretching the background */
     private StretchViewport stretchViewport; //for background
+
+    /** Stage for rendering the background */
     private Stage backgroundStage;
+
+    /** Stage for rendering all interactive UI components */
     private Stage mainStage;
+
+    /** Skin for font and UI styling */
     private Skin skin;
+
+    /** Main game instance */
     private BilCityTycoonGame game;
+
+    /** Entry point for screen transitions */
     private Main mainGame;
+
+    /** Screen to return to when "back" is pressed */
     private StoreScreen storeScreen;
+
+    /** Store containing available buildings */
     private Store store;
+
+    /** The screen where the selected building will be placed */
     private GameScreen gameScreen;
+
+    /**
+     * Initializes the store screen with layout, fonts, skins, and data from the store.
+     *
+     * @param game Game logic controller
+     * @param mainGame Entry screen controller
+     * @param storeScreen Previous screen to return to
+     * @param gameScreen Screen where building placement will happen
+     */
     public OtherBuildingsStoreScreen(BilCityTycoonGame game, Main mainGame, StoreScreen storeScreen, GameScreen gameScreen){
         this.game = game;
         this.mainGame = mainGame;
@@ -49,12 +81,8 @@ public class OtherBuildingsStoreScreen implements Screen {
         FreeTypeFontGenerator bigFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter  titleFontParameter = generateFontParameter(75,2);
         FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(34,1);
-
         FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(16,0);
-
         FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(13,1);
-
-
 
         //TODO: please clean this code up, it works but it is really garbage
 
@@ -79,8 +107,6 @@ public class OtherBuildingsStoreScreen implements Screen {
         backgroundStage.addActor(panelBackground);
         panelBackground.setSize(1920,1080);
 
-
-
         ScrollPane scrollPane = new ScrollPane(buttonTable,skin);
         scrollPane.setHeight(100);
         scrollPane.setScrollingDisabled(true,false);
@@ -98,6 +124,7 @@ public class OtherBuildingsStoreScreen implements Screen {
         rootTable.add(titleLabel).expandX().fillX().padTop(90).padBottom(50);
         rootTable.row();
         rootTable.add(scrollPane).expand().fill();
+
         ImageButton backButton = new ImageButton(skin,"back-button");
         backButton.addListener(new ClickListener() {
             @Override
@@ -106,9 +133,7 @@ public class OtherBuildingsStoreScreen implements Screen {
             }
         });
 
-
         mainStage.addActor(rootTable);
-
         mainStage.addActor(backButton);
         backButton.setPosition(100,920);
         backButton.setSize(100,100);
@@ -118,6 +143,7 @@ public class OtherBuildingsStoreScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(mainStage);
     }
+
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.WHITE);
@@ -128,42 +154,45 @@ public class OtherBuildingsStoreScreen implements Screen {
         mainStage.act();
         fitViewport.apply();
         mainStage.draw();
-
     }
+
     @Override
     public void resize(int width, int height) {
         fitViewport.update(width,height,true);
         stretchViewport.update(width, height,true);
     }
+
     @Override
     public void pause() {}
+
     @Override
     public void resume() {}
+
     @Override
     public void hide() {}
+
     @Override
     public void dispose() {
         skin.dispose();
         mainStage.dispose();
-
     }
 
-
+    /**
+     * Creates a UI button for an OtherBuilding and defines how it is displayed in the store.
+     *
+     * @param otherBuilding The building to create a button for
+     * @return A fully styled, interactive Button
+     */
     private Button createOtherBuildingButton(OtherBuilding otherBuilding){
         Button button = new Button(skin,"store-button");
         Table mainTable = new Table();
         mainTable.pad(10);
         mainTable.padBottom(20);
-        //photo
+
         Table photoTable = new Table(skin);
-        //instancing a new image because FOR SOME REASON
-        //libGDX does not allow the usage of the same image in multiple buttons ???
         photoTable.add(new Image(otherBuilding.getImage().getDrawable())).size(150,120).padRight(100);
 
         Table textTable = new Table(skin);
-
-        //mid panel
-
         Label facultyLabel = new Label(otherBuilding.getName(), skin,"default");
         facultyLabel.setWrap(true);
         facultyLabel.setAlignment(Align.center);
@@ -174,7 +203,6 @@ public class OtherBuildingsStoreScreen implements Screen {
         textTable.add(infoLabel).width(infoLabel.getText().length*7).height(50);
         textTable.row();
 
-        //right info panel
         Table infoTable = new Table(skin);
         infoTable.defaults().pad(10);
 
@@ -190,22 +218,18 @@ public class OtherBuildingsStoreScreen implements Screen {
         Label priceLabel = new Label(Double.toString(otherBuilding.getCost()),skin,"small-label");
         priceTable.add(priceLabel);
 
-
         infoTable.add(timeTable);
         infoTable.add(priceTable);
         infoTable.row();
 
-        //temp
         Label advantageLabel = new Label("+100 University Reputation Points\n+25 Student Satisfaction Point",skin,"smallest-label");
         infoTable.add(advantageLabel).colspan(2).center();
-
 
         mainTable.defaults().pad(20);
         mainTable.top();
         mainTable.add(photoTable).expand().fill().align(Align.left);
         mainTable.add(textTable).expand().fill().width(textTable.getWidth()).align(Align.center);
         mainTable.add(infoTable).expand().fill().align(Align.right);
-
 
         mainTable.setFillParent(true);
         mainTable.center();
@@ -225,17 +249,20 @@ public class OtherBuildingsStoreScreen implements Screen {
         return button;
     }
 
+    /**
+     * Creates a table listing all unbuilt other buildings as buttons.
+     *
+     * @param otherBuildings List of buildings to display
+     * @return Table with buttons for each building
+     */
     private Table createButtonTable(ArrayList<OtherBuilding> otherBuildings){
-
         Table buttonTable = new Table();
         for(OtherBuilding otherBuilding : otherBuildings){
             buttonTable.add(createOtherBuildingButton(otherBuilding)).width(1700).height(200).pad(20);
             buttonTable.row();
         }
-
         return buttonTable;
     }
-
 
     private FreeTypeFontGenerator.FreeTypeFontParameter generateFontParameter(int size, int borderWidth){
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -257,5 +284,3 @@ public class OtherBuildingsStoreScreen implements Screen {
         return fontParameter;
     }
 }
-
-

@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -20,12 +19,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.bilcitytycoon.*;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import io.github.bilcitytycoon.Event;
 import io.github.bilcitytycoon.Save.SaveLoad;
 import io.github.bilcitytycoon.Screens.Store.StoreScreen;
@@ -667,6 +663,15 @@ public class GameScreen implements Screen {
         return fontParameter;
     }
 
+    /**
+     * Checks whether a building can be placed at the given grid position with the given dimensions.
+     *
+     * @param x Starting X coordinate on the grid.
+     * @param y Starting Y coordinate on the grid.
+     * @param width  Width of the building in cells.
+     * @param height Height of the building in cells.
+     * @return true if the building can be placed, false otherwise.
+     */
     private boolean canPlaceBuilding(int x, int y, int width, int height) {
         Building[][] grid = currentMap.getGrid();
         if (x + width > grid.length || y + height > grid[0].length) return false;
@@ -679,49 +684,55 @@ public class GameScreen implements Screen {
         return true;
     }
 
-
-
+    /**
+     * Places a building on the current map, updates player money and ranking, and refreshes visuals.
+     *
+     * @param building The building to place.
+     * @param x Grid X position.
+     * @param y Grid Y position.
+     * @param width Building width.
+     * @param height Building height.
+     */
     private void placeBuilding(Building building, int x, int y, int width, int height) {
-        if (!canPlaceBuilding(x, y, width, height)) return; // Ön kontrol yap!
+        if (!canPlaceBuilding(x, y, width, height)) return;
 
         currentMap.placeBuilding(building, x, y, width, height);
         bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) building.getCost());
-        if(building instanceof Faculty){
-            bilCityTycoonGame.store.buyFaculty((Faculty) building,bilCityTycoonGame.getPlayer());
-        } else if(building instanceof OtherBuilding){
-            bilCityTycoonGame.store.buyOtherBuilding((OtherBuilding) building,bilCityTycoonGame.getPlayer());
+        if (building instanceof Faculty) {
+            bilCityTycoonGame.store.buyFaculty((Faculty) building, bilCityTycoonGame.getPlayer());
+        } else if (building instanceof OtherBuilding) {
+            bilCityTycoonGame.store.buyOtherBuilding((OtherBuilding) building, bilCityTycoonGame.getPlayer());
         }
 
         bilCityTycoonGame.getLeaderboard().updateRanking();
         refreshBuildings();
     }
 
-
-
-
-
-
-
+    /**
+     * Initiates building placement by setting the selected building.
+     *
+     * @param building Building to be placed.
+     */
     public void startPlacing(Building building) {
         this.selectedBuilding = building;
         isPlacingBuilding = true;
     }
 
-
+    /**
+     * Simulates the events that should occur every in-game day.
+     */
     public void processDay() {
         bilCityTycoonGame.getPlayer().getMoneyHandler().processDay();
         bilCityTycoonGame.getPlayer().safeDecreaseStudentSatisfactionPoint(100);
-
-        // Artık tüm endingleri kontrol ediyor
         bilCityTycoonGame.checkEnding(mainGame);
     }
 
-
-
+    /**
+     * Opens a dialog showing the player's economy summary.
+     */
     private void showEconomyPopup() {
         Dialog dialog = new Dialog("Economy", skin, "dialogStyle");
 
-        // İçerik label'ları
         Label.LabelStyle boldStyle = new Label.LabelStyle(skin.getFont("PressStart2P-small"), Color.BLACK);
 
         Label incomeLabel = new Label("Incomes:\nCorporate: 5000\nDonations: 3000\nGrants: 5000", boldStyle);
@@ -734,7 +745,6 @@ public class GameScreen implements Screen {
         Label summaryLabel = new Label("Overall: " + (netIncome >= 0 ? "+" : "") + netIncome + " BilCoins", boldStyle);
         summaryLabel.setColor(netIncome >= 0 ? Color.GREEN : Color.RED);
 
-        // Layout Table
         Table contentTable = new Table();
         contentTable.add(incomeLabel).pad(10).left();
         contentTable.add(expenseLabel).pad(10).left();
@@ -746,12 +756,19 @@ public class GameScreen implements Screen {
 
         dialog.show(stage);
     }
+
+    /**
+     * Directly places a Faculty building without checking placement validity (used internally).
+     */
     private void placeBuildingOnCurrentMap(Faculty faculty, int x, int y, int width, int height) {
         currentMap.placeBuilding(faculty, x, y, width, height);
         bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) faculty.getCost());
         refreshBuildings();
     }
 
+    /**
+     * Displays a randomized popup event such as protest, fire, or donation.
+     */
     private void showRandomPopup() {
         if (currentPopup != null) {
             currentPopup.remove();
@@ -762,9 +779,8 @@ public class GameScreen implements Screen {
             Event protestEvent = new Event("", 0, bilCityTycoonGame, -60);
             protestEvent.protest();
             currentPopup = new PopUpPanel(mainGame, bilCityTycoonGame, protestEvent, new TextButton("OK", skin));
-            buildingGroup = new Group();  // yeni bir group başlat
-            stage.addActor(buildingGroup); // yeniden ekle
-
+            buildingGroup = new Group();
+            stage.addActor(buildingGroup);
         } else if (randomType == 1) {
             if (!bilCityTycoonGame.getPlayer().getBuildings().isEmpty()) {
                 Event fireEvent = new Event("", 0, bilCityTycoonGame, -100);
@@ -783,6 +799,9 @@ public class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Updates the building visuals on screen according to the current map grid.
+     */
     private void refreshBuildings() {
         buildingGroup.clearChildren();
 
@@ -798,27 +817,30 @@ public class GameScreen implements Screen {
                     buildingImage.setSize(2 * cellSize * scale, 2 * cellSize * scale);
                     buildingImage.setPosition((i * cellSize) - (2 * cellSize * (scale - 1) / 2f), (j * cellSize) - (2 * cellSize * (scale - 1) / 2f));
                     buildingGroup.addActor(buildingImage);
-
-                    added.add(building); // Binayı ekledik olarak işaretle
+                    added.add(building);
                 }
             }
         }
+
         for (Decoration decoration : placedDecorations) {
             Image image = new Image(decoration.getImage().getDrawable());
             image.setSize(cellSize * 2, cellSize * 2);
             image.setPosition(decoration.getImage().getX(), decoration.getImage().getY());
             buildingGroup.addActor(image);
         }
-
     }
 
-
-
+    /**
+     * Updates the date and day label at the bottom UI.
+     */
     private void updateDateLabels() {
         dateLabel.setText(time.getSemesterName() + "\n " + time.getAcademicYear());
         dayLabel.setText("Day " + time.getTotalDaysPlayed());
     }
 
+    /**
+     * Triggers all game endings one by one in debug mode.
+     */
     private void showAllEndingsOnce() {
         com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
             @Override
@@ -853,17 +875,22 @@ public class GameScreen implements Screen {
         }, 9);
     }
 
-
+    /**
+     * Updates the visibility of map navigation arrows based on current map index.
+     */
     private void updateArrowButtonsVisibility(ImageButton leftArrowBtn, ImageButton rightArrowBtn) {
         leftArrowBtn.setVisible(currentMapIndex > 0);
         rightArrowBtn.setVisible(currentMapIndex < mapList.size - 1);
     }
 
-
+    /**
+     * Starts the decoration placement process by selecting a decoration.
+     *
+     * @param decoration Decoration to place.
+     */
     public void startPlacing(Decoration decoration) {
         this.selectedDecoration = decoration;
         isPlacingDecoration = true;
     }
-
 
 }

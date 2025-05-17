@@ -2,15 +2,42 @@ package io.github.bilcitytycoon;
 
 import java.util.ArrayList;
 
+/**
+ * The Store class manages all purchasable game entities such as Faculties, Decorations, and OtherBuildings.
+ * It keeps track of which entities are built or unbuilt, handles purchases, and initializes upgrades.
+ */
 public class Store {
+    /** Leaderboard reference (optional, not currently used). */
     private Leaderboard leaderboard;
+
+    /** Reference to the main game instance, used during building initialization. */
     private BilCityTycoonGame game;
+
+    /** List of faculties that have not been built yet. */
     private ArrayList<Faculty> unbuiltFaculties;
+
+    /** List of faculties that have been purchased and built. */
     private ArrayList<Faculty> builtFaculties;
-    private ArrayList<Decoration> builtDecorations;
+
+    /** List of decorations that are available for purchase. */
     private ArrayList<Decoration> unbuiltDecorations;
+
+    /** List of decorations that have been placed. */
+    private ArrayList<Decoration> builtDecorations;
+
+    /** List of non-faculty buildings that are available for purchase. */
     private ArrayList<OtherBuilding> unbuiltOtherBuildings;
+
+    /** List of non-faculty buildings that have been placed. */
     private ArrayList<OtherBuilding> builtOtherBuildings;
+    // Same type of comment applies to each individual building variable if needed,
+    // but to keep this short, here's a general suggestion:
+
+
+    /** Individual faculty building references initialized in initializeFaculties(). */
+    /** Individual other building references initialized in initializeOtherBuildings(). */
+    /** Individual decoration references initialized in initializeDecorations(). */
+
 
     private Faculty computerScienceFaculty;
     private Faculty eeeBuilding;

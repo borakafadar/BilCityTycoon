@@ -18,17 +18,47 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import io.github.bilcitytycoon.*;
 import io.github.bilcitytycoon.Screens.GameScreen;
 
+/**
+ * The DecorationsStoreScreen class displays a scrollable interface
+ * where players can browse and place decoration items into the game world.
+ */
 public class DecorationsStoreScreen implements Screen {
+
+    /** Viewport for main UI layout */
     private FitViewport fitViewport;
+
+    /** Viewport for stretching background image */
     private StretchViewport stretchViewport; //for background
+
+    /** Background rendering stage */
     private Stage backgroundStage;
+
+    /** Foreground UI stage */
     private Stage mainStage;
+
+    /** Skin used for UI widgets */
     private Skin skin;
+
+    /** Reference to the main game object */
     private BilCityTycoonGame game;
+
+    /** Entry point of the application, handles screen changes */
     private Main mainGame;
+
+    /** Reference to the store screen (to go back) */
     private StoreScreen storeScreen;
+
+    /** Reference to the game screen (to place decoration) */
     private GameScreen gameScreen;
 
+    /**
+     * Initializes the DecorationsStoreScreen with given references and sets up UI.
+     *
+     * @param game the game instance
+     * @param mainGame the entry point of the app
+     * @param storeScreen the store screen to return to
+     * @param gameScreen the game screen where decorations will be placed
+     */
     public DecorationsStoreScreen(BilCityTycoonGame game, Main mainGame, StoreScreen storeScreen, GameScreen gameScreen) {
         this.game = game;
         this.gameScreen=gameScreen;
@@ -49,8 +79,6 @@ public class DecorationsStoreScreen implements Screen {
         FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(16,0);
 
         FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(13,1);
-
-
 
         //TODO: please clean this code up, it works but it is really garbage
 
@@ -86,8 +114,6 @@ public class DecorationsStoreScreen implements Screen {
         backgroundStage.addActor(panelBackground);
         panelBackground.setSize(1920,1080);
 
-
-
         ScrollPane scrollPane = new ScrollPane(buttonTable,skin);
         scrollPane.setHeight(100);
         scrollPane.setScrollingDisabled(true,false);
@@ -113,18 +139,20 @@ public class DecorationsStoreScreen implements Screen {
             }
         });
 
-
         mainStage.addActor(rootTable);
-
         mainStage.addActor(backButton);
         backButton.setPosition(100,920);
         backButton.setSize(100,100);
     }
 
+    /**
+     * Sets the input processor to this screen's main stage.
+     */
     @Override
     public void show() {
         Gdx.input.setInputProcessor(mainStage);
     }
+
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.WHITE);
@@ -135,27 +163,36 @@ public class DecorationsStoreScreen implements Screen {
         mainStage.act();
         fitViewport.apply();
         mainStage.draw();
-
     }
     @Override
     public void resize(int width, int height) {
         fitViewport.update(width,height,true);
         stretchViewport.update(width, height,true);
     }
+
     @Override
     public void pause() {}
+
     @Override
     public void resume() {}
+
     @Override
     public void hide() {}
+
     @Override
     public void dispose() {
         skin.dispose();
         mainStage.dispose();
-
     }
 
-
+    /**
+     * Creates a button UI component for a given decoration object.
+     * The button displays the decoration's image, name, info, and cost,
+     * and switches to placement mode on click.
+     *
+     * @param decoration The decoration to create a button for
+     * @return A fully interactive store button
+     */
     private Button createDecorationButton(Decoration decoration){
         //TODO make this specific for decorations
         Button button = new Button(skin,"store-button");
@@ -198,13 +235,9 @@ public class DecorationsStoreScreen implements Screen {
         Label priceLabel = new Label(Double.toString(decoration.getCost()),skin,"small-label");
         priceTable.add(priceLabel);
 
-
         infoTable.add(timeTable);
         infoTable.add(priceTable);
         infoTable.row();
-
-
-
 
         mainTable.defaults().pad(20);
         mainTable.top();
@@ -212,11 +245,9 @@ public class DecorationsStoreScreen implements Screen {
         mainTable.add(textTable).expand().fill().width(textTable.getWidth()).align(Align.center);
         mainTable.add(infoTable).expand().fill().align(Align.right);
 
-
         mainTable.setFillParent(true);
         mainTable.center();
         mainTable.defaults().pad(100);
-
 
         button.add(mainTable).expand().fill().align(Align.left).top();
         button.pack();
@@ -228,13 +259,6 @@ public class DecorationsStoreScreen implements Screen {
             }
         });
         return button;
-    }
-
-    private Table createButtonTable(){
-        //TODO
-        Table buttonTable = new Table();
-
-        return buttonTable;
     }
 
 
@@ -258,5 +282,3 @@ public class DecorationsStoreScreen implements Screen {
         return fontParameter;
     }
 }
-
-

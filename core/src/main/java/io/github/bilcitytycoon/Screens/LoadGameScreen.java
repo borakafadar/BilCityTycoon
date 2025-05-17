@@ -21,9 +21,14 @@ import io.github.bilcitytycoon.Main;
 import io.github.bilcitytycoon.Save.SaveLoad;
 import io.github.bilcitytycoon.Save.SaveManager;
 
+/**
+ * The LoadGameScreen class displays a list of previously saved game files
+ * and allows the player to select one to load. It includes a confirmation dialog
+ * and uses a scrollable interface for browsing multiple saves.
+ */
 public class LoadGameScreen implements Screen {
     private FitViewport fitViewport;
-    private StretchViewport stretchViewport; // for background
+    private StretchViewport stretchViewport;
     private Stage backgroundStage;
     private Stage mainStage;
     private Skin skin;
@@ -31,49 +36,44 @@ public class LoadGameScreen implements Screen {
     private Main mainGame;
     private Label placeholderLabel;
 
+    /**
+     * Constructs the load game screen and prepares the interface to show save files.
+     *
+     * @param mainGame the main application instance
+     * @param previousScreen the screen to return to if the user cancels loading
+     */
     public LoadGameScreen(Main mainGame, Screen previousScreen) {
         this.game = game;
         this.mainGame = mainGame;
         this.mainStage = new Stage();
         this.fitViewport = new FitViewport(1920, 1080);
-
         this.stretchViewport = new StretchViewport(1366, 768);
         this.backgroundStage = new Stage();
 
         backgroundStage.setViewport(stretchViewport);
         mainStage.setViewport(fitViewport);
 
-
         skin = createSkin();
-
 
         Image panelBackground = new Image(new Texture(Gdx.files.internal("panelBackground.png")));
         backgroundStage.addActor(panelBackground);
         panelBackground.setSize(1920, 1080);
 
-
         Table rootTable = new Table();
         rootTable.setFillParent(true);
-
 
         Label titleLabel = new Label("Load Game", skin, "title-label");
         titleLabel.setAlignment(Align.center);
         rootTable.add(titleLabel).expandX().fillX().padTop(90).padBottom(50);
         rootTable.row();
 
-        // Create placeholder for save files list
         Table saveFilesTable = createSavesTable();
-        //Label placeholderLabel = new Label("No save files found", skin, "default");
-        //saveFilesTable.add(placeholderLabel).pad(30);
-
         ScrollPane scrollPane = new ScrollPane(saveFilesTable, skin);
         scrollPane.setFadeScrollBars(false);
         scrollPane.setClamp(true);
         scrollPane.setOverscroll(false, true);
-
         rootTable.add(scrollPane).expand().fill();
 
-        // Back button
         ImageButton backButton = new ImageButton(skin, "back-button");
         backButton.addListener(new ClickListener() {
             @Override
@@ -96,13 +96,9 @@ public class LoadGameScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.WHITE);
-
-
         backgroundStage.act();
         stretchViewport.apply();
         backgroundStage.draw();
-
-
         mainStage.act();
         fitViewport.apply();
         mainStage.draw();
@@ -115,16 +111,13 @@ public class LoadGameScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
@@ -133,6 +126,11 @@ public class LoadGameScreen implements Screen {
         backgroundStage.dispose();
     }
 
+    /**
+     * Creates and returns a Skin with preloaded fonts and UI elements.
+     *
+     * @return the configured Skin object
+     */
     public Skin createSkin() {
         FreeTypeFontGenerator bigFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(36, 1);
@@ -177,48 +175,49 @@ public class LoadGameScreen implements Screen {
         return fontParameter;
     }
 
+    /**
+     * Creates a button for an individual save file with a confirmation popup.
+     *
+     * @param saveFile the .data file to load when clicked
+     * @return the configured Button
+     */
     public Button createSaveButton(FileHandle saveFile) {
         TextButton button = new TextButton(parseFilename(saveFile.name()), skin, "store-button");
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //dialog
-                Dialog dialog = new Dialog("Load?", skin,"dialogStyle"){
-                    //to quit when clicking yes
+                Dialog dialog = new Dialog("Load?", skin,"dialogStyle") {
                     @Override
                     protected void result(Object object) {
-                        if((boolean)object){
-                            SaveLoad saveLoad = new SaveLoad(game,mainGame);
+                        if ((boolean) object) {
+                            SaveLoad saveLoad = new SaveLoad(game, mainGame);
                             saveLoad.loadGame(SaveManager.localSavesRoot + "/" + saveFile.name());
                         }
                     }
                 };
-
                 dialog.button("Yes", true);
                 dialog.button("No", false);
                 Label.LabelStyle dialogLabelStyle = new Label.LabelStyle();
                 dialogLabelStyle.font = skin.getFont("PressStart2P-big");
-
-
-                //dialogLabelStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textTooltipBackground.png")))); //todo: temp background
                 dialog.text("Are you sure you\n want to load this file?", dialogLabelStyle);
                 dialog.show(mainStage);
-
             }
         });
         return button;
     }
 
-
+    /**
+     * Converts a raw file name into a human-readable string for display.
+     *
+     * @param filename the original filename (e.g. zeynel-yildirim--15_05_2025_14-23.data)
+     * @return a formatted string like "Zeynel-Yildirim 15 May 2025 14:23"
+     */
     public static String parseFilename(String filename) {
-
         if (filename.endsWith(".data")) {
             filename = filename.substring(0, filename.length() - 5);
         }
 
         String[] parts = filename.split("--");
-
-        // Capitalize each part of the name
         String[] nameParts = parts[0].split(" ");
         StringBuilder fullName = new StringBuilder();
         for (String name : nameParts) {
@@ -228,22 +227,23 @@ public class LoadGameScreen implements Screen {
             }
         }
 
-        // Parse date-time
         String[] dateTimeParts = parts[1].split("_");
-
         String day = dateTimeParts[0];
         int monthNumber = Integer.parseInt(dateTimeParts[1]);
         String year = dateTimeParts[2];
-
         String[] timeParts = dateTimeParts[3].split("-");
         String hour = timeParts[0];
         String minute = timeParts[1];
 
         String monthName = new java.text.DateFormatSymbols().getMonths()[monthNumber - 1];
-
         return fullName.toString().trim() + " " + day + " " + monthName + " " + year + " " + hour + ":" + minute;
     }
 
+    /**
+     * Scans the local save folder and creates a table of buttons for each save file.
+     *
+     * @return a Table containing all available save file buttons
+     */
     public Table createSavesTable() {
         Table saveFilesTable = new Table(skin);
         FileHandle saveDir = Gdx.files.local("saves");
@@ -257,5 +257,3 @@ public class LoadGameScreen implements Screen {
         return saveFilesTable;
     }
 }
-
-

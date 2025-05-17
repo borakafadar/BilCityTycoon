@@ -8,8 +8,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import io.github.bilcitytycoon.Player;
 
+/**
+ * A utility class that creates and shows a popup dialog displaying university statistics
+ * such as student count, dorm occupancy, satisfaction rate, and reputation points.
+ */
 public class UniversityStatsPopup {
 
+    /**
+     * Shows a styled popup dialog displaying the current player's university statistics.
+     *
+     * @param stage the stage to render the dialog on
+     * @param skin the UI skin used for styling the dialog and labels
+     * @param player the player whose statistics are to be displayed
+     */
     public static void show(Stage stage, Skin skin, Player player) {
         Dialog dialog = new Dialog("", skin);
 

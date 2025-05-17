@@ -8,8 +8,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import io.github.bilcitytycoon.Player;
 
+/**
+ * A utility class for displaying a styled economy pop-up window that shows
+ * the player's income, expenses, and net balance using a pastel-themed UI.
+ */
 public class EconomyPopUp {
 
+    /**
+     * Displays a modal dialog with income, expenses, and net economy data.
+     * The dialog uses a custom pastel background and includes labels with styled font and color.
+     *
+     * @param stage the stage to attach the dialog to
+     * @param skin the UI skin to style labels and buttons
+     * @param player the player whose economy data will be shown
+     */
     public static void show(Stage stage, Skin skin, Player player) {
         Dialog dialog = new Dialog("", skin);
 
@@ -34,10 +46,8 @@ public class EconomyPopUp {
         // Üst Bilgi
         Table header = new Table();
         Label universityName = new Label(player.getName() + "\nBilCity University", skin, "labelStyle");
-        //universityName.setFontScale(0.5f);
         universityName.setColor(Color.BLACK);
         Label balanceLabel = new Label(player.getMoneyHandler().getBalance() + " BilCoins", skin, "labelStyle");
-        //balanceLabel.setFontScale(0.5f);
         balanceLabel.setColor(Color.BLACK);
         header.add(universityName).left().expandX();
         header.add(balanceLabel).right();
@@ -46,7 +56,6 @@ public class EconomyPopUp {
         // Gelir tablosu
         Table incomeTable = new Table();
         Label incTitle = new Label("Incomes", skin);
-
         incTitle.setColor(Color.valueOf("009966"));
         incomeTable.add(incTitle).padBottom(10).colspan(2).center().row();
         incomeTable.add(new Label("Corporate:", skin)).left().padRight(20);
@@ -56,10 +65,10 @@ public class EconomyPopUp {
         incomeTable.add(new Label("Grants:", skin)).left().padRight(20);
         incomeTable.add(new Label("5000", skin)).right().row();
         incTitle.setFontScale(0.6f);
+
         // Gider tablosu
         Table expenseTable = new Table();
         Label expTitle = new Label("Expenses", skin);
-
         expTitle.setColor(Color.RED);
         expenseTable.add(expTitle).padBottom(10).colspan(2).center().row();
         expenseTable.add(new Label("Utilities:", skin)).left().padRight(20);

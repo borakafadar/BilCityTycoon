@@ -23,6 +23,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import io.github.bilcitytycoon.Main;
 
+/**
+ * SettingsScreen allows users to adjust audio, music, and display settings.
+ * It includes sliders for volume and a checkbox for fullscreen mode.
+ * It also provides a back button to return to the previous screen.
+ */
 public class SettingsScreen implements Screen {
     private Screen previousScreen;
     private FitViewport fitViewport;
@@ -32,7 +37,11 @@ public class SettingsScreen implements Screen {
     private Stage stage;
     private Skin skin;
 
-
+    /**
+     * Constructor to initialize the settings screen.
+     * @param previousScreen the screen to return to when "Back" is clicked
+     * @param mainUI reference to the main game instance, used to control music
+     */
     public SettingsScreen(Screen previousScreen, Main mainUI) {
         this.previousScreen = previousScreen;
 
@@ -40,40 +49,37 @@ public class SettingsScreen implements Screen {
         fitViewport = new FitViewport(1280,720);
         stage.setViewport(fitViewport);
 
-
-
-        //temp
         skin = createSkin();
 
+        // Root layout table
         Table mainTable = new Table();
         mainTable.setFillParent(true);
         mainTable.center();
         mainTable.defaults().pad(40);
-
         mainTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("TextTooltipBackground.png")))));
-
         stage.addActor(mainTable);
-        Label settingsLabel = new Label("Settings",skin);
-        mainTable.add(settingsLabel).width(200).height(50).padRight(150).colspan(2);
 
+        // Title
+        Label settingsLabel = new Label("Settings", skin);
+        mainTable.add(settingsLabel).width(200).height(50).padRight(150).colspan(2);
         mainTable.row();
 
-
-        //TODO: make the slider work
-        Label audioSliderLabel = new Label("Audio",skin);
+        // Audio slider (not yet functional)
+        Label audioSliderLabel = new Label("Audio", skin);
         mainTable.add(audioSliderLabel).width(200).height(50).padRight(150);
-        audioSlider = new Slider(0,100,1,false,skin);
+        audioSlider = new Slider(0, 100, 1, false, skin);
         mainTable.add(audioSlider).width(400).height(50);
         mainTable.row();
 
-
-        //TODO: make the slider work
-        Label musicSliderLabel = new Label("Music",skin);
+        // Music volume slider
+        Label musicSliderLabel = new Label("Music", skin);
         mainTable.add(musicSliderLabel).width(200).height(50).padRight(150);
-        musicSlider = new Slider(0,1,0.01f,false,skin);
-        mainTable.add(musicSlider).width(400).height(50);
+        musicSlider = new Slider(0, 1, 0.01f, false, skin);
         musicSlider.setValue(mainUI.music.getVolume());
+        mainTable.add(musicSlider).width(400).height(50);
         mainTable.row();
+
+        // Adjust music volume in real-time
         musicSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -81,11 +87,28 @@ public class SettingsScreen implements Screen {
             }
         });
 
-
-        Label fullscreenLabel = new Label("Fullscreen",skin);
+        // Fullscreen checkbox
+        Label fullscreenLabel = new Label("Fullscreen", skin);
         mainTable.add(fullscreenLabel).width(200).height(50).padRight(150);
-        fullscreenCheckBox = new CheckBox("",skin);
-        TextButton backButton = new TextButton("Back",skin);
+        fullscreenCheckBox = new CheckBox("", skin);
+        fullscreenCheckBox.setChecked(false);
+        mainTable.add(fullscreenCheckBox).width(200).height(50);
+        mainTable.row();
+
+        // Toggle fullscreen/windowed mode
+        fullscreenCheckBox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (fullscreenCheckBox.isChecked()) {
+                    Gdx.app.getGraphics().setFullscreenMode(Gdx.graphics.getDisplayMode());
+                } else {
+                    Gdx.app.getGraphics().setWindowedMode(1280, 720);
+                }
+            }
+        });
+
+        // Back button to return to previous screen
+        TextButton backButton = new TextButton("Back", skin);
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -93,29 +116,13 @@ public class SettingsScreen implements Screen {
             }
         });
         stage.addActor(backButton);
-
-
-
-        fullscreenCheckBox.setChecked(false);
-
-        fullscreenCheckBox.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                if(fullscreenCheckBox.isChecked()){
-                    Gdx.app.getGraphics().setFullscreenMode(Gdx.graphics.getDisplayMode());
-                }else {
-                    Gdx.app.getGraphics().setWindowedMode(1280,720);
-                }
-            }
-        });
-        mainTable.add(fullscreenCheckBox).width(200).height(50);
-        mainTable.row();
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
     }
+
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
@@ -123,31 +130,37 @@ public class SettingsScreen implements Screen {
         stage.act();
         stage.draw();
     }
+
     @Override
     public void resize(int width, int height) {
-        fitViewport.update(width,height,true);
+        fitViewport.update(width, height, true);
         fitViewport.apply(true);
     }
+
     @Override
     public void pause() {}
+
     @Override
     public void resume() {}
+
     @Override
     public void hide() {}
+
     @Override
     public void dispose() {
         stage.dispose();
         skin.dispose();
     }
 
-    public Skin createSkin(){
+    /**
+     * Loads the custom skin and fonts used throughout the settings screen UI.
+     */
+    public Skin createSkin() {
         FreeTypeFontGenerator bigFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(72,1);
-        FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(16,1);
-        FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(13,0);
-        FreeTypeFontGenerator.FreeTypeFontParameter defaultFontParameter = generateFontParameter(36,1);
-
-
+        FreeTypeFontParameter bigFontParameter = generateFontParameter(72, 1);
+        FreeTypeFontParameter smallFontParameter = generateFontParameter(16, 1);
+        FreeTypeFontParameter smallestFontParameter = generateFontParameter(13, 0);
+        FreeTypeFontParameter defaultFontParameter = generateFontParameter(36, 1);
 
         BitmapFont bigFont = bigFontGenerator.generateFont(bigFontParameter);
         BitmapFont smallFont = bigFontGenerator.generateFont(smallFontParameter);
@@ -159,16 +172,16 @@ public class SettingsScreen implements Screen {
         skin1.add("PressStart2P-small", smallFont);
         skin1.add("PressStart2P-smallest", smallestFont);
         skin1.add("PressStart2P-big", bigFont);
-
         skin1.addRegions(new TextureAtlas(Gdx.files.internal("skin1.atlas")));
-
         skin1.load(Gdx.files.internal("skin1.json"));
 
         return skin1;
     }
 
-
-    private FreeTypeFontParameter generateFontParameter(int size,int borderWidth){
+    /**
+     * Helper method to configure font parameters for the skin.
+     */
+    private FreeTypeFontParameter generateFontParameter(int size, int borderWidth) {
         FreeTypeFontParameter fontParameter = new FreeTypeFontParameter();
         fontParameter.size = size;
         fontParameter.borderWidth = borderWidth;
@@ -184,8 +197,6 @@ public class SettingsScreen implements Screen {
         fontParameter.borderStraight = false;
         fontParameter.borderColor = Color.WHITE;
         fontParameter.gamma = 20f;
-
         return fontParameter;
     }
-
 }

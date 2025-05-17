@@ -22,6 +22,11 @@ import io.github.bilcitytycoon.Main;
 import io.github.bilcitytycoon.Screens.Store.FacultiesStoreScreen;
 import io.github.bilcitytycoon.Screens.Store.StoreScreen;
 
+/**
+ * The WelcomeScreen serves as the game's main menu.
+ * It provides options to start a new game, load a saved game,
+ * access settings, or exit the game.
+ */
 public class WelcomeScreen implements Screen {
     private ScreenViewport screenViewport;
     private Main main;
@@ -33,33 +38,21 @@ public class WelcomeScreen implements Screen {
     private TextButton settingsButton;
     private TextButton quitButton;
 
-
     private SettingsScreen settingsScreen;
     private WelcomeScreen thisWelcomeScreen;
     private LeaderboardScreen leaderboardScreen;
 
     public WelcomeScreen(Main game){
-
-        //TODO: make this into a method so that it can be more readable
         this.main = game;
         thisWelcomeScreen = this;
 
         screenViewport = new ScreenViewport();
-
         stage = new Stage(screenViewport);
-
-
 
         FreeTypeFontGenerator bigFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PressStart2P.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter bigFontParameter = generateFontParameter(36,1);
-
         FreeTypeFontGenerator.FreeTypeFontParameter smallFontParameter = generateFontParameter(16,1);
-
         FreeTypeFontGenerator.FreeTypeFontParameter smallestFontParameter = generateFontParameter(13,0);
-
-
-
-        //TODO: please clean this code up, it works but it is really garbage
 
         BitmapFont bigFont = bigFontGenerator.generateFont(bigFontParameter);
         BitmapFont smallFont = bigFontGenerator.generateFont(smallFontParameter);
@@ -72,12 +65,9 @@ public class WelcomeScreen implements Screen {
         skin.add("PressStart2P-big", bigFont);
 
         skin.addRegions(new TextureAtlas(Gdx.files.internal("skin1.atlas")));
-
-
-
         skin.load(Gdx.files.internal("skin1.json"));
 
-        settingsScreen = new SettingsScreen(thisWelcomeScreen,main);
+        settingsScreen = new SettingsScreen(thisWelcomeScreen, main);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = bigFont;
@@ -86,7 +76,7 @@ public class WelcomeScreen implements Screen {
         newGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new NewGameScreen(game,WelcomeScreen.this));
+                game.setScreen(new NewGameScreen(game, WelcomeScreen.this));
             }
         });
 
@@ -94,27 +84,26 @@ public class WelcomeScreen implements Screen {
         loadGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LoadGameScreen(game,new WelcomeScreen(game)));
+                game.setScreen(new LoadGameScreen(game, new WelcomeScreen(game)));
             }
         });
+
         settingsButton = new TextButton("Settings", skin);
         settingsButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
                 game.setScreen(settingsScreen);
             }
         });
-        quitButton = new TextButton("Quit", skin,"exit-game-button");
+
+        quitButton = new TextButton("Quit", skin, "exit-game-button");
         quitButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //dialog box
-                Dialog dialog = new Dialog("Quit?", skin,"dialogStyle"){
-                    //to quit when clicking yes
+                Dialog dialog = new Dialog("Quit?", skin, "dialogStyle") {
                     @Override
                     protected void result(Object object) {
-                        if((boolean)object){
+                        if ((boolean) object) {
                             Gdx.app.exit();
                         }
                     }
@@ -124,15 +113,10 @@ public class WelcomeScreen implements Screen {
                 dialog.button("No", false);
                 Label.LabelStyle dialogLabelStyle = new Label.LabelStyle();
                 dialogLabelStyle.font = bigFont;
-
-
-                //dialogLabelStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textTooltipBackground.png")))); //todo: temp background
                 dialog.text("Are you sure you\n want to quit?", dialogLabelStyle);
                 dialog.show(stage);
-
             }
         });
-
 
         Table mainTable = new Table();
         mainTable.setFillParent(true);
@@ -148,15 +132,10 @@ public class WelcomeScreen implements Screen {
         pixmap.dispose();
 
         welcomeLabel.getStyle().fontColor = Color.BLACK;
-
         welcomeLabel.getStyle().background = new TextureRegionDrawable(new TextureRegion(labelTexture));
         welcomeLabel.setAlignment(Align.center);
         mainTable.add(welcomeLabel).width(600).height(200).pad(20);
         mainTable.row();
-
-
-
-
 
         Table buttonTable = new Table();
         buttonTable.setFillParent(false);
@@ -177,20 +156,15 @@ public class WelcomeScreen implements Screen {
         mainTable.add(buttonTable).width(BUTTON_WIDTH).height(BUTTON_HEIGHT*4);
         mainTable.row();
 
-
         mainTable.background(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("bilkentDrone.jpg")))));
         stage.addActor(mainTable);
-
-
     }
-
-
-
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
     }
+
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
@@ -198,25 +172,27 @@ public class WelcomeScreen implements Screen {
         stage.act();
         stage.draw();
     }
+
     @Override
     public void resize(int width, int height) {
         screenViewport.update(width,height,true);
         screenViewport.apply(true);
     }
+
     @Override
     public void pause() {}
+
     @Override
     public void resume() {}
+
     @Override
     public void hide() {}
+
     @Override
     public void dispose(){
         stage.dispose();
         skin.dispose();
     }
-
-
-
 
     private FreeTypeFontGenerator.FreeTypeFontParameter generateFontParameter(int size, int borderWidth){
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -234,10 +210,6 @@ public class WelcomeScreen implements Screen {
         fontParameter.borderStraight = false;
         fontParameter.borderColor = Color.WHITE;
         fontParameter.gamma = 20f;
-
         return fontParameter;
-    }
-    SettingsScreen getSettingsScreen(){
-        return settingsScreen;
     }
 }

@@ -8,14 +8,30 @@ import java.util.*;
  * the computation is rep = satisfactonRate x (some ratio that will be determined later)
  */
 public class Leaderboard {
-    /** All universities (player + AI). */
+
+    /**
+     * All universities (player + AI).
+     */
     public ArrayList<University> rankings = new ArrayList<>();
+
+    /**
+     * The player's university instance.
+     */
     public Player player;
+
+    /**
+     * Random instance used for shuffling and value generation.
+     */
     public Random random = new Random();
 
+    /**
+     * Multiplier used to convert satisfaction into reputation.
+     */
     public static final int SATISFACTION_MULTIPLIER = 70; // THIS CAN BE ALTERED
 
-    // Preset names for AI bots.
+    /**
+     * Preset names for AI bots.
+     */
     public static final String[] BOT_NAMES = {
         "Kanzi", "Delibas", "Undem", "Simsir", "Kafadar", "Yildirim", "Zeyno", "Zurna",
         "Sekman", "Unalan", "Yildiran", "Simsek", "Uranus", "Titanium", "Kayip Esyalar", "Bridgestone",
@@ -42,8 +58,12 @@ public class Leaderboard {
         generateBots(79);
         updateRanking();
     }
-    public Leaderboard() {
 
+    /**
+     * Default constructor for empty initialization (e.g. for loading).
+     *
+     */
+    public Leaderboard() {
     }
 
     // generate N AI universities.
@@ -51,14 +71,14 @@ public class Leaderboard {
         ArrayList<String> names = new ArrayList<>(Arrays.asList(BOT_NAMES));
         Collections.shuffle(names, random);
         for (int i = 0; i < count && i < names.size(); i++) {
-            String name = names.get(i)+" University";
-            int baseRep      = (random.nextInt(481) + 20) * 10;  // 200–5000
-            int satisfaction = random.nextInt(81) + 20;         // 20–100%
+            String name = names.get(i) + " University";
+            int baseRep = (random.nextInt(481) + 20) * 10;  // 200–5000
+            int satisfaction = random.nextInt(81) + 20;     // 20–100%
             rankings.add(new OtherUniversity(name, baseRep, satisfaction));
         }
     }
 
-  /**
+    /**
      * 1) Overwrite each uni’s repPoints = satRate × SAT_MULTIPLIER
      * 2) Sort in-place by natural order (uni.compareTo → rep descending)
      * 3) Reassign 1-based ranks
@@ -77,7 +97,9 @@ public class Leaderboard {
         }
     }
 
-
+    /**
+     * @return A new list of universities sorted by reputation in descending order.
+     */
     public ArrayList<University> getByReputation() {
         ArrayList<University> sorted = new ArrayList<>(rankings);
         sorted.sort(Comparator
@@ -92,8 +114,6 @@ public class Leaderboard {
         updateRanking();
         return player.getRanking();
     }
-
-
 
     /** @return the raw list of all universities (in current sorted order). */
     public ArrayList<University> getAllUniversities() {
