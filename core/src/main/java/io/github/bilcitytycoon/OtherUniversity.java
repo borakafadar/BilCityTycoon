@@ -99,7 +99,7 @@ public class OtherUniversity extends University {
      */
     private void updateAIReputation() {
         // Base reputation from satisfaction
-        int newReputation = (int)(studentSatisfactionRate * 0.7);
+        int newReputation = (int)(studentSatisfactionRate * 0.5);
 
         // Bonus from recent investments
         newReputation += recentInvestments.size() * 2;

@@ -11,13 +11,16 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import io.github.bilcitytycoon.*;
+import io.github.bilcitytycoon.Screens.GameScreen;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class UpgradesStoreScreen implements Screen {
     private FitViewport fitViewport;
@@ -27,6 +30,7 @@ public class UpgradesStoreScreen implements Screen {
     private Skin skin;
     private BilCityTycoonGame game;
     private Main mainGame;
+    private Image roadImage; // 👈 roadImage'yi class değişkeni yap ki dışarıdan erişebilelim
     private StoreScreen storeScreen;
     private Store store;
 
@@ -218,8 +222,19 @@ public class UpgradesStoreScreen implements Screen {
                 // Apply the upgrade directly
                 upgrade.applyUpgrade(game.getPlayer().getMoneyHandler(), game.getPlayer());
                 button.setDisabled(true);
+                mainGame.setScreen(storeScreen.getGameScreen()); // 🔁 geri dön
             }
         });
+        TextButton changeRoadBtn = new TextButton("Change Road", skin);
+        changeRoadBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // GameScreen'deki road değiştirme fonksiyonu çağırılır
+                //storeScreen.getGameScreen().changeRoadTexture("road2.png");
+            }
+        });
+        //buttonTable.add(changeRoadBtn).width(1700).height(200).pad(20);
+       // buttonTable.row();
 
 
 
@@ -256,17 +271,27 @@ public class UpgradesStoreScreen implements Screen {
 
         return fontParameter;
     }
-    private ArrayList<Upgrade> initializeUpgrades(){
+    private ArrayList<Upgrade> initializeUpgrades() {
         ArrayList<Upgrade> upgrades = new ArrayList<>();
-        for(Faculty faculty : game.store.getBuiltFaculties()){
-            for(Upgrade upgrade : faculty.getUpgrades()){
-                if(!upgrade.isMade()){
+        HashSet<String> addedNames = new HashSet<>();
+
+        for (Faculty faculty : game.store.getBuiltFaculties()) {
+            for (Upgrade upgrade : faculty.getUpgrades()) {
+                if (!upgrade.isMade() && !addedNames.contains(upgrade.getName())) {
                     upgrades.add(upgrade);
+                    addedNames.add(upgrade.getName());
                 }
             }
         }
 
         return upgrades;
+    }
+
+    public void changeRoadTexture(String path) {
+        if (roadImage != null) {
+            Texture newRoadTexture = new Texture(Gdx.files.internal(path));
+            roadImage.setDrawable(new TextureRegionDrawable(newRoadTexture));
+        }
     }
 }
 

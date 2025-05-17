@@ -4,6 +4,7 @@ package io.github.bilcitytycoon;
 import java.util.ArrayList;
 
 public class Player extends University {
+    public MoneyHandler moneyHandler;
     public int coin;
     public String name;
     public int universityReputationPoint;
@@ -24,6 +25,8 @@ public class Player extends University {
         this.studentCount = studentCount;
         this.dormOccupancy = dormOccupancy;
         this.buildings = new ArrayList<>();
+        this.moneyHandler = new MoneyHandler(1000); // 🎯 başlangıç bakiyesi veriyoruz
+        this.coin = 1000; // 💰 coin değişkenini de senkronize et
     }
     public Player(){
         super("default",0,0,0,0,0);
@@ -31,10 +34,13 @@ public class Player extends University {
 
 
     public int getCoin() {
-        return coin;
+        return moneyHandler != null ? moneyHandler.getBalance() : coin;
     }
     public void setCoin(int newCoin) {
         this.coin = newCoin;
+        if (moneyHandler != null) {
+            moneyHandler.setBalance(newCoin); // ✅ artık hata yok
+        }
     }
     public String getName() {
         return name;

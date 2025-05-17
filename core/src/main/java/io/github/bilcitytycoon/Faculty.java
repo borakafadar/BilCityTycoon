@@ -114,7 +114,7 @@ public class Faculty extends Building implements Json.Serializable{
     }
     @Override
     public void write(Json json) {
-        json.writeValue("type", this.getClass().getName()); // Class bilgisi
+        json.writeValue("type", this.getClass().getName());
         json.writeValue("name", name);
         json.writeValue("buildCost", buildCost);
         json.writeValue("bill", bill);
@@ -125,8 +125,9 @@ public class Faculty extends Building implements Json.Serializable{
         json.writeValue("info", info);
         json.writeValue("buildTime", buildTime);
         json.writeValue("currentUpgradeLevel", currentUpgradeLevel);
-        // Upgrades is not serialized yet — upgrade serialization ayrı bir işlem olabilir.
+        json.writeValue("upgrades", upgrades); // ✅ EKLENDİ
     }
+
 
     @Override
     public void read(Json json, JsonValue jsonData) {
@@ -140,12 +141,14 @@ public class Faculty extends Building implements Json.Serializable{
         this.info = jsonData.getString("info");
         this.buildTime = jsonData.getInt("buildTime");
         this.currentUpgradeLevel = jsonData.getInt("currentUpgradeLevel", 0);
-
-        // Görsel yeniden yüklenmeli çünkü Texture transient
         if (imagePath != null && Gdx.files.internal(imagePath).exists()) {
             this.image = new Image(new Texture(Gdx.files.internal(imagePath)));
         }
+
+        Upgrade[] loadedUpgrades = json.readValue(Upgrade[].class, jsonData.get("upgrades")); // ✅ OKU
+        this.upgrades = loadedUpgrades != null ? loadedUpgrades : new Upgrade[3]; // null check
     }
+
 
 
 }

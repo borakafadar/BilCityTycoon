@@ -227,6 +227,10 @@ public class StoreScreen implements Screen {
 
         return fontParameter;
     }
+    public GameScreen getGameScreen() {
+        return this.gameScreen;
+    }
+
 }
 
 

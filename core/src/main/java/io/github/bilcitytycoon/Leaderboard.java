@@ -13,7 +13,7 @@ public class Leaderboard {
     public Player player;
     public Random random = new Random();
 
-    public static final int SATISFACTION_MULTIPLIER = 70; // THIS CAN BE ALTERED
+    public static final int SATISFACTION_MULTIPLIER = 50; // THIS CAN BE ALTERED
 
     // Preset names for AI bots.
     public static final String[] BOT_NAMES = {

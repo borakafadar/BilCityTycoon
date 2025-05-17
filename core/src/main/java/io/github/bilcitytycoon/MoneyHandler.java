@@ -51,19 +51,14 @@ public class MoneyHandler {
         return balance;
     }
 
-    public void setBalance(int balance) {
-        this.balance = balance;
-    }
-
     public boolean spend(int amount) {
         if (balance >= amount) {
             this.balance -= amount;
             return true;
-        } else {
-            System.out.println("Not enough money!");
-            return false;
         }
+        return false; // sadece false dön, yazı yazma
     }
+
 
     public void processDay() {
         balance += netIncome;
@@ -76,4 +71,9 @@ public class MoneyHandler {
         }
         player.setCoin(player.getCoin() + totalIncome);
     }
+    // MoneyHandler.java içine ekle:
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
 }

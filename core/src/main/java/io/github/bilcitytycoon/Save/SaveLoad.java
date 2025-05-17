@@ -25,6 +25,11 @@
             jsonHelper.addClassTag("io.github.bilcitytycoon.Faculty", Faculty.class);
             jsonHelper.addClassTag("io.github.bilcitytycoon.OtherBuilding", OtherBuilding.class);
             // (İsteğe bağlı: kısa adlar da ekleyebilirsin)
+            jsonHelper.addClassTag("Leaderboard", Leaderboard.class);
+            jsonHelper.addClassTag("Player", Player.class);
+            jsonHelper.addClassTag("OtherUniversity", OtherUniversity.class);
+            jsonHelper.addClassTag("Upgrade", Upgrade.class); // ✅
+
             jsonHelper.addClassTag("Faculty", Faculty.class);
             jsonHelper.addClassTag("OtherBuilding", OtherBuilding.class);
         }
@@ -46,13 +51,21 @@
                 String jsonString = saveFileHandle.readString();
 
                 game = jsonHelper.fromJson(BilCityTycoonGame.class,jsonString);
+
+                // ✅ leaderboard yeniden kurulmalı çünkü deserialization sırasında player bağlantısı kopar
+                game.setLeaderboard(new Leaderboard(game.getPlayer())); // bu satır çok önemli!
+
+                // ✅ grid'i restore et
                 game.getMap().restoreGridFromPlacedBuildings();
+
                 mainGame.setScreen(new GameScreen(mainGame,game));
+
                 System.out.println("Loaded save file: "+fileName);
-            }else{
+            } else {
                 System.out.println("No save file found");
             }
         }
+
 
 
     }

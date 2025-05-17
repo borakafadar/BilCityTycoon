@@ -9,9 +9,11 @@ import io.github.bilcitytycoon.Screens.EndingScreen;
 
 public class BilCityTycoonGame {
     public ArrayList<Building> allBuildings;
+
     public ArrayList<University> allUniversities;
     public Player player;
     public Map map;
+    public ArrayList<Decoration> placedDecorations; // EKLE
     public Leaderboard leaderboard;
     public Store store;
     public String endingTitle;
@@ -19,8 +21,11 @@ public class BilCityTycoonGame {
     public String leftButtonText;
     public String rightButtonText;
     public boolean debugShowAllEndings = false;
+    public Time time;
 
     public BilCityTycoonGame(){
+        this.placedDecorations = new ArrayList<>();
+        this.time = new Time();
         this.player = new Player("Default",100,50,10,10,10);
         this.allBuildings = new ArrayList<Building>();
         this.map = new Map("North Campus", 20, 15);
@@ -36,27 +41,32 @@ public class BilCityTycoonGame {
     }
 
     public void checkEnding(Main main){
-        boolean ultimateEnding = this.player.getRanking() == 1 && this.player.getStudentSatisfactionRate() >= 90;
-        boolean trueEnding = this.player.getRanking() <= 5;
-        boolean bankruptEnding = this.player.getCoin() <= 0;
-        boolean lawsuitEnding = this.player.getStudentSatisfactionRate() <= 15;
+        boolean ultimateEnding = this.getPlayer().getRanking() == 1 && this.player.getStudentSatisfactionRate() >= 90;
+        boolean trueEnding = this.getPlayer().getRanking() <= 5;
+        boolean bankruptEnding = this.getPlayer().getCoin() <= 0;
+        boolean lawsuitEnding = this.getPlayer().getStudentSatisfactionRate() <= 15;
 
         if(ultimateEnding || trueEnding || bankruptEnding || lawsuitEnding) {
             if (ultimateEnding) {
                 presentUltimateEnding();
-                EndingScreen end = new EndingScreen(this, main, endingTitle,endingInfo, leftButtonText, rightButtonText,main.getScreen());
+                EndingScreen end = new EndingScreen(this, main, endingTitle,endingInfo, leftButtonText, rightButtonText, main.getScreen());
+                main.setScreen(end); // ✅ EKRANA GEÇ
             } else if (trueEnding) {
                 presentTrueEnding();
-                EndingScreen end = new EndingScreen(this, main, endingTitle,endingInfo, leftButtonText, rightButtonText,main.getScreen());
+                EndingScreen end = new EndingScreen(this, main, endingTitle,endingInfo, leftButtonText, rightButtonText, main.getScreen());
+                main.setScreen(end); // ✅
             } else if (bankruptEnding) {
                 presentBankruptEnding();
-                EndingScreen end = new EndingScreen(this, main, endingTitle,endingInfo, leftButtonText,main.getScreen(), rightButtonText);
+                EndingScreen end = new EndingScreen(this, main, endingTitle,endingInfo, leftButtonText, main.getScreen(), rightButtonText);
+                main.setScreen(end); // ✅
             } else if (lawsuitEnding) {
                 presentLawsuitEnding();
-                EndingScreen end = new EndingScreen(this, main, endingTitle,endingInfo, leftButtonText,main.getScreen(), rightButtonText);
+                EndingScreen end = new EndingScreen(this, main, endingTitle,endingInfo, leftButtonText, main.getScreen(), rightButtonText);
+                main.setScreen(end); // ✅
             }
         }
     }
+
 
     public void presentUltimateEnding(){
         endingTitle = "Ultimate Ending";
@@ -144,6 +154,17 @@ public class BilCityTycoonGame {
         }
 
         return status.toString();
+    }
+    public Time getTime() {
+        return time;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
+    }
+
+    public void setLeaderboard(Leaderboard leaderboard) {
+        this.leaderboard = leaderboard;
     }
 
 }

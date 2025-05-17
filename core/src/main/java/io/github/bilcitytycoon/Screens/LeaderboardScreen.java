@@ -36,6 +36,7 @@ public class LeaderboardScreen implements Screen {
         this.mainStage = new Stage();
         this.fitViewport = new FitViewport(1920,1080);
         this.leaderboard = game.getLeaderboard();
+        this.leaderboard.updateRanking();
 
         //for test
         //this.leaderboard = new Leaderboard(/*this.game,*/null);
@@ -130,6 +131,8 @@ public class LeaderboardScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(mainStage);
+        game.getLeaderboard().updateRanking();
+        refresh();
     }
     @Override
     public void render(float delta) {
@@ -322,6 +325,26 @@ public class LeaderboardScreen implements Screen {
 
         return fontParameter;
     }
+    private void refresh() {
+        leaderboard.updateRanking(); // 🔁 sıralamayı güncelle
+
+        ArrayList<University> universities = leaderboard.getAllUniversities();
+        Table newButtonTable = createButtonTable(universities);
+
+        ScrollPane scrollPane = new ScrollPane(newButtonTable, skin);
+        scrollPane.setScrollingDisabled(true, false);
+        scrollPane.setFadeScrollBars(false);
+
+        Table rootTable = (Table) mainStage.getActors().get(0); // ilk table rootTable'dır
+        rootTable.clear(); // önceki içeriği temizle
+
+        Label titleLabel = new Label("Leaderboard", skin, "title-label");
+        titleLabel.setAlignment(Align.center);
+        rootTable.add(titleLabel).expandX().fillX().padTop(90).padBottom(50);
+        rootTable.row();
+        rootTable.add(scrollPane).expand().fill();
+    }
+
 }
 
 

@@ -76,16 +76,16 @@ public class GameScreen implements Screen {
     float safeMargin = 100; // UI'nin biraz altına kadar izin ver
     private Stage hamburgerStage;
     private Table hmbrgrPanel;
-    private ArrayList<Decoration> placedDecorations = new ArrayList<>();
+    private ArrayList<Decoration> placedDecorations;
 
     private int lastPopupDay = 0;
     private int popupDayInterval = 14;
     private PopUpPanel currentPopup;
 
     public GameScreen(Main mainGame, BilCityTycoonGame game) {
-        this.time = new Time();
+        this.time = game.getTime();
         this.currentMap = game.getMap(); // 👈 JSON'dan gelen map atanmalı
-
+        this.placedDecorations = game.placedDecorations; // ✅ Hata artık yok
 
         bilCityTycoonGame = game;
         int balance = bilCityTycoonGame.getPlayer().getMoneyHandler().getBalance();
@@ -573,6 +573,8 @@ public class GameScreen implements Screen {
                             0
                         );
                         placedCopy.setImage(placedImage);
+                        placedCopy.setX(placedImage.getX());
+                        placedCopy.setY(placedImage.getY());
                         placedDecorations.add(placedCopy);
 
                     } catch (Exception e) {
@@ -583,8 +585,7 @@ public class GameScreen implements Screen {
                     isPlacingDecoration = false;
                     selectedDecoration = null;
                     previewImage.setVisible(false);
-                } else {
-                    System.out.println("Not enough money to place decoration!");
+                    bilCityTycoonGame.checkEnding(mainGame); // ✅ Artık sadece para harcandığında çağrılıyor
                 }
             }
 
@@ -683,9 +684,12 @@ public class GameScreen implements Screen {
 
     private void placeBuilding(Building building, int x, int y, int width, int height) {
         if (!canPlaceBuilding(x, y, width, height)) return; // Ön kontrol yap!
+        boolean didSpend = bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) building.getCost());
+        if (!didSpend) return;
+        bilCityTycoonGame.checkEnding(mainGame);
+
 
         currentMap.placeBuilding(building, x, y, width, height);
-        bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) building.getCost());
         if(building instanceof Faculty){
             bilCityTycoonGame.store.buyFaculty((Faculty) building,bilCityTycoonGame.getPlayer());
         } else if(building instanceof OtherBuilding){
@@ -711,7 +715,7 @@ public class GameScreen implements Screen {
     public void processDay() {
         bilCityTycoonGame.getPlayer().getMoneyHandler().processDay();
         bilCityTycoonGame.getPlayer().safeDecreaseStudentSatisfactionPoint(100);
-
+        bilCityTycoonGame.getLeaderboard().updateRanking(); // ✅ Burası eklendi
         // Artık tüm endingleri kontrol ediyor
         bilCityTycoonGame.checkEnding(mainGame);
     }
@@ -749,6 +753,7 @@ public class GameScreen implements Screen {
     private void placeBuildingOnCurrentMap(Faculty faculty, int x, int y, int width, int height) {
         currentMap.placeBuilding(faculty, x, y, width, height);
         bilCityTycoonGame.getPlayer().getMoneyHandler().spend((int) faculty.getCost());
+        bilCityTycoonGame.checkEnding(mainGame);
         refreshBuildings();
     }
 
@@ -852,7 +857,6 @@ public class GameScreen implements Screen {
             }
         }, 9);
     }
-
 
     private void updateArrowButtonsVisibility(ImageButton leftArrowBtn, ImageButton rightArrowBtn) {
         leftArrowBtn.setVisible(currentMapIndex > 0);
