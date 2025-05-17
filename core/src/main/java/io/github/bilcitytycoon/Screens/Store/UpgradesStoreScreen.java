@@ -30,7 +30,7 @@ public class UpgradesStoreScreen implements Screen {
     private Skin skin;
     private BilCityTycoonGame game;
     private Main mainGame;
-    private Image roadImage; // 👈 roadImage'yi class değişkeni yap ki dışarıdan erişebilelim
+    private Image roadImage;
     private StoreScreen storeScreen;
     private Store store;
 
@@ -57,8 +57,6 @@ public class UpgradesStoreScreen implements Screen {
 
 
 
-        //TODO: please clean this code up, it works but it is really garbage
-
         BitmapFont bigFont = bigFontGenerator.generateFont(bigFontParameter);
         BitmapFont smallFont = bigFontGenerator.generateFont(smallFontParameter);
         BitmapFont smallestFont = bigFontGenerator.generateFont(smallestFontParameter);
@@ -72,7 +70,6 @@ public class UpgradesStoreScreen implements Screen {
         skin.addRegions(new TextureAtlas(Gdx.files.internal("skin1.atlas")));
         skin.load(Gdx.files.internal("skin1.json"));
 
-        //TODO: temp, to test the table feature
         Table buttonTable = createButtonTable(initializeUpgrades());
         buttonTable.setFillParent(true);
 
@@ -215,7 +212,6 @@ public class UpgradesStoreScreen implements Screen {
 
         button.add(mainTable).expand().fill().align(Align.left).top();
         button.pack();
-        // Listener'da (örnek olarak son eklenen bina değil, upgrade'e ait faculty'den alınmalı)
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -229,7 +225,6 @@ public class UpgradesStoreScreen implements Screen {
         changeRoadBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // GameScreen'deki road değiştirme fonksiyonu çağırılır
                 //storeScreen.getGameScreen().changeRoadTexture("road2.png");
             }
         });

@@ -39,7 +39,6 @@ public class LeaderboardScreen implements Screen {
         this.leaderboard.updateRanking();
 
         //for test
-        //this.leaderboard = new Leaderboard(/*this.game,*/null);
 
         this.stretchViewport = new StretchViewport(1366,768);
         this.backgroundStage = new Stage();
@@ -57,7 +56,6 @@ public class LeaderboardScreen implements Screen {
 
 
 
-        //TODO: please clean this code up, it works but it is really garbage
 
         BitmapFont bigFont = bigFontGenerator.generateFont(bigFontParameter);
         BitmapFont smallFont = bigFontGenerator.generateFont(smallFontParameter);
@@ -72,7 +70,6 @@ public class LeaderboardScreen implements Screen {
         skin.addRegions(new TextureAtlas(Gdx.files.internal("skin1.atlas")));
         skin.load(Gdx.files.internal("skin1.json"));
 
-        //TODO: temp, to test the table feature
 
 
         //test code
@@ -326,7 +323,7 @@ public class LeaderboardScreen implements Screen {
         return fontParameter;
     }
     private void refresh() {
-        leaderboard.updateRanking(); // 🔁 sıralamayı güncelle
+        leaderboard.updateRanking();
 
         ArrayList<University> universities = leaderboard.getAllUniversities();
         Table newButtonTable = createButtonTable(universities);
@@ -335,8 +332,8 @@ public class LeaderboardScreen implements Screen {
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setFadeScrollBars(false);
 
-        Table rootTable = (Table) mainStage.getActors().get(0); // ilk table rootTable'dır
-        rootTable.clear(); // önceki içeriği temizle
+        Table rootTable = (Table) mainStage.getActors().get(0);
+        rootTable.clear();
 
         Label titleLabel = new Label("Leaderboard", skin, "title-label");
         titleLabel.setAlignment(Align.center);

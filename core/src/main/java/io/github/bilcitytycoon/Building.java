@@ -93,7 +93,7 @@ public abstract class Building implements Json.Serializable {
         this.studentSatisfactionPoint = jsonData.getInt("studentSatisfactionPoint");
         this.universityReputationPoint = jsonData.getInt("universityReputationPoint");
         this.income = jsonData.getInt("income");
-        this.texturePath = jsonData.getString("texturePath"); // ✅ EKLENDİ
+        this.texturePath = jsonData.getString("texturePath");
     }
 
     public Image getImage() {

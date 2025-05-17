@@ -7,7 +7,7 @@ public class PlacedBuilding implements Json.Serializable {
     public Building building;
     public int x, y, width, height;
 
-    public PlacedBuilding() {} // JSON için boş constructor
+    public PlacedBuilding() {}
 
     public PlacedBuilding(Building building, int x, int y, int width, int height) {
         this.building = building;

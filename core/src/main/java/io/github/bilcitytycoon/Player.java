@@ -17,7 +17,7 @@ public class Player extends University {
 
     public Player(String name, int universityReputationPoint, int studentSatisfactionRate, int studentCount ,int dormOccupancy, int dormCapacity)
     {
-        super(name, universityReputationPoint, studentSatisfactionRate,studentCount,dormOccupancy,dormCapacity); // <-- bunu ekledik
+        super(name, universityReputationPoint, studentSatisfactionRate,studentCount,dormOccupancy,dormCapacity);
         this.name = name;
         this.universityReputationPoint = universityReputationPoint;
         this.studentSatisfactionRate = studentSatisfactionRate;
@@ -25,8 +25,8 @@ public class Player extends University {
         this.studentCount = studentCount;
         this.dormOccupancy = dormOccupancy;
         this.buildings = new ArrayList<>();
-        this.moneyHandler = new MoneyHandler(1000); // 🎯 başlangıç bakiyesi veriyoruz
-        this.coin = 1000; // 💰 coin değişkenini de senkronize et
+        this.moneyHandler = new MoneyHandler(1000);
+        this.coin = 1000;
     }
     public Player(){
         super("default",0,0,0,0,0);
@@ -39,7 +39,7 @@ public class Player extends University {
     public void setCoin(int newCoin) {
         this.coin = newCoin;
         if (moneyHandler != null) {
-            moneyHandler.setBalance(newCoin); // ✅ artık hata yok
+            moneyHandler.setBalance(newCoin);
         }
     }
     public String getName() {
@@ -64,7 +64,6 @@ public class Player extends University {
     }
 
     public void addBuilding(Building building){
-        //TODO
         this.buildings.add(building);
     }
 

@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Json;
 
 public class Upgrade implements Json.Serializable{
-    private transient Building building; // 🔁 bu satırı değiştir
+    private transient Building building;
     private static final String UPGRADE_TYPE1 ="Ventilation";
     private static final String UPGRADE_TYPE2 ="Energy Efficiency";
     private static final String UPGRADE_TYPE3 ="Capacity";
@@ -38,7 +38,6 @@ public class Upgrade implements Json.Serializable{
         }
     }
     public Upgrade() {
-        // Boş constructor - sadece JSON için
     }
 
     public void updateBudget(MoneyHandler moneyHandler){
@@ -117,7 +116,6 @@ public class Upgrade implements Json.Serializable{
 
     @Override
     public String toString(){return "";}
-    // JSON için write ve read metodları
     public void write(com.badlogic.gdx.utils.Json json) {
         json.writeValue("name", name);
         json.writeValue("upgradeCost", upgradeCost);
@@ -126,7 +124,6 @@ public class Upgrade implements Json.Serializable{
         json.writeValue("upgradeType", upgradeType);
         json.writeValue("imagePath", imagePath);
         json.writeValue("isMade", isMade);
-        // ⚠️ building intentionally skipped (transient)
     }
 
     public void read(com.badlogic.gdx.utils.Json json, com.badlogic.gdx.utils.JsonValue jsonData) {
@@ -138,7 +135,6 @@ public class Upgrade implements Json.Serializable{
         this.imagePath = jsonData.getString("imagePath");
         this.isMade = jsonData.getBoolean("isMade", false);
 
-        // ⚠️ image yeniden yüklenmeli
         if (imagePath != null && Gdx.files.internal(imagePath).exists()) {
             this.image = new Image(new Texture(Gdx.files.internal(imagePath)));
         }

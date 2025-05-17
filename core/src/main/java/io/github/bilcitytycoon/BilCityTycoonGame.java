@@ -13,7 +13,7 @@ public class BilCityTycoonGame {
     public ArrayList<University> allUniversities;
     public Player player;
     public Map map;
-    public ArrayList<Decoration> placedDecorations; // EKLE
+    public ArrayList<Decoration> placedDecorations;
     public Leaderboard leaderboard;
     public Store store;
     public String endingTitle;
@@ -37,7 +37,6 @@ public class BilCityTycoonGame {
     public void initializeGame(){
         //leaderboard initilaize
         allUniversities= leaderboard.getAllUniversities();
-        //TODO
     }
 
     public void checkEnding(Main main){
@@ -50,19 +49,19 @@ public class BilCityTycoonGame {
             if (ultimateEnding) {
                 presentUltimateEnding();
                 EndingScreen end = new EndingScreen(this, main, endingTitle,endingInfo, leftButtonText, rightButtonText, main.getScreen());
-                main.setScreen(end); // ✅ EKRANA GEÇ
+                main.setScreen(end);
             } else if (trueEnding) {
                 presentTrueEnding();
                 EndingScreen end = new EndingScreen(this, main, endingTitle,endingInfo, leftButtonText, rightButtonText, main.getScreen());
-                main.setScreen(end); // ✅
+                main.setScreen(end);
             } else if (bankruptEnding) {
                 presentBankruptEnding();
                 EndingScreen end = new EndingScreen(this, main, endingTitle,endingInfo, leftButtonText, main.getScreen(), rightButtonText);
-                main.setScreen(end); // ✅
+                main.setScreen(end);
             } else if (lawsuitEnding) {
                 presentLawsuitEnding();
                 EndingScreen end = new EndingScreen(this, main, endingTitle,endingInfo, leftButtonText, main.getScreen(), rightButtonText);
-                main.setScreen(end); // ✅
+                main.setScreen(end);
             }
         }
     }
@@ -100,13 +99,11 @@ public class BilCityTycoonGame {
 
 
     public Skin getSkin() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getSkin'");
     }
 
 
     public Stage getStage() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemenzted method 'getStage'");
     }
     public Player getPlayer() {

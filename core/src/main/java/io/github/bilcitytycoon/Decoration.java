@@ -24,8 +24,8 @@ public class Decoration implements Serializable {
         json.writeValue("cost", cost);
         json.writeValue("imagePath", imagePath);
         json.writeValue("buildTime", buildTime);
-        json.writeValue("x", x); // ✅ konum
-        json.writeValue("y", y); // ✅ konum
+        json.writeValue("x", x);
+        json.writeValue("y", y);
     }
 
     @Override
@@ -35,10 +35,10 @@ public class Decoration implements Serializable {
         cost = jsonData.getInt("cost");
         imagePath = jsonData.getString("imagePath");
         buildTime = jsonData.getInt("buildTime");
-        x = jsonData.getFloat("x"); // ✅ konum
-        y = jsonData.getFloat("y"); // ✅ konum
+        x = jsonData.getFloat("x");
+        y = jsonData.getFloat("y");
         image = new Image(new Texture(Gdx.files.internal(imagePath)));
-        image.setPosition(x, y); // ✅ konum ayarı
+        image.setPosition(x, y);
     }
 
 

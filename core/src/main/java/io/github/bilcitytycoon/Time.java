@@ -24,12 +24,11 @@ public class Time {
         long currentTime = System.currentTimeMillis();
         long delta = currentTime - lastUpdatedTime;
         inGameTimePlayed += delta;
-        lastUpdatedTime = currentTime; // her çağrıda güncellenmeli
+        lastUpdatedTime = currentTime;
 
         int daysPassed = (int) (inGameTimePlayed / definedDayDurationMillis);
         totalDaysPlayed += daysPassed;
         inGameTimePlayed %= definedDayDurationMillis;
-        // mevcut gün hesaplamasından sonra
         if (totalDaysPlayed >= lastYearCheckedDay + 120) {
             lastYearCheckedDay = totalDaysPlayed;
             isFallSemester = !isFallSemester;
@@ -40,7 +39,6 @@ public class Time {
 
 
 
-        // yeni kontrol: kaç ay geçtiğini hesapla
         if (delta >= monthDurationMillis) {
             int monthsPassed = (int) (delta / monthDurationMillis);
             for (int i = 0; i < monthsPassed; i++) {
@@ -82,7 +80,7 @@ public class Time {
     public void resetTimeSpeed(){
         if(monthDurationMillis == definedMonthDurationMillis / 2){
             this.monthDurationMillis = definedMonthDurationMillis;
-            this.definedDayDurationMillis = 10000; // 10 saniye
+            this.definedDayDurationMillis = 10000;
         }
     }
 
@@ -123,7 +121,7 @@ public class Time {
     }
     public void setDayDurationMillis(long millis) {
         this.definedDayDurationMillis = millis;
-        this.inGameTimePlayed = 0; // Eski kalan zaman sıfırlanmalı
+        this.inGameTimePlayed = 0;
     }
 
 }

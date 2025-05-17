@@ -125,7 +125,7 @@ public class Faculty extends Building implements Json.Serializable{
         json.writeValue("info", info);
         json.writeValue("buildTime", buildTime);
         json.writeValue("currentUpgradeLevel", currentUpgradeLevel);
-        json.writeValue("upgrades", upgrades); // ✅ EKLENDİ
+        json.writeValue("upgrades", upgrades);
     }
 
 
@@ -145,7 +145,7 @@ public class Faculty extends Building implements Json.Serializable{
             this.image = new Image(new Texture(Gdx.files.internal(imagePath)));
         }
 
-        Upgrade[] loadedUpgrades = json.readValue(Upgrade[].class, jsonData.get("upgrades")); // ✅ OKU
+        Upgrade[] loadedUpgrades = json.readValue(Upgrade[].class, jsonData.get("upgrades"));
         this.upgrades = loadedUpgrades != null ? loadedUpgrades : new Upgrade[3]; // null check
     }
 

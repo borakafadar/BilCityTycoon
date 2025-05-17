@@ -231,7 +231,6 @@ public class DecorationsStoreScreen implements Screen {
     }
 
     private Table createButtonTable(){
-        //TODO
         Table buttonTable = new Table();
 
         return buttonTable;

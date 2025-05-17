@@ -18,13 +18,11 @@
 
             jsonHelper = new Json();
             jsonHelper.setOutputType(JsonWriter.OutputType.json);
-            jsonHelper.setTypeName("type"); // JSON'daki "type" key'ine göre sınıf tanı
+            jsonHelper.setTypeName("type");
             jsonHelper.setIgnoreUnknownFields(true);
 
-            // Class tag’leri eksiksiz ekle:
             jsonHelper.addClassTag("io.github.bilcitytycoon.Faculty", Faculty.class);
             jsonHelper.addClassTag("io.github.bilcitytycoon.OtherBuilding", OtherBuilding.class);
-            // (İsteğe bağlı: kısa adlar da ekleyebilirsin)
             jsonHelper.addClassTag("Leaderboard", Leaderboard.class);
             jsonHelper.addClassTag("Player", Player.class);
             jsonHelper.addClassTag("OtherUniversity", OtherUniversity.class);
@@ -52,10 +50,8 @@
 
                 game = jsonHelper.fromJson(BilCityTycoonGame.class,jsonString);
 
-                // ✅ leaderboard yeniden kurulmalı çünkü deserialization sırasında player bağlantısı kopar
-                game.setLeaderboard(new Leaderboard(game.getPlayer())); // bu satır çok önemli!
+                game.setLeaderboard(new Leaderboard(game.getPlayer()));
 
-                // ✅ grid'i restore et
                 game.getMap().restoreGridFromPlacedBuildings();
 
                 mainGame.setScreen(new GameScreen(mainGame,game));

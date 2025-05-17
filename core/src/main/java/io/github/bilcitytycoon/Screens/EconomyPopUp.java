@@ -13,11 +13,10 @@ public class EconomyPopUp {
     public static void show(Stage stage, Skin skin, Player player) {
         Dialog dialog = new Dialog("", skin);
 
-        // Kare köşeli, pastel uyumlu degrade arka plan + ince çerçeve
         Pixmap pixmap = new Pixmap(600, 400, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.valueOf("DDF5FF")); // pastel açık mavi-beyaz arası
+        pixmap.setColor(Color.valueOf("DDF5FF"));
         pixmap.fill();
-        pixmap.setColor(Color.LIGHT_GRAY); // çok ince border için
+        pixmap.setColor(Color.LIGHT_GRAY);
         pixmap.drawRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
         Texture backgroundTexture = new Texture(pixmap);
         pixmap.dispose();
@@ -25,25 +24,20 @@ public class EconomyPopUp {
         dialog.getContentTable().setBackground(new TextureRegionDrawable(backgroundTexture));
         dialog.getContentTable().pad(20);
 
-        // Başlık (GameScreen ile uyumlu font scale ve siyah renk)
         Label title = new Label("ECONOMY", skin, "labelStyle");
         title.setFontScale(0.7f);
         title.setColor(Color.BLACK);
         dialog.getContentTable().add(title).padBottom(20).center().row();
 
-        // Üst Bilgi
         Table header = new Table();
         Label universityName = new Label(player.getName() + "\nBilCity University", skin, "labelStyle");
-        //universityName.setFontScale(0.5f);
         universityName.setColor(Color.BLACK);
         Label balanceLabel = new Label(player.getMoneyHandler().getBalance() + " BilCoins", skin, "labelStyle");
-        //balanceLabel.setFontScale(0.5f);
         balanceLabel.setColor(Color.BLACK);
         header.add(universityName).left().expandX();
         header.add(balanceLabel).right();
         dialog.getContentTable().add(header).fillX().padBottom(15).row();
 
-        // Gelir tablosu
         Table incomeTable = new Table();
         Label incTitle = new Label("Incomes", skin);
 
@@ -56,7 +50,6 @@ public class EconomyPopUp {
         incomeTable.add(new Label("Grants:", skin)).left().padRight(20);
         incomeTable.add(new Label("5000", skin)).right().row();
         incTitle.setFontScale(0.6f);
-        // Gider tablosu
         Table expenseTable = new Table();
         Label expTitle = new Label("Expenses", skin);
 
@@ -73,7 +66,6 @@ public class EconomyPopUp {
         netLabel.setColor(net >= 0 ? Color.valueOf("009966") : Color.RED);
         netLabel.setFontScale(0.6f);
 
-        // Ortak gövde
         Table body = new Table();
         body.add(incomeTable).padRight(50);
         body.add(expenseTable);

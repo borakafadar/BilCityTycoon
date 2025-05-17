@@ -17,8 +17,6 @@ public class Event {
     public Event(String info, int cost, BilCityTycoonGame game, int studentSatisfactionRateAffection) {
         this.info = info;
         this.cost = cost;
-//        this.imagePath = imagePath;
-//        this.avatar = new Image(new Texture(Gdx.files.internal(imagePath)));
         this.game = game;
     }
 

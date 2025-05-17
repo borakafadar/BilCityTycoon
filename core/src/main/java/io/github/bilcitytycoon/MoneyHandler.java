@@ -56,7 +56,7 @@ public class MoneyHandler {
             this.balance -= amount;
             return true;
         }
-        return false; // sadece false dön, yazı yazma
+        return false;
     }
 
 
@@ -71,7 +71,6 @@ public class MoneyHandler {
         }
         player.setCoin(player.getCoin() + totalIncome);
     }
-    // MoneyHandler.java içine ekle:
     public void setBalance(int balance) {
         this.balance = balance;
     }

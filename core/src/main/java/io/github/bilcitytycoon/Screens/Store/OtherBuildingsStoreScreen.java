@@ -56,8 +56,6 @@ public class OtherBuildingsStoreScreen implements Screen {
 
 
 
-        //TODO: please clean this code up, it works but it is really garbage
-
         BitmapFont bigFont = bigFontGenerator.generateFont(bigFontParameter);
         BitmapFont smallFont = bigFontGenerator.generateFont(smallFontParameter);
         BitmapFont smallestFont = bigFontGenerator.generateFont(smallestFontParameter);
@@ -71,7 +69,6 @@ public class OtherBuildingsStoreScreen implements Screen {
         skin.addRegions(new TextureAtlas(Gdx.files.internal("skin1.atlas")));
         skin.load(Gdx.files.internal("skin1.json"));
 
-        //TODO: temp, to test the table feature
         Table buttonTable = createButtonTable(store.getUnbuiltOtherBuildings());
         buttonTable.setFillParent(true);
 

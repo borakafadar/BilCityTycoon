@@ -73,7 +73,7 @@ public class GameScreen implements Screen {
     private final int UI_BOTTOM_BAR_HEIGHT = 75;
     private float dayTimer = 0;
     private boolean isFast = false;
-    float safeMargin = 100; // UI'nin biraz altına kadar izin ver
+    float safeMargin = 100;
     private Stage hamburgerStage;
     private Table hmbrgrPanel;
     private ArrayList<Decoration> placedDecorations;
@@ -84,8 +84,8 @@ public class GameScreen implements Screen {
 
     public GameScreen(Main mainGame, BilCityTycoonGame game) {
         this.time = game.getTime();
-        this.currentMap = game.getMap(); // 👈 JSON'dan gelen map atanmalı
-        this.placedDecorations = game.placedDecorations; // ✅ Hata artık yok
+        this.currentMap = game.getMap();
+        this.placedDecorations = game.placedDecorations;
 
         bilCityTycoonGame = game;
         int balance = bilCityTycoonGame.getPlayer().getMoneyHandler().getBalance();
@@ -463,7 +463,6 @@ public class GameScreen implements Screen {
                     Actor hitActor = stage.hit(screenX, Gdx.graphics.getHeight() - screenY, true);
 
                     if (hitActor != null && !(hitActor instanceof Image) && !(hitActor.getParent() instanceof Group)) {
-                        // UI elemanı üzerindeyiz, preview kapat
                         previewImage.setVisible(false);
                         return false;
                     }
@@ -540,7 +539,7 @@ public class GameScreen implements Screen {
 
         if (bilCityTycoonGame.debugShowAllEndings) {
             showAllEndingsOnce();
-            bilCityTycoonGame.debugShowAllEndings = false; // sadece bir kez çalıştırmak için kapat
+            bilCityTycoonGame.debugShowAllEndings = false;
         }
         int currentDay = time.getTotalDaysPlayed();
 
@@ -564,7 +563,6 @@ public class GameScreen implements Screen {
                         placedImage.setPosition((int) (world.x / cellSize) * cellSize, (int) (world.y / cellSize) * cellSize);
                         buildingGroup.addActor(placedImage);
 
-                        // 🌟 Ek olarak bir kopyasını listeye ekle:
                         Decoration placedCopy = new Decoration(
                             selectedDecoration.getName(),
                             selectedDecoration.getCost(),
@@ -585,7 +583,7 @@ public class GameScreen implements Screen {
                     isPlacingDecoration = false;
                     selectedDecoration = null;
                     previewImage.setVisible(false);
-                    bilCityTycoonGame.checkEnding(mainGame); // ✅ Artık sadece para harcandığında çağrılıyor
+                    bilCityTycoonGame.checkEnding(mainGame);
                 }
             }
 
@@ -715,8 +713,7 @@ public class GameScreen implements Screen {
     public void processDay() {
         bilCityTycoonGame.getPlayer().getMoneyHandler().processDay();
         bilCityTycoonGame.getPlayer().safeDecreaseStudentSatisfactionPoint(100);
-        bilCityTycoonGame.getLeaderboard().updateRanking(); // ✅ Burası eklendi
-        // Artık tüm endingleri kontrol ediyor
+        bilCityTycoonGame.getLeaderboard().updateRanking();
         bilCityTycoonGame.checkEnding(mainGame);
     }
 
@@ -725,7 +722,6 @@ public class GameScreen implements Screen {
     private void showEconomyPopup() {
         Dialog dialog = new Dialog("Economy", skin, "dialogStyle");
 
-        // İçerik label'ları
         Label.LabelStyle boldStyle = new Label.LabelStyle(skin.getFont("PressStart2P-small"), Color.BLACK);
 
         Label incomeLabel = new Label("Incomes:\nCorporate: 5000\nDonations: 3000\nGrants: 5000", boldStyle);
@@ -767,8 +763,8 @@ public class GameScreen implements Screen {
             Event protestEvent = new Event("", 0, bilCityTycoonGame, -60);
             protestEvent.protest();
             currentPopup = new PopUpPanel(mainGame, bilCityTycoonGame, protestEvent, new TextButton("OK", skin));
-            buildingGroup = new Group();  // yeni bir group başlat
-            stage.addActor(buildingGroup); // yeniden ekle
+            buildingGroup = new Group();
+            stage.addActor(buildingGroup);
 
         } else if (randomType == 1) {
             if (!bilCityTycoonGame.getPlayer().getBuildings().isEmpty()) {
@@ -804,7 +800,7 @@ public class GameScreen implements Screen {
                     buildingImage.setPosition((i * cellSize) - (2 * cellSize * (scale - 1) / 2f), (j * cellSize) - (2 * cellSize * (scale - 1) / 2f));
                     buildingGroup.addActor(buildingImage);
 
-                    added.add(building); // Binayı ekledik olarak işaretle
+                    added.add(building);
                 }
             }
         }

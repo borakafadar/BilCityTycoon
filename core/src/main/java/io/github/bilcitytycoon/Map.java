@@ -17,22 +17,22 @@ public class Map implements Json.Serializable{
     public ArrayList<Building> buildings;
 
     public Map() {
-        this.mapName = "North Campus"; // varsayılan bir isim ver
-        this.grid = new Building[20][15]; // grid boyutunu varsay
-        this.roads = new boolean[20][15]; // roads için de varsayılan ayar
-        this.buildingGroup = new Group(); // sahne grubu boş
+        this.mapName = "North Campus";
+        this.grid = new Building[20][15];
+        this.roads = new boolean[20][15];
+        this.buildingGroup = new Group();
         this.buildings = new ArrayList<>();
         this.placedBuildings = new ArrayList<>();
     }
     public void restoreGridFromPlacedBuildings() {
-        if (grid == null) grid = new Building[20][15]; // Varsayılan boyut
+        if (grid == null) grid = new Building[20][15];
         if (roads == null) roads = new boolean[20][15];
         if (placedBuildings == null) return;
 
         for (PlacedBuilding pb : placedBuildings) {
             if (pb == null || pb.building == null) continue;
 
-            pb.building.initializeVisuals(); // 👈 bunu ekle
+            pb.building.initializeVisuals();
 
             for (int i = pb.x; i < pb.x + pb.width; i++) {
                 for (int j = pb.y; j < pb.y + pb.height; j++) {
@@ -66,8 +66,6 @@ public class Map implements Json.Serializable{
 
     }
 
-
-    // Map.java içinde
     public void placeBuilding(Building building, int x, int y, int width, int height) {
         for (int i = x; i < x + width; i++) {
             for (int j = y; j < y + height; j++) {
@@ -75,7 +73,7 @@ public class Map implements Json.Serializable{
             }
         }
         buildings.add(building);
-        placedBuildings.add(new PlacedBuilding(building, x, y, width, height)); // 🔧 Yeni ek
+        placedBuildings.add(new PlacedBuilding(building, x, y, width, height));
     }
 
 
@@ -140,28 +138,9 @@ public class Map implements Json.Serializable{
         this.mapName = jsonData.getString("mapName");
         this.roads = json.readValue(boolean[][].class, jsonData.get("roads"));
         this.placedBuildings = json.readValue(ArrayList.class, PlacedBuilding.class, jsonData.get("placedBuildings"));
-        this.grid = new Building[20][15]; // varsay
+        this.grid = new Building[20][15];
         this.buildings = new ArrayList<>();
         restoreGridFromPlacedBuildings();
     }
-
-
-//    public Building[] getBuildings(){
-//        return buildings;
-//    }
-
-
-//    public void clearHighlights() {
-//
-//
-//        // For example, if you're using a list to track highlighted areas:
-//        highlightedAreas.clear();
-//
-//        for (int i = 0; i < highlightedCells.length; i++) {
-//            for (int j = 0; j < highlightedCells[i].length; j++) {
-//                highlightedCells[i][j] = false;
-//            }
-//        }
-//    }
 
 }
